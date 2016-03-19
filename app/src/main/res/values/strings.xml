@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">Funing</string>
+    <string name="empty_listview">Oops, cannot connect to the server, please refresh later.</string>
+</resources>
