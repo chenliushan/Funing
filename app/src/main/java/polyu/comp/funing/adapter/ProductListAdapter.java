@@ -59,7 +59,7 @@ public class ProductListAdapter extends BaseAdapter {
         TextView pPrice=(TextView)view.findViewById(R.id.textView);
         Picasso.with(context).load(item.getP_image_url()).resize(200, 200).centerCrop().into(pItemImg);
         pName.setText(item.getP_name());
-        pPrice.setText(item.getP_price());
+        pPrice.setText(item.getP_price()+"");
         
         return view;
     }
