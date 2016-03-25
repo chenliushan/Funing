@@ -2,7 +2,6 @@ package polyu.comp.funing.fragment;
 
 import android.app.Fragment;
 import android.content.Intent;
-import android.nfc.Tag;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -49,6 +48,7 @@ public class ProductListF extends Fragment implements SwipeRefreshLayout.OnRefre
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         initListView();
+        
     }
 
     private void getProductList(int page) {
@@ -60,16 +60,21 @@ public class ProductListF extends Fragment implements SwipeRefreshLayout.OnRefre
                 Log.i(TAG, "response: " + response.body().toString());
                 productListAdapter.setMyList(response.body().getProducts());
                 productList.setAdapter(productListAdapter);
+                productList.hideProgress();
                 productList.hideMoreProgress();
-//                DbTask.DbProduct dbProduct= new DbTask.DbProduct(getActivity());
-//                System.out.println(TAG+"DbProductQuery: "+dbProduct.DbProductQuery());
+                DbTask.DbProduct dbProduct= new DbTask.DbProduct(getActivity());
+                Log.i(TAG,"DbProductUpdate: "+dbProduct.DbProductUpdate(response.body().getProducts()));
             }
 
             @Override
             public void onFailure(Call<ProductListR> call, Throwable t) {
-                Log.e(TAG,t.toString());
+                Log.e(TAG,"failure"+t.toString());
+                productList.hideProgress();
+                productList.hideMoreProgress();
                 DbTask.DbProduct dbProduct= new DbTask.DbProduct(getActivity());
                 List<Product> products=dbProduct.DbProductQuery();
+                productListAdapter.setMyList(products);
+                productList.setAdapter(productListAdapter);
                 Log.e(TAG,"DbProductQuery: "+products.get(0).getP_name());
             }
         };

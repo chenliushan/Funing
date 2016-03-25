@@ -1,4 +1,13 @@
 <resources>
-    <string name="app_name">Funing</string>
+    <string name="app_name">Funing 芬宁</string>
     <string name="empty_listview">Oops, cannot connect to the server, please refresh later.</string>
+    <string name="email_hint">EMAIL</string>
+    <string name="password_hint">PASSWORD</string>
+    <string name="verify_pw_hint">VERIFY PASSWORD</string>
+    <string name="name_hint">NAME</string>
+    <string name="address_hint">ADDRESS</string>
+    <string name="phone_hint">PHONE</string>
+    <string name="is_user">I am already a user</string>
+    <string name="not_user">New customer</string>
+    <string name="processing">Processing ...</string>
 </resources>

@@ -8,15 +8,15 @@ import polyu.comp.funing.domain.Product;
  * Created by liushanchen on 16/3/18.
  */
 public class ProductListR {
-    private boolean error;
+    private int error;
     private String message;
     private List<Product> products;
 
-    public boolean isError() {
+    public int getError() {
         return error;
     }
 
-    public void setError(boolean error) {
+    public void setError(int error) {
         this.error = error;
     }
 

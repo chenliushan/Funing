@@ -20,6 +20,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initView();
+        
     }
 
     private void initView(){
@@ -28,21 +29,45 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         getFragmentManager().beginTransaction().add(R.id.main_f, productListF).commit();
 
         ImageView recordBtn = (ImageView) findViewById(R.id.product_list);
-        ImageView meBtn = (ImageView) findViewById(R.id.user_info);
+        ImageView basketBtn = (ImageView) findViewById(R.id.basket);
+        ImageView orderBtn = (ImageView) findViewById(R.id.order);
+        ImageView accountBtn = (ImageView) findViewById(R.id.account);
+        ImageView couponBtn = (ImageView) findViewById(R.id.coupon);
         recordBtn.setOnClickListener(this);
-        meBtn.setOnClickListener(this);
+        basketBtn.setOnClickListener(this);
+        orderBtn.setOnClickListener(this);
+        accountBtn.setOnClickListener(this);
+        couponBtn.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
+        ImageView img=(ImageView)v;
         switch (v.getId()){
             case R.id.product_list:
+                img.setImageResource(R.mipmap.products_black);
                 ProductListF productListF=new ProductListF();
                 getFragmentManager().beginTransaction().replace(R.id.main_f, productListF).commit();
                 break;
-            case R.id.user_info:
+            case R.id.basket:
+                img.setImageResource(R.mipmap.basket_black);
+//                LoginF loginF=new LoginF();
+//                getFragmentManager().beginTransaction().replace(R.id.main_f, loginF).commit();
+                break;
+            case R.id.order:
+                img.setImageResource(R.mipmap.orderhistory_black);
+//                LoginF loginF=new LoginF();
+//                getFragmentManager().beginTransaction().replace(R.id.main_f, loginF).commit();
+                break;
+            case R.id.account:
+                img.setImageResource(R.mipmap.my_account_black);
                 LoginF loginF=new LoginF();
-                getFragmentManager().beginTransaction().add(R.id.main_f, loginF).commit();
+                getFragmentManager().beginTransaction().replace(R.id.main_f, loginF).commit();
+                break;
+            case R.id.coupon:
+                img.setImageResource(R.mipmap.coupons_black);
+//                LoginF loginF=new LoginF();
+//                getFragmentManager().beginTransaction().replace(R.id.main_f, loginF).commit();
                 break;
             
         }
