@@ -15,6 +15,8 @@ import java.util.Map;
 
 import polyu.comp.funing.R;
 import polyu.comp.funing.activities.MainActivity;
+import polyu.comp.funing.activities.RegisterA;
+import polyu.comp.funing.constant.CommonConstant;
 import polyu.comp.funing.domain.User;
 import polyu.comp.funing.service.ApiService;
 import polyu.comp.funing.service.LoginR;
@@ -28,7 +30,8 @@ import retrofit2.Response;
  */
 public class LoginF extends Fragment implements View.OnClickListener {
     private static String TAG = LoginF.class.getSimpleName();
-
+    EditText emailEdit;
+    EditText pwEdit;
     String e = "0607chris@gmail.com";
     String p = "chris";
 
@@ -42,24 +45,28 @@ public class LoginF extends Fragment implements View.OnClickListener {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         initView();
-        User user = CommonUtils.getUser(getActivity());
-        if (user != null && user.getEmail() != null && user.getPassword() != null) {
-            userLogin(user.getEmail(), user.getPassword());
-        }
     }
 
     private void initView() {
         Button loginBtn = (Button) getActivity().findViewById(R.id.login_btn);
         Button registerBtn = (Button) getActivity().findViewById(R.id.register_btn);
+        emailEdit = (EditText) getActivity().findViewById(R.id.login_email_edit);
+        pwEdit = (EditText) getActivity().findViewById(R.id.login_password_edit);
         loginBtn.setOnClickListener(this);
         registerBtn.setOnClickListener(this);
+        User user = CommonUtils.getUser(getActivity());
+//        if (user != null && user.getEmail() != null && user.getPassword() != null) {
+//            userLogin(user.getEmail(), user.getPassword());
+//        }
+        if (user != null && user.getEmail() != null ) {
+            emailEdit.setText(user.getEmail());
+            pwEdit.setText(user.getPassword());
+        }
     }
 
     private void userLogin(final String email, final String password) {
         CommonUtils.show(getActivity(), R.string.processing);
         Map<String, String> options = new HashMap<String, String>();
-//        options.put("email", "0607chris@gmail.com");
-//        options.put("password", "chris");
         options.put("email", email);
         options.put("password", password);
 
@@ -67,7 +74,7 @@ public class LoginF extends Fragment implements View.OnClickListener {
         call.enqueue(new Callback<LoginR>() {
             @Override
             public void onResponse(Call<LoginR> call, Response<LoginR> response) {
-                if(response.body().getError()==0){
+                if (response.body().getError() == 0) {
                     User u = new User();
                     u.setEmail(email);
                     u.setPassword(password);
@@ -75,13 +82,14 @@ public class LoginF extends Fragment implements View.OnClickListener {
                     u.setCreated_at(response.body().getCreatedAt());
                     CommonUtils.setUser(getActivity(), u);
                     CommonUtils.show(getActivity(), "success");
+                    CommonConstant.apiKey = response.body().getApiKey();
                     //go to user_info fragment
 //                    ProductListF productListF=new ProductListF();
 //                    getFragmentManager().beginTransaction().replace(R.id.main_f, productListF).commit();
-                }else{
+                } else {
                     CommonUtils.show(getActivity(), response.body().getMessage());
                 }
-                
+
             }
 
             @Override
@@ -95,11 +103,13 @@ public class LoginF extends Fragment implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.login_btn:
-                EditText emailEdit = (EditText) getActivity().findViewById(R.id.login_email_edit);
-                EditText pwEdit = (EditText) getActivity().findViewById(R.id.login_password_edit);
                 userLogin(emailEdit.getText().toString(), pwEdit.getText().toString());
                 break;
             case R.id.register_btn:
+                Intent intent = new Intent();
+                intent.setClass(getActivity(), RegisterA.class);
+                startActivity(intent);
+//                getActivity().finish();
                 break;
         }
     }

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/rectangle_code"
+    android:orientation="vertical"
+    android:padding="@dimen/margin_m">
+
+    <ImageView
+        android:id="@+id/p_item_img"
+        android:background="@color/white"
+        android:layout_width="match_parent"
+        android:scaleType="fitXY"
+        android:layout_height="@dimen/img_height"
+        android:layout_margin="@dimen/margin_s" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/cp_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="===="
+             />
+
+        <TextView
+            android:id="@+id/cp_expired_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/expiry_date" />
+    </LinearLayout>
+
+</LinearLayout>

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:id="@+id/coupon_status"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_marginTop="@dimen/margin_l"
+        android:layout_marginLeft="@dimen/margin_l"
+        android:layout_marginRight="@dimen/margin_l"
+
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/valid_cp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="@dimen/margin_m"
+            android:paddingTop="@dimen/margin_s"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="@string/valid_cp"
+            android:background="@color/colorPrimary"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <TextView
+            android:id="@+id/not_valid_cp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="@dimen/margin_m"
+            android:paddingTop="@dimen/margin_s"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="@string/not_valid_cp"
+            android:background="@color/white"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:id="@+id/line"
+        android:layout_below="@+id/coupon_status"
+        android:background="@color/colorPrimary"
+        />
+
+    <com.quentindommerc.superlistview.SuperListview xmlns:superlistview="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/coupon_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="@dimen/margin_l"
+        android:layout_marginRight="@dimen/margin_l"
+        android:layout_below="@+id/line"
+        superlistview:superlv__empty="@layout/emptyview"
+        superlistview:superlv__listClipToPadding="false"
+        superlistview:superlv__listDivider="@android:color/transparent"
+        superlistview:superlv__listDividerHeight="10dp"
+        superlistview:superlv__listPadding="10dp"
+        superlistview:superlv__scrollbarStyle="outsideOverlay"></com.quentindommerc.superlistview.SuperListview>
+
+</RelativeLayout>

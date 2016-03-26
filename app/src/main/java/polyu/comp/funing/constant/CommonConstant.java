@@ -13,6 +13,7 @@ public class CommonConstant {
     
     public static String preferenceName = "Funing";
     public static String applicationContext = "applicationContext";
+    public static String apiKey = null;
     
     public static String applicationDir = "";
 

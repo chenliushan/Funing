@@ -28,35 +28,50 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:padding="@dimen/margin_s"
+            android:paddingLeft="@dimen/margin_s"
+            android:paddingRight="@dimen/margin_s"
+            android:paddingTop="@dimen/margin_xs"
+            android:paddingBottom="@dimen/margin_xs"
             android:id="@+id/product_list" />
         <ImageView
             android:src="@mipmap/basket_grey"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:padding="@dimen/margin_s"
+            android:paddingLeft="@dimen/margin_s"
+            android:paddingRight="@dimen/margin_s"
+            android:paddingTop="@dimen/margin_xs"
+            android:paddingBottom="@dimen/margin_xs"
             android:id="@+id/basket" />
         <ImageView
             android:src="@mipmap/orderhistory_grey"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:padding="@dimen/margin_s"
+            android:paddingLeft="@dimen/margin_s"
+            android:paddingRight="@dimen/margin_s"
+            android:paddingTop="@dimen/margin_xs"
+            android:paddingBottom="@dimen/margin_xs"
             android:id="@+id/order" />
         <ImageView
             android:src="@mipmap/my_account_grey"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:padding="@dimen/margin_s"
+            android:paddingLeft="@dimen/margin_s"
+            android:paddingRight="@dimen/margin_s"
+            android:paddingTop="@dimen/margin_xs"
+            android:paddingBottom="@dimen/margin_xs"
             android:id="@+id/account" />
         <ImageView
             android:src="@mipmap/coupons_grey"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:padding="@dimen/margin_s"
+            android:paddingLeft="@dimen/margin_s"
+            android:paddingRight="@dimen/margin_s"
+            android:paddingTop="@dimen/margin_xs"
+            android:paddingBottom="@dimen/margin_xs"
             android:id="@+id/coupon" />
     </LinearLayout>
 

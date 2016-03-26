@@ -1,7 +1,6 @@
 package polyu.comp.funing.service;
 
 import android.text.TextUtils;
-import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -23,8 +22,10 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.Header;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
+import retrofit2.http.QueryMap;
 
 
 /**
@@ -36,16 +37,24 @@ public interface ApiService {
     @POST("login")
     Call<LoginR> uLogin(@FieldMap Map<String, String> options);
 
+    @FormUrlEncoded
+    @POST("register")
+    Call<LoginR> uRegister(@FieldMap Map<String, String> options);
+
     @GET("products")
     Call<ProductListR> getProductList();
+
+    @GET("coupons")
+    Call<CouponR> getCouponList();
+
+    @GET("usercouponsQuery")
+    Call<UserCouponR> getCouponList(@QueryMap Map<String, String> parameters, @Header("Authorization") String authorization);
 
     @GET("users/{username}")
     Call<LoginR> getUser(@Path("username") String username);
 
 
     public static class Creator {
-
-
         public static ApiService create() {
             HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
             interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
@@ -61,7 +70,6 @@ public interface ApiService {
                         .build();
             } else {
                 client = new OkHttpClient.Builder().addInterceptor(interceptor).build();
-
             }
             Gson gson = new GsonBuilder().create();
             Retrofit retrofit = new Retrofit.Builder()

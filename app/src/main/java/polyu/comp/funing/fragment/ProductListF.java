@@ -62,8 +62,16 @@ public class ProductListF extends Fragment implements SwipeRefreshLayout.OnRefre
                 productList.setAdapter(productListAdapter);
                 productList.hideProgress();
                 productList.hideMoreProgress();
+                boolean db;
                 DbTask.DbProduct dbProduct= new DbTask.DbProduct(getActivity());
-                Log.i(TAG,"DbProductUpdate: "+dbProduct.DbProductUpdate(response.body().getProducts()));
+                if(dbProduct.DbProductQuery()!=null){
+                    db=dbProduct.DbProductUpdate(response.body().getProducts());
+                    Log.i(TAG,"DbProductUpdate: "+db);
+                }else{
+                    db=dbProduct.DbProductInsert(response.body().getProducts());
+                    Log.i(TAG,"DbProductInsert: "+db);
+                }
+               
             }
 
             @Override
