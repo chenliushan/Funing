@@ -2,7 +2,6 @@ package polyu.comp.funing.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.net.ParseException;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListAdapter;
@@ -13,7 +12,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import polyu.comp.funing.constant.CommonConstant;
-import polyu.comp.funing.domain.User;
+import polyu.comp.funing.model.User;
 
 /**
  * Created by liushanchen on 16/3/25.

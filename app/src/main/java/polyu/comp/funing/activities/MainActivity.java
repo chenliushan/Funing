@@ -11,9 +11,7 @@ import polyu.comp.funing.fragment.LoginF;
 import polyu.comp.funing.fragment.ProductListF;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
-    /*
-    This is the welcome activity, only display the logo
-     */
+    
     private static String TAG = MainActivity.class.getSimpleName();
     private ImageView recordBtn;
     private ImageView basketBtn;

@@ -10,8 +10,8 @@ import android.util.Log;
 import java.util.ArrayList;
 import java.util.List;
 
-import polyu.comp.funing.domain.Coupon;
-import polyu.comp.funing.domain.Product;
+import polyu.comp.funing.model.Coupon;
+import polyu.comp.funing.model.Product;
 
 /**
  * Created by liushanchen on 16/3/19.

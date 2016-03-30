@@ -1,9 +1,12 @@
-package polyu.comp.funing.domain;
+package polyu.comp.funing.model;
 
 /**
  * Created by liushanchen on 16/3/18.
  */
 public class User {
+    /*
+    07f8398c7be69d1068242d6f58a5f855
+     */
     private int uid;
     private String name;
     private String email;

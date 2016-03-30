@@ -1,4 +1,4 @@
-package polyu.comp.funing.domain;
+package polyu.comp.funing.model;
 
 import java.io.Serializable;
 
@@ -104,4 +104,5 @@ public class Product implements Serializable {
                 ", p_createdAt='" + p_createdAt + '\'' +
                 '}';
     }
+
 }

@@ -2,7 +2,7 @@ package polyu.comp.funing.service;
 
 import java.util.List;
 
-import polyu.comp.funing.domain.Product;
+import polyu.comp.funing.model.Product;
 
 /**
  * Created by liushanchen on 16/3/18.

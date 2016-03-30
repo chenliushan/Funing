@@ -1,4 +1,4 @@
-package polyu.comp.funing.domain;
+package polyu.comp.funing.model;
 
 /**
  * Created by liushanchen on 16/3/19.
@@ -11,6 +11,7 @@ public class Coupon {
     private String c_description;
     private String c_status;
     private String c_image_url;
+    private String uc_expired_at;
     private String c_created_at;
     private String c_discount_type;
     private double c_discount_detail;
@@ -79,6 +80,14 @@ public class Coupon {
         this.c_discount_type = c_discount_type;
     }
 
+    public String getUc_expired_at() {
+        return uc_expired_at;
+    }
+
+    public void setUc_expired_at(String uc_expired_at) {
+        this.uc_expired_at = uc_expired_at;
+    }
+
     public double getC_discount_detail() {
         return c_discount_detail;
     }
@@ -96,6 +105,7 @@ public class Coupon {
                 ", c_description='" + c_description + '\'' +
                 ", c_status='" + c_status + '\'' +
                 ", c_image_url='" + c_image_url + '\'' +
+                ", uc_expired_at='" + uc_expired_at + '\'' +
                 ", c_created_at='" + c_created_at + '\'' +
                 ", c_discount_type='" + c_discount_type + '\'' +
                 ", c_discount_detail=" + c_discount_detail +

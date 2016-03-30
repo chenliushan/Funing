@@ -16,6 +16,8 @@ public class CommonConstant {
     public static String apiKey = null;
     
     public static String applicationDir = "";
+    public static String product_key = "record";
+    
 
     
     public static class UserConstant{

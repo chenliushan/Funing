@@ -8,5 +8,6 @@
     <dimen name="margin_l">16dp</dimen>
     <dimen name="margin_xl">32dp</dimen>
     <dimen name="margin_xxl">48dp</dimen>
-    <dimen name="img_height">88dp</dimen>
+    <dimen name="coupon_img_height">88dp</dimen>
+    <dimen name="product_img_height">188dp</dimen>
 </resources>

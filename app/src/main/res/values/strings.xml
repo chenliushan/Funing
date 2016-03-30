@@ -18,4 +18,7 @@
     <string name="valid_cp">Valid Coupon</string>
     <string name="not_valid_cp">Used/expired</string>
     <string name="expiry_date">Expiry Date: </string>
+    
+    <string name="pd_detail">Details: </string>
+    <string name="pd_quantity">Quantity: </string>
 </resources>

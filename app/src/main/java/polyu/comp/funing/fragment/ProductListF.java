@@ -21,7 +21,8 @@ import polyu.comp.funing.DbTask.DbTask;
 import polyu.comp.funing.R;
 import polyu.comp.funing.activities.ProductDetailA;
 import polyu.comp.funing.adapter.ProductListAdapter;
-import polyu.comp.funing.domain.Product;
+import polyu.comp.funing.constant.CommonConstant;
+import polyu.comp.funing.model.Product;
 import polyu.comp.funing.service.ApiService;
 import polyu.comp.funing.service.ProductListR;
 import retrofit2.Call;
@@ -101,7 +102,7 @@ public class ProductListF extends Fragment implements SwipeRefreshLayout.OnRefre
         productList.setRefreshListener(this);
         productList.setupMoreListener(this, 0);
         productList.hideMoreProgress();
-//        productList.setOnItemClickListener(this);
+        productList.setOnItemClickListener(this);
 
     }
 
@@ -111,7 +112,8 @@ public class ProductListF extends Fragment implements SwipeRefreshLayout.OnRefre
         Intent intent = new Intent();
         intent.setClass(getActivity().getApplication(), ProductDetailA.class);
         Bundle bundle = new Bundle();
-        bundle.putSerializable("record", record);
+//        bundle.putParcelable("record", record);
+        bundle.putSerializable(CommonConstant.product_key, record);
         intent.putExtras(bundle);
         startActivity(intent);
     }

@@ -41,6 +41,13 @@ public interface ApiService {
     @POST("register")
     Call<LoginR> uRegister(@FieldMap Map<String, String> options);
 
+    @FormUrlEncoded
+    @POST("shoppingcart")
+    Call<ShoppingCartR> CreateShoppingCart(@Header("Authorization") String authorization);
+
+    @GET("shoppingcart")
+    Call<ShoppingCartR> getShoppingCart(@Header("Authorization") String authorization);
+
     @GET("products")
     Call<ProductListR> getProductList();
 

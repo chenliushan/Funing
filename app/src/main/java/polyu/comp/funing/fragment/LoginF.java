@@ -14,10 +14,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 import polyu.comp.funing.R;
-import polyu.comp.funing.activities.MainActivity;
 import polyu.comp.funing.activities.RegisterA;
 import polyu.comp.funing.constant.CommonConstant;
-import polyu.comp.funing.domain.User;
+import polyu.comp.funing.model.User;
 import polyu.comp.funing.service.ApiService;
 import polyu.comp.funing.service.LoginR;
 import polyu.comp.funing.utils.CommonUtils;

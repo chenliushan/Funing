@@ -11,7 +11,7 @@
         android:background="@color/white"
         android:layout_width="match_parent"
         android:scaleType="fitXY"
-        android:layout_height="@dimen/img_height"
+        android:layout_height="@dimen/coupon_img_height"
         android:layout_margin="@dimen/margin_s" />
 
     <LinearLayout

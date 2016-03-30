@@ -1,6 +1,6 @@
 package polyu.comp.funing.activities;
 
-import android.app.Activity;
+import android.support.v7.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -14,7 +14,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import polyu.comp.funing.R;
-import polyu.comp.funing.domain.User;
+import polyu.comp.funing.model.User;
 import polyu.comp.funing.service.ApiService;
 import polyu.comp.funing.service.LoginR;
 import polyu.comp.funing.utils.CommonUtils;
@@ -25,7 +25,7 @@ import retrofit2.Response;
 /**
  * Created by liushanchen on 16/3/26.
  */
-public class RegisterA extends Activity implements View.OnClickListener {
+public class RegisterA extends AppCompatActivity implements View.OnClickListener {
     private static String TAG = RegisterA.class.getSimpleName();
 
     private EditText phone;

@@ -13,8 +13,7 @@ import com.squareup.picasso.Picasso;
 import java.util.List;
 
 import polyu.comp.funing.R;
-import polyu.comp.funing.domain.Coupon;
-import polyu.comp.funing.domain.Product;
+import polyu.comp.funing.model.Coupon;
 
 /**
  * Created by liushanchen on 16/3/19.
@@ -60,7 +59,7 @@ public class CouponListAdapter extends BaseAdapter {
         TextView expiryDate=(TextView)view.findViewById(R.id.cp_expired_date);
         Picasso.with(context).load(item.getC_image_url()).into(pItemImg);
         pName.setText(item.getC_name());
-        expiryDate.setText(item.getC_description());
+        expiryDate.setText(item. getUc_expired_at());
 //        String discount=null;
 //        if(item.getC_discount_type().equals("cash")){
 //            discount="$"+item.getC_discount_detail();

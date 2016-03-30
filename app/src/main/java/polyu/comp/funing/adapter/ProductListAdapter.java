@@ -13,7 +13,7 @@ import com.squareup.picasso.Picasso;
 import java.util.List;
 
 import polyu.comp.funing.R;
-import polyu.comp.funing.domain.Product;
+import polyu.comp.funing.model.Product;
 
 /**
  * Created by liushanchen on 16/3/19.
