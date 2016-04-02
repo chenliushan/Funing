@@ -10,4 +10,7 @@
     <dimen name="margin_xxl">48dp</dimen>
     <dimen name="coupon_img_height">88dp</dimen>
     <dimen name="product_img_height">188dp</dimen>
+    <dimen name="shopping_cart_checkout_height">30dp</dimen>
+    <dimen name="shopping_cart_checkout_width">220dp</dimen>
+    <dimen name="shopping_cart_delete_height">20dp</dimen>
 </resources>

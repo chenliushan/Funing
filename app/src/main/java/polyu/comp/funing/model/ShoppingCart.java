@@ -1,5 +1,7 @@
 package polyu.comp.funing.model;
 
+import java.util.List;
+
 /**
  * Created by liushanchen on 16/3/26.
  */
@@ -21,6 +23,7 @@ public class ShoppingCart {
     private Double s_amount;
     private String s_status;
     private String s_created_at;
+    private List<ShoppingCartDetail> shoppingcartdetails;
 
     public int getSid() {
         return sid;
@@ -62,6 +65,14 @@ public class ShoppingCart {
         this.s_created_at = s_created_at;
     }
 
+    public List<ShoppingCartDetail> getShoppingcartdetails() {
+        return shoppingcartdetails;
+    }
+
+    public void setShoppingcartdetails(List<ShoppingCartDetail> shoppingcartdetails) {
+        this.shoppingcartdetails = shoppingcartdetails;
+    }
+
     @Override
     public String toString() {
         return "ShoppingCart{" +
@@ -70,6 +81,7 @@ public class ShoppingCart {
                 ", s_amount=" + s_amount +
                 ", s_status='" + s_status + '\'' +
                 ", s_created_at='" + s_created_at + '\'' +
+                ", shoppingcartdetails=" + shoppingcartdetails +
                 '}';
     }
 }

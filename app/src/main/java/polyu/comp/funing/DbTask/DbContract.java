@@ -2,6 +2,8 @@ package polyu.comp.funing.DbTask;
 
 import android.provider.BaseColumns;
 
+import polyu.comp.funing.model.ShoppingCartDetail;
+
 /**
  * Created by liushanchen on 16/3/19.
  */
@@ -28,11 +30,11 @@ public final class DbContract {
                         FeedCoupons.COLUMN_NAME_C_IMAGE_URL + TEXT_TYPE + COMMA_SEP +
                         FeedCoupons.COLUMN_NAME_C_CREATED_AT + TEXT_TYPE + COMMA_SEP +
                         FeedCoupons.COLUMN_NAME_C_DISCOUNT_TYPE + TEXT_TYPE + COMMA_SEP +
-                        FeedCoupons.COLUMN_NAME_C_DISCOUNT_DETAIL + DOUBLE_TYPE + 
+                        FeedCoupons.COLUMN_NAME_C_DISCOUNT_DETAIL + DOUBLE_TYPE +
                         " )";
         protected static final String SQL_DELETE_TABLE_COUPONS =
                 "DROP TABLE IF EXISTS " + FeedCoupons.TABLE_NAME;
-      
+
         protected static final String SQL_CREATE_TABLE_PRODUCT =
                 "CREATE TABLE " + FeedProduct.TABLE_NAME + " (" +
                         FeedProduct.COLUMN_NAME_PID + INT_TYPE + " INTEGER PRIMARY KEY," +
@@ -43,10 +45,37 @@ public final class DbContract {
                         FeedProduct.COLUMN_NAME_P_PRICE + DOUBLE_TYPE + COMMA_SEP +
                         FeedProduct.COLUMN_NAME_P_IMAGE_URL + TEXT_TYPE + COMMA_SEP +
                         FeedProduct.COLUMN_NAME_P_TYPE + TEXT_TYPE + COMMA_SEP +
-                        FeedProduct.COLUMN_NAME_P_CREATEDAT+ TEXT_TYPE + 
+                        FeedProduct.COLUMN_NAME_P_CREATEDAT + TEXT_TYPE +
                         " )";
         protected static final String SQL_DELETE_TABLE_PRODUCT =
                 "DROP TABLE IF EXISTS " + FeedProduct.TABLE_NAME;
+
+        protected static final String SQL_CREATE_TABLE_SHOPPING_CART =
+                "CREATE TABLE " + FeedProduct.TABLE_NAME + " (" +
+                        FeedShoppingCart.COLUMN_NAME_SID + INT_TYPE + " INTEGER PRIMARY KEY," +
+                        FeedShoppingCart.COLUMN_NAME_UID + INT_TYPE + COMMA_SEP +
+                        FeedShoppingCart.COLUMN_NAME_S_AMOUNT + DOUBLE_TYPE + COMMA_SEP +
+                        FeedShoppingCart.COLUMN_NAME_S_STATUS + TEXT_TYPE + COMMA_SEP +
+                        FeedShoppingCart.COLUMN_NAME_S_CREATED_AT + TEXT_TYPE + 
+                        " )";
+        protected static final String SQL_DELETE_TABLE_SHOPPING_CART =
+                "DROP TABLE IF EXISTS " + FeedShoppingCart.TABLE_NAME;
+
+        protected static final String SQL_CREATE_TABLE_SHOPPING_CART_DETAIL =
+                "CREATE TABLE " + FeedProduct.TABLE_NAME + " (" +
+                        FeedShoppingCartDetail.COLUMN_NAME_SDID + INT_TYPE + " INTEGER PRIMARY KEY," +
+                        FeedShoppingCartDetail.COLUMN_NAME_SID + INT_TYPE + COMMA_SEP +
+                        FeedShoppingCartDetail. COLUMN_NAME_PID+ INT_TYPE + COMMA_SEP +
+                        FeedShoppingCartDetail.COLUMN_NAME_P_CODE + TEXT_TYPE + COMMA_SEP +
+                        FeedShoppingCartDetail.COLUMN_NAME_P_NAME + INT_TYPE + COMMA_SEP +
+                        FeedShoppingCartDetail.COLUMN_NAME_P_PRICE + DOUBLE_TYPE + COMMA_SEP +
+                        FeedShoppingCartDetail.COLUMN_NAME_P_DESCRIPTION + TEXT_TYPE + COMMA_SEP +
+                        FeedShoppingCartDetail.COLUMN_NAME_SD_SUBAMOUNT + TEXT_TYPE + COMMA_SEP +
+                        FeedShoppingCartDetail.COLUMN_NAME_SD_QUANTITY + TEXT_TYPE +COMMA_SEP +
+                        FeedShoppingCartDetail.COLUMN_NAME_SD_CREATED_AT + TEXT_TYPE +
+                        " )";
+        protected static final String SQL_DELETE_TABLE_SHOPPING_CART_DETAIL =
+                "DROP TABLE IF EXISTS " + FeedShoppingCartDetail.TABLE_NAME;
     }
 
     public static abstract class FeedCoupons implements BaseColumns {
@@ -61,8 +90,8 @@ public final class DbContract {
         public static final String COLUMN_NAME_C_DISCOUNT_TYPE = "c_discount_type";
         public static final String COLUMN_NAME_C_DISCOUNT_DETAIL = "c_discount_detail";
     }
-   
-public static abstract class FeedProduct implements BaseColumns {
+
+    public static abstract class FeedProduct implements BaseColumns {
         public static final String TABLE_NAME = "product";
         public static final String COLUMN_NAME_PID = "pid";
         public static final String COLUMN_NAME_P_CODE = "p_code";
@@ -73,6 +102,28 @@ public static abstract class FeedProduct implements BaseColumns {
         public static final String COLUMN_NAME_P_IMAGE_URL = "p_image_url";
         public static final String COLUMN_NAME_P_TYPE = "p_type";
         public static final String COLUMN_NAME_P_CREATEDAT = "p_createdAt";
+    }
+    public static abstract class FeedShoppingCart implements BaseColumns {
+        public static final String TABLE_NAME = "shopping_cart";
+        public static final String COLUMN_NAME_SID = "sid";
+        public static final String COLUMN_NAME_UID = "uid";
+        public static final String COLUMN_NAME_S_AMOUNT = "s_amount";
+        public static final String COLUMN_NAME_S_STATUS = "s_status";
+        public static final String COLUMN_NAME_S_CREATED_AT = "s_created_at";
+    }
+    public static abstract class FeedShoppingCartDetail implements BaseColumns {
+        public static final String TABLE_NAME = "shopping_cart_detail";
+        public static final String COLUMN_NAME_SDID = "sdid";
+        public static final String COLUMN_NAME_SID = "sid";
+        public static final String COLUMN_NAME_PID = "pid";
+        public static final String COLUMN_NAME_P_CODE = "p_code";
+        public static final String COLUMN_NAME_P_NAME = "p_name";
+        public static final String COLUMN_NAME_P_PRICE = "p_price";
+        public static final String COLUMN_NAME_SD_SUBAMOUNT = "sd_subamount";
+        public static final String COLUMN_NAME_P_DESCRIPTION = "p_description";
+        public static final String COLUMN_NAME_SD_QUANTITY = "sd_quantity";
+        public static final String COLUMN_NAME_SD_CREATED_AT = "sd_created_at";
+        
     }
 
 }

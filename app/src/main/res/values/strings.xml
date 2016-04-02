@@ -10,15 +10,21 @@
     <string name="address_hint">ADDRESS</string>
     <string name="phone_hint">PHONE</string>
     
+    <string name="login_f">Login</string>
     <string name="is_user">I am already a user</string>
     <string name="not_user">New customer</string>
+    <string name="login_first">Please Login First</string>
     
     <string name="processing">Processing ...</string>
     
+    <string name="coupon_f">My Coupons</string>
     <string name="valid_cp">Valid Coupon</string>
     <string name="not_valid_cp">Used/expired</string>
     <string name="expiry_date">Expiry Date: </string>
     
+    <string name="product_f">Product List</string>
     <string name="pd_detail">Details: </string>
     <string name="pd_quantity">Quantity: </string>
+    
+    <string name="sc_amount">Amount: HK$ </string>
 </resources>

@@ -38,8 +38,6 @@ public class CouponsF extends Fragment implements SwipeRefreshLayout.OnRefreshLi
     private CouponListAdapter couponListAdapter;
     private TextView validCP;
     private TextView notValidCP;
-    private static String valid="valid";
-    private static String invalid="invalid";
     
 
     @Nullable
@@ -55,12 +53,12 @@ public class CouponsF extends Fragment implements SwipeRefreshLayout.OnRefreshLi
     }
 
     private void initView() {
-        getActivity().setTitle("Coupon");
+        getActivity().setTitle(getResources().getString(R.string.coupon_f));
         /*ListView*/
         superListview = (SuperListview) getActivity().findViewById(R.id.coupon_list);
         couponListAdapter = new CouponListAdapter(getActivity().getApplication());
         superListview.setAdapter(couponListAdapter);
-        getCoupons(valid);
+        getCoupons(CommonConstant.valid);
         superListview.setRefreshListener(this);
         superListview.setupMoreListener(this, 0);
         superListview.hideMoreProgress();
@@ -72,10 +70,11 @@ public class CouponsF extends Fragment implements SwipeRefreshLayout.OnRefreshLi
 
     }
 
-    private void getCoupons(String if_valid) {
+    private void getCoupons(final String if_valid) {
         Map<String, String> options = new HashMap<String, String>();
         options.put("uc_status", if_valid);
         if (CommonConstant.apiKey == null) {
+            CommonUtils.show(getActivity(), getResources().getString(R.string.login_first));
             LoginF loginF = new LoginF();
             getFragmentManager().beginTransaction().replace(R.id.main_f, loginF).commit();
         } else {
@@ -84,12 +83,19 @@ public class CouponsF extends Fragment implements SwipeRefreshLayout.OnRefreshLi
                 @Override
                 public void onResponse(Call<UserCouponR> call, Response<UserCouponR> response) {
                     Log.i(TAG, "response: " + response.body().toString());
-                    couponListAdapter.setMyList(response.body().getCouponList());
-                    superListview.setAdapter(couponListAdapter);
-                    superListview.hideProgress();
-                    superListview.hideMoreProgress();
-                    if(response.body().getCouponList().size()==0){
-                        CommonUtils.show(getActivity(),"");
+                    if(if_valid.equals(CommonConstant.used)){
+                        couponListAdapter.updateMyList(response.body().getCouponList());
+                        superListview.setAdapter(couponListAdapter);
+                        superListview.hideProgress();
+                        superListview.hideMoreProgress();
+                    }else {
+                        couponListAdapter.setMyList(response.body().getCouponList());
+                        superListview.setAdapter(couponListAdapter);
+                        superListview.hideProgress();
+                        superListview.hideMoreProgress();
+                    }
+                    if (couponListAdapter.getMyList().size()<=0) {
+                        CommonUtils.show(getActivity(), getResources().getString(R.string.empty));
                     }
                 }
                 @Override
@@ -126,10 +132,11 @@ public class CouponsF extends Fragment implements SwipeRefreshLayout.OnRefreshLi
         textView.setBackgroundColor(getActivity().getResources().getColor(R.color.colorPrimary));
         switch (v.getId()) {
             case R.id.valid_cp:
-                getCoupons(valid);
+                getCoupons(CommonConstant.valid);
                 break;
             case R.id.not_valid_cp:
-                getCoupons(invalid);
+                getCoupons(CommonConstant.invalid);
+                getCoupons(CommonConstant.used);
                 break;
         }
     }

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <com.quentindommerc.superlistview.SuperListview xmlns:superlistview="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/shopping_cart_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/checkout_img"
+        superlistview:superlv__empty="@layout/emptyview"
+        superlistview:superlv__listClipToPadding="false"
+        superlistview:superlv__listDivider="@android:color/transparent"
+        superlistview:superlv__listDividerHeight="10dp"
+        superlistview:superlv__listPadding="10dp"
+        superlistview:superlv__scrollbarStyle="outsideOverlay"></com.quentindommerc.superlistview.SuperListview>
+
+    <TextView
+        android:id="@+id/checkout_img"
+        android:layout_width="@dimen/shopping_cart_checkout_width"
+        android:layout_height="@dimen/shopping_cart_checkout_height"
+        android:layout_above="@+id/bottom_amount_bar"
+        android:background="@mipmap/checkout" />
+
+    <LinearLayout
+        android:id="@+id/bottom_amount_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@color/gray"
+
+        android:gravity="right"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/sc_amount"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
+
+        <TextView
+            android:id="@+id/amount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="-"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
+
+
+    </LinearLayout>
+
+</RelativeLayout>

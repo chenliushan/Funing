@@ -13,11 +13,16 @@ public class CommonConstant {
     
     public static String preferenceName = "Funing";
     public static String applicationContext = "applicationContext";
+    
     public static String apiKey = null;
+    public static int userId = -1;
     
     public static String applicationDir = "";
     public static String product_key = "record";
-    
+
+    public static String valid="valid";
+    public static String invalid="invalid";
+    public static String used="used";
 
     
     public static class UserConstant{

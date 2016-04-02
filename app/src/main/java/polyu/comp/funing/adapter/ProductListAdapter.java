@@ -55,8 +55,8 @@ public class ProductListAdapter extends BaseAdapter {
             view = layoutInflater.inflate(R.layout.product_list_item, parent, false);
         }
         ImageView pItemImg=(ImageView)view.findViewById(R.id.p_item_img);
-        TextView pName=(TextView)view.findViewById(R.id.textViewl);
-        TextView pPrice=(TextView)view.findViewById(R.id.textView);
+        TextView pName=(TextView)view.findViewById(R.id.p_name);
+        TextView pPrice=(TextView)view.findViewById(R.id.p_price);
         Picasso.with(context).load(item.getP_image_url()).resize(200, 200).centerCrop().into(pItemImg);
         pName.setText(item.getP_name());
         pPrice.setText(item.getP_price()+"");
@@ -70,5 +70,9 @@ public class ProductListAdapter extends BaseAdapter {
 
     public void setMyList(List<Product> myList) {
         this.myList = myList;
+    }
+    
+    private void addProductToShoppingCart(){
+
     }
 }

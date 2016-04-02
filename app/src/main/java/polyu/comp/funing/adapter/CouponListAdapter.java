@@ -78,4 +78,7 @@ public class CouponListAdapter extends BaseAdapter {
     public void setMyList(List<Coupon> myList) {
         this.myList = myList;
     }
+    public void updateMyList(List<Coupon> myList) {
+        this.myList .addAll(myList);
+    }
 }

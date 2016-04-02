@@ -4,6 +4,7 @@ import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,14 +12,19 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import polyu.comp.funing.DbTask.DbTask;
 import polyu.comp.funing.R;
 import polyu.comp.funing.activities.RegisterA;
 import polyu.comp.funing.constant.CommonConstant;
+import polyu.comp.funing.model.ShoppingCart;
+import polyu.comp.funing.model.ShoppingCartDetail;
 import polyu.comp.funing.model.User;
 import polyu.comp.funing.service.ApiService;
 import polyu.comp.funing.service.LoginR;
+import polyu.comp.funing.service.ShoppingCartR;
 import polyu.comp.funing.utils.CommonUtils;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -33,7 +39,6 @@ public class LoginF extends Fragment implements View.OnClickListener {
     EditText pwEdit;
     String e = "0607chris@gmail.com";
     String p = "chris";
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -47,6 +52,7 @@ public class LoginF extends Fragment implements View.OnClickListener {
     }
 
     private void initView() {
+        getActivity().setTitle(getResources().getString(R.string.login_f));
         Button loginBtn = (Button) getActivity().findViewById(R.id.login_btn);
         Button registerBtn = (Button) getActivity().findViewById(R.id.register_btn);
         emailEdit = (EditText) getActivity().findViewById(R.id.login_email_edit);
@@ -82,6 +88,7 @@ public class LoginF extends Fragment implements View.OnClickListener {
                     CommonUtils.setUser(getActivity(), u);
                     CommonUtils.show(getActivity(), "success");
                     CommonConstant.apiKey = response.body().getApiKey();
+                    getUserShoppingCart();
                     //go to user_info fragment
 //                    ProductListF productListF=new ProductListF();
 //                    getFragmentManager().beginTransaction().replace(R.id.main_f, productListF).commit();
@@ -93,6 +100,62 @@ public class LoginF extends Fragment implements View.OnClickListener {
 
             @Override
             public void onFailure(Call<LoginR> call, Throwable t) {
+
+            }
+        });
+    }
+
+    private void getUserShoppingCart() {
+        Map<String, String> options = new HashMap<String, String>();
+        options.put("s_status", CommonConstant.valid);
+        
+        Call<ShoppingCartR> call = ApiService.Creator.create().getShoppingCart(options,CommonConstant.apiKey);
+        call.enqueue(new Callback<ShoppingCartR>() {
+            @Override
+            public void onResponse(Call<ShoppingCartR> call, Response<ShoppingCartR> response) {
+                List<ShoppingCart> shoppingCarts=response.body().getShoppingcarts();
+                List<ShoppingCartDetail> shoppingCartDetails=shoppingCarts.get(0).getShoppingcartdetails();
+                CommonConstant.userId = shoppingCarts.get(0).getUid();
+
+                if(shoppingCarts==null||shoppingCarts.size()==0){
+                    createUserShoppingCart();
+                }else{
+                    boolean db;
+                    DbTask.DbShoppingCart dbShoppingCart= new DbTask.DbShoppingCart(getActivity());
+                    DbTask.DbShoppingCartDetail dbShoppingCartDetail= new DbTask.DbShoppingCartDetail(getActivity());
+                    if(dbShoppingCart.query()!=null){
+                        db=dbShoppingCart.update(shoppingCarts);
+                        if(db){
+                            dbShoppingCartDetail.update(shoppingCartDetails);
+                        }
+                        Log.i(TAG,"dbShoppingCart: "+db);
+                    }else{
+                        db=dbShoppingCart.insert(shoppingCarts);
+                        if(db){
+                            dbShoppingCartDetail.insert(shoppingCartDetails);
+                        }
+                        Log.i(TAG,"dbShoppingCart: "+db);
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ShoppingCartR> call, Throwable t) {
+
+            }
+        });
+    }
+    private void createUserShoppingCart() {
+        Map<String, String> options = new HashMap<String, String>();
+        Call<ShoppingCartR> call = ApiService.Creator.create().createShoppingCart(options,CommonConstant.apiKey);
+        call.enqueue(new Callback<ShoppingCartR>() {
+            @Override
+            public void onResponse(Call<ShoppingCartR> call, Response<ShoppingCartR> response) {
+                
+            }
+
+            @Override
+            public void onFailure(Call<ShoppingCartR> call, Throwable t) {
 
             }
         });

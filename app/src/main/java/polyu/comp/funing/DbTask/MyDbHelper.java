@@ -23,6 +23,8 @@ public class MyDbHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(DbContract.FeedDb.SQL_CREATE_TABLE_COUPONS);
         db.execSQL(DbContract.FeedDb.SQL_CREATE_TABLE_PRODUCT);
+        db.execSQL(DbContract.FeedDb.SQL_CREATE_TABLE_SHOPPING_CART);
+        db.execSQL(DbContract.FeedDb.SQL_CREATE_TABLE_SHOPPING_CART_DETAIL);
         Log.i(TAG,"DB onCreate");
     }
 
@@ -32,6 +34,8 @@ public class MyDbHelper extends SQLiteOpenHelper {
         // to simply to discard the data and start over
         db.execSQL(DbContract.FeedDb.SQL_DELETE_TABLE_COUPONS);
         db.execSQL(DbContract.FeedDb.SQL_DELETE_TABLE_PRODUCT);
+        db.execSQL(DbContract.FeedDb.SQL_DELETE_TABLE_SHOPPING_CART);
+        db.execSQL(DbContract.FeedDb.SQL_CREATE_TABLE_SHOPPING_CART_DETAIL);
         onCreate(db);
     } 
     

@@ -43,10 +43,10 @@ public interface ApiService {
 
     @FormUrlEncoded
     @POST("shoppingcart")
-    Call<ShoppingCartR> CreateShoppingCart(@Header("Authorization") String authorization);
+    Call<ShoppingCartR> createShoppingCart(@FieldMap Map<String, String> options,@Header("Authorization") String authorization);
 
     @GET("shoppingcart")
-    Call<ShoppingCartR> getShoppingCart(@Header("Authorization") String authorization);
+    Call<ShoppingCartR> getShoppingCart(@QueryMap Map<String, String> parameters,@Header("Authorization") String authorization);
 
     @GET("products")
     Call<ProductListR> getProductList();
