@@ -14,6 +14,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import polyu.comp.funing.R;
+import polyu.comp.funing.constant.CommonConstant;
 import polyu.comp.funing.model.User;
 import polyu.comp.funing.service.ApiService;
 import polyu.comp.funing.service.LoginR;
@@ -97,6 +98,10 @@ public class RegisterA extends AppCompatActivity implements View.OnClickListener
 
             @Override
             public void onResponse(Call<LoginR> call, Response<LoginR> response) {
+                if(response.body().getError()!=CommonConstant.noError){
+                    CommonUtils.show(getApplicationContext(),response.body().getMessage());
+                    return;
+                }
                 Log.i(TAG, response.body().toString());
                 User u = new User();
                 u.setEmail(email.getText().toString());

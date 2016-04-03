@@ -51,7 +51,7 @@ public final class DbContract {
                 "DROP TABLE IF EXISTS " + FeedProduct.TABLE_NAME;
 
         protected static final String SQL_CREATE_TABLE_SHOPPING_CART =
-                "CREATE TABLE " + FeedProduct.TABLE_NAME + " (" +
+                "CREATE TABLE " + FeedShoppingCart.TABLE_NAME + " (" +
                         FeedShoppingCart.COLUMN_NAME_SID + INT_TYPE + " INTEGER PRIMARY KEY," +
                         FeedShoppingCart.COLUMN_NAME_UID + INT_TYPE + COMMA_SEP +
                         FeedShoppingCart.COLUMN_NAME_S_AMOUNT + DOUBLE_TYPE + COMMA_SEP +
@@ -62,7 +62,7 @@ public final class DbContract {
                 "DROP TABLE IF EXISTS " + FeedShoppingCart.TABLE_NAME;
 
         protected static final String SQL_CREATE_TABLE_SHOPPING_CART_DETAIL =
-                "CREATE TABLE " + FeedProduct.TABLE_NAME + " (" +
+                "CREATE TABLE " + FeedShoppingCartDetail.TABLE_NAME + " (" +
                         FeedShoppingCartDetail.COLUMN_NAME_SDID + INT_TYPE + " INTEGER PRIMARY KEY," +
                         FeedShoppingCartDetail.COLUMN_NAME_SID + INT_TYPE + COMMA_SEP +
                         FeedShoppingCartDetail. COLUMN_NAME_PID+ INT_TYPE + COMMA_SEP +

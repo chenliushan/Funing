@@ -20,7 +20,7 @@ public class ShoppingCartDetail {
      * UNIQUE KEY `scdid` (`sdid`)
      * ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
      */
-    private int sdid;
+    private int sdid=-1;
     private int sid;
     private int pid;
     private String p_code;
@@ -30,6 +30,17 @@ public class ShoppingCartDetail {
     private String p_description;
     private int sd_quantity;
     private String sd_created_at;
+
+    public ShoppingCartDetail() {
+    }
+
+    public ShoppingCartDetail(Product p) {
+        this.pid = p.getPid();
+        this.p_code = p.getP_code();
+        this.p_name = p.getP_name();
+        this.p_price = p.getP_price();
+        this.p_description = p.getP_description();
+    }
 
     public int getSdid() {
         return sdid;

@@ -17,16 +17,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import polyu.comp.funing.DbTask.DbTask;
 import polyu.comp.funing.R;
-import polyu.comp.funing.adapter.ProductListAdapter;
 import polyu.comp.funing.adapter.ScDetailAdapter;
 import polyu.comp.funing.constant.CommonConstant;
-import polyu.comp.funing.model.Product;
+import polyu.comp.funing.model.ScDbProcess;
 import polyu.comp.funing.model.ShoppingCart;
 import polyu.comp.funing.model.ShoppingCartDetail;
 import polyu.comp.funing.service.ApiService;
 import polyu.comp.funing.service.ShoppingCartR;
+import polyu.comp.funing.utils.CommonUtils;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -52,7 +51,7 @@ public class ShoppingCartF extends Fragment implements OnMoreListener, AdapterVi
         initView();
     }
 
-    private void initView(){
+    private void initView() {
         getActivity().setTitle(getResources().getString(R.string.product_f));
         listview = (SuperListview) getActivity().findViewById(R.id.product_list);
 //        recordList.getList().addHeaderView(headView);
@@ -67,79 +66,74 @@ public class ShoppingCartF extends Fragment implements OnMoreListener, AdapterVi
 
     @Override
     public void onMoreAsked(int numberOfItems, int numberBeforeMore, int currentItemPos) {
-        
+
     }
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        
+
     }
 
     @Override
     public void onRefresh() {
-        
+
     }
-   
+
     private void getUserShoppingCart() {
         Map<String, String> options = new HashMap<String, String>();
-        options.put("s_status",CommonConstant. valid);
+        options.put("s_status", CommonConstant.valid);
 
         Call<ShoppingCartR> call = ApiService.Creator.create().getShoppingCart(options, CommonConstant.apiKey);
         call.enqueue(new Callback<ShoppingCartR>() {
             @Override
             public void onResponse(Call<ShoppingCartR> call, Response<ShoppingCartR> response) {
-                List<ShoppingCart> shoppingCarts=response.body().getShoppingcarts();
-                List<ShoppingCartDetail> shoppingCartDetails=shoppingCarts.get(0).getShoppingcartdetails();
-                if(shoppingCarts==null||shoppingCarts.size()==0){
+                if(response.body().getError()!=CommonConstant.noError){
+                    CommonUtils.show(getActivity().getApplicationContext(),response.body().getMessage());
+                    return;
+                }
+                List<ShoppingCart> shoppingCarts = response.body().getShoppingcarts();
+                List<ShoppingCartDetail> shoppingCartDetails = shoppingCarts.get(0).getShoppingcartdetails();
+                if (shoppingCarts == null || shoppingCarts.size() == 0) {
                     createUserShoppingCart();
-                }else{
+                } else {
                     scDetailAdapter.setMyList(shoppingCartDetails);
                     listview.setAdapter(scDetailAdapter);
                     listview.hideProgress();
                     listview.hideMoreProgress();
-                    
-                    boolean db;
-                    DbTask.DbShoppingCart dbShoppingCart= new DbTask.DbShoppingCart(getActivity());
-                    DbTask.DbShoppingCartDetail dbShoppingCartDetail= new DbTask.DbShoppingCartDetail(getActivity());
-                    if(dbShoppingCart.query()!=null){
-                        db=dbShoppingCart.update(shoppingCarts);
-                        if(db){
-                            dbShoppingCartDetail.update(shoppingCartDetails);
-                        }
-                        Log.i(TAG,"dbShoppingCart: "+db);
-                    }else{
-                        db=dbShoppingCart.insert(shoppingCarts);
-                        if(db){
-                            dbShoppingCartDetail.insert(shoppingCartDetails);
-                        }
-                        Log.i(TAG,"dbShoppingCart: "+db);
-                    }
+                    /**
+                     * update local database
+                     */
+                    ScDbProcess.NewScDbProcess(getActivity().getApplicationContext()).scDbStore(shoppingCarts);
                 }
             }
 
             @Override
             public void onFailure(Call<ShoppingCartR> call, Throwable t) {
-                Log.e(TAG,"failure:"+t.toString());
+                Log.e(TAG, "failure:" + t.toString());
                 listview.hideProgress();
                 listview.hideMoreProgress();
-                DbTask.DbShoppingCart dbShoppingCart= new DbTask.DbShoppingCart(getActivity());
-                DbTask.DbShoppingCartDetail dbShoppingCartDetail= new DbTask.DbShoppingCartDetail(getActivity());
-                if(CommonConstant.userId!=-1){
-                    int sid=dbShoppingCart.query(CommonConstant.userId).get(0).getSid();
-                    List<ShoppingCartDetail> shoppingCartDetails=dbShoppingCartDetail.query(sid);
-                    scDetailAdapter.setMyList(shoppingCartDetails);
-                    listview.setAdapter(scDetailAdapter);
-                }
-               
+                /**
+                 * read data from local database.
+                 */
+                List<ShoppingCartDetail> shoppingCartDetails = ScDbProcess.NewScDbProcess(getActivity().getApplicationContext()).scDbGetLocalScD();
+                scDetailAdapter.setMyList(shoppingCartDetails);
+                listview.setAdapter(scDetailAdapter);
             }
         });
     }
+
     private void createUserShoppingCart() {
         Map<String, String> options = new HashMap<String, String>();
-        Call<ShoppingCartR> call = ApiService.Creator.create().createShoppingCart(options,CommonConstant.apiKey);
+        Call<ShoppingCartR> call = ApiService.Creator.create().createShoppingCart(options, CommonConstant.apiKey);
         call.enqueue(new Callback<ShoppingCartR>() {
             @Override
             public void onResponse(Call<ShoppingCartR> call, Response<ShoppingCartR> response) {
+                if(response.body().getError()!=CommonConstant.noError){
+                    CommonUtils.show(getActivity().getApplicationContext(),response.body().getMessage());
+                    return;
+                }
+                List<ShoppingCart> shoppingCarts = response.body().getShoppingcarts();
+                ScDbProcess.NewScDbProcess(getActivity().getApplicationContext()).scDbStore(shoppingCarts);
 
             }
 

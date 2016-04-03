@@ -1,17 +1,20 @@
 package polyu.comp.funing.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
 import polyu.comp.funing.R;
+import polyu.comp.funing.constant.CommonConstant;
 import polyu.comp.funing.fragment.CouponsF;
 import polyu.comp.funing.fragment.LoginF;
 import polyu.comp.funing.fragment.ProductListF;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
-    
+
     private static String TAG = MainActivity.class.getSimpleName();
     private ImageView recordBtn;
     private ImageView basketBtn;
@@ -25,6 +28,33 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
         initView();
 
+    }
+    
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        if (intent != null) {
+            String f = intent.getStringExtra(CommonConstant.mainActivityF_key);
+            Log.i(TAG,"f="+f);
+            switch (f) {
+                case CommonConstant.F_login:
+                    accountBtn.callOnClick();
+                    break;
+                case CommonConstant.F_product:
+                    recordBtn.callOnClick();
+                    break;
+                case CommonConstant.F_sc:
+                    basketBtn.callOnClick();
+                    break;
+                case CommonConstant.F_coupon:
+                    couponBtn.callOnClick();
+                    break;
+                case CommonConstant.F_order:
+                    orderBtn.callOnClick();
+                    break;
+
+            }
+        }
     }
 
     private void initView() {

@@ -27,4 +27,5 @@
     <string name="pd_quantity">Quantity: </string>
     
     <string name="sc_amount">Amount: HK$ </string>
+    <string name="shopping_cart_f">Basket</string>
 </resources>

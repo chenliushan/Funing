@@ -180,7 +180,7 @@ public class DbTask {
 
     public static class DbShoppingCart {
         private Context mContext;
-        private  String valid="valid";
+        private String valid = "valid";
 
 
         public DbShoppingCart(Context mContext) {
@@ -205,9 +205,28 @@ public class DbTask {
                 values.put(DbContract.FeedShoppingCart.COLUMN_NAME_S_CREATED_AT, o.getS_created_at());
                 // Insert the new row, returning the primary key value of the new row
                 long newRowId;
-                newRowId = db.insert(DbContract.FeedProduct.TABLE_NAME, null, values);
+                newRowId = db.insert(DbContract.FeedShoppingCart.TABLE_NAME, null, values);
             }
             return true;
+        }
+        public int insert(ShoppingCart o) {
+            if (o == null) {
+                return -1;
+            }
+            MyDbHelper mDbHelper = new MyDbHelper(mContext);
+            // Gets the data repository in write mode
+            SQLiteDatabase db = mDbHelper.getWritableDatabase();
+            // Create a new map of values, where column names are the keys
+
+                ContentValues values = new ContentValues();
+                values.put(DbContract.FeedShoppingCart.COLUMN_NAME_SID, o.getSid());
+                values.put(DbContract.FeedShoppingCart.COLUMN_NAME_UID, o.getUid());
+                values.put(DbContract.FeedShoppingCart.COLUMN_NAME_S_AMOUNT, o.getS_amount());
+                values.put(DbContract.FeedShoppingCart.COLUMN_NAME_S_STATUS, o.getS_status());
+                values.put(DbContract.FeedShoppingCart.COLUMN_NAME_S_CREATED_AT, o.getS_created_at());
+                // Insert the new row, returning the primary key value of the new row
+              int  newRowId =(int) db.insert(DbContract.FeedShoppingCart.TABLE_NAME, null, values);
+            return newRowId;
         }
 
         public Boolean update(List<ShoppingCart> objs) {
@@ -227,13 +246,32 @@ public class DbTask {
                 values.put(DbContract.FeedShoppingCart.COLUMN_NAME_S_STATUS, o.getS_status());
                 values.put(DbContract.FeedShoppingCart.COLUMN_NAME_S_CREATED_AT, o.getS_created_at());
                 long newRowId;
-                newRowId = db.update(DbContract.FeedProduct.TABLE_NAME, values, DbContract.FeedProduct.COLUMN_NAME_PID + "=?", new String[]{o.getSid() + ""});
+                newRowId = db.update(DbContract.FeedShoppingCart.TABLE_NAME, values, DbContract.FeedShoppingCart.COLUMN_NAME_SID + "=?", new String[]{o.getSid() + ""});
                 count += newRowId;
             }
             if (count == objs.size()) {
                 return true;
             }
             return false;
+        }
+        public int update(ShoppingCart o) {
+            if (o == null) {
+                return -1;
+            }
+            MyDbHelper mDbHelper = new MyDbHelper(mContext);
+            // Gets the data repository in write mode
+            SQLiteDatabase db = mDbHelper.getWritableDatabase();
+            // Create a new map of values, where column names are the keys
+            int count = 0;
+                ContentValues values = new ContentValues();
+                values.put(DbContract.FeedShoppingCart.COLUMN_NAME_SID, o.getSid());
+                values.put(DbContract.FeedShoppingCart.COLUMN_NAME_UID, o.getUid());
+                values.put(DbContract.FeedShoppingCart.COLUMN_NAME_S_AMOUNT, o.getS_amount());
+                values.put(DbContract.FeedShoppingCart.COLUMN_NAME_S_STATUS, o.getS_status());
+                values.put(DbContract.FeedShoppingCart.COLUMN_NAME_S_CREATED_AT, o.getS_created_at());
+               int newRowId = db.update(DbContract.FeedShoppingCart.TABLE_NAME, values, DbContract.FeedShoppingCart.COLUMN_NAME_SID + "=?", new String[]{o.getSid() + ""});
+            
+            return newRowId;
         }
 
         public List<ShoppingCart> query() {
@@ -248,9 +286,9 @@ public class DbTask {
 
             };
             Cursor c = db.query(
-                    DbContract.FeedProduct.TABLE_NAME,  // The table to query
+                    DbContract.FeedShoppingCart.TABLE_NAME,  // The table to query
                     projection,                               // The columns to return
-                    DbContract.FeedShoppingCart.COLUMN_NAME_S_STATUS+"=?",     // The columns for the WHERE clause
+                    DbContract.FeedShoppingCart.COLUMN_NAME_S_STATUS + "=?",     // The columns for the WHERE clause
                     new String[]{valid},                            // The values for the WHERE clause
                     null,                                     // don't group the rows
                     null,                                     // don't filter by row groups
@@ -273,6 +311,7 @@ public class DbTask {
             Log.i(TAG, "products: " + list);
             return list;
         }
+
         public List<ShoppingCart> query(int uid) {
             MyDbHelper mDbHelper = new MyDbHelper(mContext);
             SQLiteDatabase db = mDbHelper.getReadableDatabase();
@@ -285,11 +324,49 @@ public class DbTask {
 
             };
             Cursor c = db.query(
-                    DbContract.FeedProduct.TABLE_NAME,  // The table to query
+                    DbContract.FeedShoppingCart.TABLE_NAME,  // The table to query
                     projection,                               // The columns to return
-                    DbContract.FeedShoppingCart.COLUMN_NAME_UID +"=? and "
-                            +DbContract.FeedShoppingCart.COLUMN_NAME_S_STATUS+"=?",  // The columns for the WHERE clause
-                    new String[]{ uid+"",valid} ,             // The values for the WHERE clause
+                    DbContract.FeedShoppingCart.COLUMN_NAME_UID + "=? and "
+                            + DbContract.FeedShoppingCart.COLUMN_NAME_S_STATUS + "=?",  // The columns for the WHERE clause
+                    new String[]{uid + "", valid},             // The values for the WHERE clause
+                    null,                                     // don't group the rows
+                    null,                                     // don't filter by row groups
+                    null,                                 // The sort order
+                    String.valueOf(10)                                 // The limit
+            );
+            List<ShoppingCart> list = new ArrayList<ShoppingCart>();
+            c.moveToFirst();
+            while (!c.isAfterLast()) {
+                ShoppingCart o = new ShoppingCart();
+                o.setSid(c.getInt(c.getColumnIndex(DbContract.FeedShoppingCart.COLUMN_NAME_SID)));
+                o.setUid(c.getInt(c.getColumnIndex(DbContract.FeedShoppingCart.COLUMN_NAME_UID)));
+                o.setS_amount(c.getDouble(c.getColumnIndex(DbContract.FeedShoppingCart.COLUMN_NAME_S_AMOUNT)));
+                o.setS_status(c.getString(c.getColumnIndex(DbContract.FeedShoppingCart.COLUMN_NAME_S_STATUS)));
+                o.setS_created_at(c.getString(c.getColumnIndex(DbContract.FeedShoppingCart.COLUMN_NAME_S_CREATED_AT)));
+
+                list.add(o);
+                c.moveToNext();
+            }
+            Log.i(TAG, "products: " + list);
+            return list;
+        }
+        public List<ShoppingCart> querySid(int sid) {
+            MyDbHelper mDbHelper = new MyDbHelper(mContext);
+            SQLiteDatabase db = mDbHelper.getReadableDatabase();
+            String[] projection = {
+                    DbContract.FeedShoppingCart.COLUMN_NAME_SID,
+                    DbContract.FeedShoppingCart.COLUMN_NAME_UID,
+                    DbContract.FeedShoppingCart.COLUMN_NAME_S_STATUS,
+                    DbContract.FeedShoppingCart.COLUMN_NAME_S_AMOUNT,
+                    DbContract.FeedShoppingCart.COLUMN_NAME_S_CREATED_AT,
+
+            };
+            Cursor c = db.query(
+                    DbContract.FeedShoppingCart.TABLE_NAME,  // The table to query
+                    projection,                               // The columns to return
+                    DbContract.FeedShoppingCart.COLUMN_NAME_SID + "=? and "
+                            + DbContract.FeedShoppingCart.COLUMN_NAME_S_STATUS + "=?",  // The columns for the WHERE clause
+                    new String[]{sid + "", valid},             // The values for the WHERE clause
                     null,                                     // don't group the rows
                     null,                                     // don't filter by row groups
                     null,                                 // The sort order
@@ -342,9 +419,33 @@ public class DbTask {
                 values.put(DbContract.FeedShoppingCartDetail.COLUMN_NAME_SD_CREATED_AT, o.getSd_created_at());
                 // Insert the new row, returning the primary key value of the new row
                 long newRowId;
-                newRowId = db.insert(DbContract.FeedProduct.TABLE_NAME, null, values);
+                newRowId = db.insert(DbContract.FeedShoppingCartDetail.TABLE_NAME, null, values);
             }
             return true;
+        }
+
+        public int insert(ShoppingCartDetail o) {
+            if (o == null) {
+                return -1;
+            }
+            MyDbHelper mDbHelper = new MyDbHelper(mContext);
+            // Gets the data repository in write mode
+            SQLiteDatabase db = mDbHelper.getWritableDatabase();
+            // Create a new map of values, where column names are the keys
+            ContentValues values = new ContentValues();
+            values.put(DbContract.FeedShoppingCartDetail.COLUMN_NAME_SDID, o.getSdid());
+            values.put(DbContract.FeedShoppingCartDetail.COLUMN_NAME_SID, o.getSid());
+            values.put(DbContract.FeedShoppingCartDetail.COLUMN_NAME_PID, o.getPid());
+            values.put(DbContract.FeedShoppingCartDetail.COLUMN_NAME_P_NAME, o.getP_name());
+            values.put(DbContract.FeedShoppingCartDetail.COLUMN_NAME_P_PRICE, o.getP_price());
+            values.put(DbContract.FeedShoppingCartDetail.COLUMN_NAME_P_CODE, o.getP_code());
+            values.put(DbContract.FeedShoppingCartDetail.COLUMN_NAME_P_DESCRIPTION, o.getP_description());
+            values.put(DbContract.FeedShoppingCartDetail.COLUMN_NAME_SD_QUANTITY, o.getSd_quantity());
+            values.put(DbContract.FeedShoppingCartDetail.COLUMN_NAME_SD_SUBAMOUNT, o.getSd_subamount());
+            values.put(DbContract.FeedShoppingCartDetail.COLUMN_NAME_SD_CREATED_AT, o.getSd_created_at());
+            // Insert the new row, returning the primary key value of the new row
+            int newRowId = (int)db.insert(DbContract.FeedShoppingCartDetail.TABLE_NAME, null, values);
+            return newRowId;
         }
 
         public Boolean update(List<ShoppingCartDetail> objs) {
@@ -369,13 +470,39 @@ public class DbTask {
                 values.put(DbContract.FeedShoppingCartDetail.COLUMN_NAME_SD_SUBAMOUNT, o.getSd_subamount());
                 values.put(DbContract.FeedShoppingCartDetail.COLUMN_NAME_SD_CREATED_AT, o.getSd_created_at());
                 long newRowId;
-                newRowId = db.update(DbContract.FeedProduct.TABLE_NAME, values, DbContract.FeedProduct.COLUMN_NAME_PID + "=?", new String[]{o.getSdid() + ""});
+                newRowId = db.update(DbContract.FeedShoppingCartDetail.TABLE_NAME, values, DbContract.FeedShoppingCartDetail.COLUMN_NAME_SDID + "=?", new String[]{o.getSdid() + ""});
                 count += newRowId;
             }
             if (count == objs.size()) {
                 return true;
             }
             return false;
+        }
+
+        public int update(ShoppingCartDetail o) {
+            if (o == null) {
+                return -1;
+            }
+            MyDbHelper mDbHelper = new MyDbHelper(mContext);
+            // Gets the data repository in write mode
+            SQLiteDatabase db = mDbHelper.getWritableDatabase();
+            // Create a new map of values, where column names are the keys
+            int count = 0;
+
+            ContentValues values = new ContentValues();
+            values.put(DbContract.FeedShoppingCartDetail.COLUMN_NAME_SDID, o.getSdid());
+            values.put(DbContract.FeedShoppingCartDetail.COLUMN_NAME_SID, o.getSid());
+            values.put(DbContract.FeedShoppingCartDetail.COLUMN_NAME_PID, o.getPid());
+            values.put(DbContract.FeedShoppingCartDetail.COLUMN_NAME_P_NAME, o.getP_name());
+            values.put(DbContract.FeedShoppingCartDetail.COLUMN_NAME_P_PRICE, o.getP_price());
+            values.put(DbContract.FeedShoppingCartDetail.COLUMN_NAME_P_CODE, o.getP_code());
+            values.put(DbContract.FeedShoppingCartDetail.COLUMN_NAME_P_DESCRIPTION, o.getP_description());
+            values.put(DbContract.FeedShoppingCartDetail.COLUMN_NAME_SD_QUANTITY, o.getSd_quantity());
+            values.put(DbContract.FeedShoppingCartDetail.COLUMN_NAME_SD_SUBAMOUNT, o.getSd_subamount());
+            values.put(DbContract.FeedShoppingCartDetail.COLUMN_NAME_SD_CREATED_AT, o.getSd_created_at());
+            int newRowId = db.update(DbContract.FeedShoppingCartDetail.TABLE_NAME, values, DbContract.FeedShoppingCartDetail.COLUMN_NAME_SDID + "=?", new String[]{o.getSdid() + ""});
+
+            return newRowId;
         }
 
         public List<ShoppingCartDetail> query() {
@@ -395,7 +522,7 @@ public class DbTask {
 
             };
             Cursor c = db.query(
-                    DbContract.FeedProduct.TABLE_NAME,  // The table to query
+                    DbContract.FeedShoppingCartDetail.TABLE_NAME,  // The table to query
                     projection,                               // The columns to return
                     null,                                // The columns for the WHERE clause
                     null,                            // The values for the WHERE clause
@@ -426,7 +553,7 @@ public class DbTask {
             return list;
         }
 
-        public List<ShoppingCartDetail> query(int sid) {
+        public List<ShoppingCartDetail> query(int sdid) {
             MyDbHelper mDbHelper = new MyDbHelper(mContext);
             SQLiteDatabase db = mDbHelper.getReadableDatabase();
             String[] projection = {
@@ -443,10 +570,10 @@ public class DbTask {
 
             };
             Cursor c = db.query(
-                    DbContract.FeedProduct.TABLE_NAME,  // The table to query
+                    DbContract.FeedShoppingCartDetail.TABLE_NAME,  // The table to query
                     projection,                               // The columns to return
-                    DbContract.FeedShoppingCartDetail.COLUMN_NAME_SID+"=?",                                // The columns for the WHERE clause
-                    new String[]{sid+""},                            // The values for the WHERE clause
+                    DbContract.FeedShoppingCartDetail.COLUMN_NAME_SDID + "=?",                                // The columns for the WHERE clause
+                    new String[]{sdid + ""},                            // The values for the WHERE clause
                     null,                                     // don't group the rows
                     null,                                     // don't filter by row groups
                     null,                                 // The sort order

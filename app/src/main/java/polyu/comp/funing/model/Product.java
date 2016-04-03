@@ -1,13 +1,15 @@
 package polyu.comp.funing.model;
 
 import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by liushanchen on 16/3/18.
  */
 public class Product implements Serializable {
- 
-   
+
+
     private int pid;
     private String p_code;
     private String p_name;
@@ -105,4 +107,15 @@ public class Product implements Serializable {
                 '}';
     }
 
+    public Map<String, String> toMap() {
+        Map<String, String> map = new HashMap<String, String>();
+        map.put("pid", pid + "");
+        map.put("p_code", p_code);
+        map.put("p_name", p_name);
+        map.put("p_description", p_description);
+        map.put("p_quantity", p_quantity + "");
+        map.put("p_price", p_price + "");
+        return map;
+
+    }
 }

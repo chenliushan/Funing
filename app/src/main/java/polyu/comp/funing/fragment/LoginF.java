@@ -19,6 +19,7 @@ import polyu.comp.funing.DbTask.DbTask;
 import polyu.comp.funing.R;
 import polyu.comp.funing.activities.RegisterA;
 import polyu.comp.funing.constant.CommonConstant;
+import polyu.comp.funing.model.ScDbProcess;
 import polyu.comp.funing.model.ShoppingCart;
 import polyu.comp.funing.model.ShoppingCartDetail;
 import polyu.comp.funing.model.User;
@@ -79,6 +80,10 @@ public class LoginF extends Fragment implements View.OnClickListener {
         call.enqueue(new Callback<LoginR>() {
             @Override
             public void onResponse(Call<LoginR> call, Response<LoginR> response) {
+                if(response.body().getError()!=CommonConstant.noError){
+                    CommonUtils.show(getActivity().getApplicationContext(),response.body().getMessage());
+                    return;
+                }
                 if (response.body().getError() == 0) {
                     User u = new User();
                     u.setEmail(email);
@@ -113,29 +118,17 @@ public class LoginF extends Fragment implements View.OnClickListener {
         call.enqueue(new Callback<ShoppingCartR>() {
             @Override
             public void onResponse(Call<ShoppingCartR> call, Response<ShoppingCartR> response) {
+                if(response.body().getError()!=CommonConstant.noError){
+                    CommonUtils.show(getActivity().getApplicationContext(),response.body().getMessage());
+                    return;
+                }
                 List<ShoppingCart> shoppingCarts=response.body().getShoppingcarts();
-                List<ShoppingCartDetail> shoppingCartDetails=shoppingCarts.get(0).getShoppingcartdetails();
                 CommonConstant.userId = shoppingCarts.get(0).getUid();
-
                 if(shoppingCarts==null||shoppingCarts.size()==0){
                     createUserShoppingCart();
                 }else{
-                    boolean db;
-                    DbTask.DbShoppingCart dbShoppingCart= new DbTask.DbShoppingCart(getActivity());
-                    DbTask.DbShoppingCartDetail dbShoppingCartDetail= new DbTask.DbShoppingCartDetail(getActivity());
-                    if(dbShoppingCart.query()!=null){
-                        db=dbShoppingCart.update(shoppingCarts);
-                        if(db){
-                            dbShoppingCartDetail.update(shoppingCartDetails);
-                        }
-                        Log.i(TAG,"dbShoppingCart: "+db);
-                    }else{
-                        db=dbShoppingCart.insert(shoppingCarts);
-                        if(db){
-                            dbShoppingCartDetail.insert(shoppingCartDetails);
-                        }
-                        Log.i(TAG,"dbShoppingCart: "+db);
-                    }
+                    ScDbProcess.NewScDbProcess(getActivity().getApplicationContext()).scDbStore(shoppingCarts);
+
                 }
             }
 
@@ -151,7 +144,12 @@ public class LoginF extends Fragment implements View.OnClickListener {
         call.enqueue(new Callback<ShoppingCartR>() {
             @Override
             public void onResponse(Call<ShoppingCartR> call, Response<ShoppingCartR> response) {
-                
+                if(response.body().getError()!=CommonConstant.noError){
+                    CommonUtils.show(getActivity().getApplicationContext(),response.body().getMessage());
+                    return;
+                }
+                List<ShoppingCart> shoppingCarts=response.body().getShoppingcarts();
+                ScDbProcess.NewScDbProcess(getActivity().getApplicationContext()).scDbStore(shoppingCarts);
             }
 
             @Override

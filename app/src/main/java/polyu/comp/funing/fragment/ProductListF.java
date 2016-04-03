@@ -25,6 +25,7 @@ import polyu.comp.funing.constant.CommonConstant;
 import polyu.comp.funing.model.Product;
 import polyu.comp.funing.service.ApiService;
 import polyu.comp.funing.service.ProductListR;
+import polyu.comp.funing.utils.CommonUtils;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -58,6 +59,10 @@ public class ProductListF extends Fragment implements SwipeRefreshLayout.OnRefre
         Callback<ProductListR> productListRCallback = new Callback<ProductListR>() {
             @Override
             public void onResponse(Call<ProductListR> call, Response<ProductListR> response) {
+                if(response.body().getError()!=CommonConstant.noError){
+                    CommonUtils.show(getActivity().getApplicationContext(),response.body().getMessage());
+                    return;
+                }
                 Log.i(TAG, "response: " + response.body().toString());
                 productListAdapter.setMyList(response.body().getProducts());
                 productList.setAdapter(productListAdapter);

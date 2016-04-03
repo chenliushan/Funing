@@ -23,7 +23,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activities.MainActivity"></activity>
+        <activity android:name=".activities.MainActivity" android:launchMode="singleTask"></activity>
         <activity android:name=".activities.ProductDetailA"></activity>
         <activity android:name=".activities.RegisterA"></activity>
     </application>

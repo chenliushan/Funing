@@ -13,16 +13,25 @@ public class CommonConstant {
     
     public static String preferenceName = "Funing";
     public static String applicationContext = "applicationContext";
+    public static int noError = 0;
     
     public static String apiKey = null;
     public static int userId = -1;
     
     public static String applicationDir = "";
-    public static String product_key = "record";
+    public static final String product_key = "record";
+    public static final String mainActivityF_key = "fragment";
+    public static final String F_login = "Login";
+    public static final String F_coupon = "Coupons";
+    public static final String F_product = "Products";
+    public static final String F_sc = "My Basket";
+    public static final String F_order = "Order History";
 
     public static String valid="valid";
     public static String invalid="invalid";
     public static String used="used";
+    
+    
 
     
     public static class UserConstant{
