@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -118,8 +119,8 @@ public class LoginF extends Fragment implements View.OnClickListener {
         call.enqueue(new Callback<ShoppingCartR>() {
             @Override
             public void onResponse(Call<ShoppingCartR> call, Response<ShoppingCartR> response) {
-                if(response.body().getError()!=CommonConstant.noError){
-                    CommonUtils.show(getActivity().getApplicationContext(),response.body().getMessage());
+                if (response.body() == null || response.errorBody() != null) {
+                    CommonUtils.show(getActivity().getApplicationContext(), getString(R.string.fail));
                     return;
                 }
                 List<ShoppingCart> shoppingCarts=response.body().getShoppingcarts();
@@ -144,8 +145,8 @@ public class LoginF extends Fragment implements View.OnClickListener {
         call.enqueue(new Callback<ShoppingCartR>() {
             @Override
             public void onResponse(Call<ShoppingCartR> call, Response<ShoppingCartR> response) {
-                if(response.body().getError()!=CommonConstant.noError){
-                    CommonUtils.show(getActivity().getApplicationContext(),response.body().getMessage());
+                if (response.body() == null || response.errorBody() != null) {
+                    CommonUtils.show(getActivity().getApplicationContext(), getString(R.string.fail));
                     return;
                 }
                 List<ShoppingCart> shoppingCarts=response.body().getShoppingcarts();

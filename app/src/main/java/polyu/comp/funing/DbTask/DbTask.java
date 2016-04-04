@@ -20,6 +20,24 @@ import polyu.comp.funing.model.ShoppingCartDetail;
  */
 public class DbTask {
     private static String TAG = DbTask.class.getSimpleName();
+    private static SQLiteDatabase db =null;
+    private static DbTask dbTask=null;
+
+    private DbTask(Context context) {
+        if(dbTask==null){
+            MyDbHelper mDbHelper = new MyDbHelper(context);
+            this.db=mDbHelper.getWritableDatabase();
+        }
+        this.dbTask=this;
+    }
+    public static DbTask getDbTask(Context context){
+        if(dbTask!=null){
+            Log.i(TAG,"static db:"+dbTask.db.toString());
+            return dbTask;
+        }else{
+            return new DbTask(context);
+        }
+    }
 
     public static class DbCoupon extends AsyncTask<Coupon, Integer, Boolean> {
         private Context mContext;
@@ -27,6 +45,10 @@ public class DbTask {
 
         public DbCoupon(Context context) {
             this.mContext = context;
+            if(db==null){
+                // Gets the data repository in write mode
+                
+            }
         }
 
         @Override
@@ -35,8 +57,8 @@ public class DbTask {
                 return false;
             }
             MyDbHelper mDbHelper = new MyDbHelper(mContext);
-            // Gets the data repository in write mode
-            SQLiteDatabase db = mDbHelper.getWritableDatabase();
+           
+           
             // Create a new map of values, where column names are the keys
 
             for (Coupon c : coupons) {
@@ -66,20 +88,20 @@ public class DbTask {
     }
 
     public static class DbProduct {
-        private Context mContext;
+       
 
         public DbProduct(Context context) {
-            this.mContext = context;
+           getDbTask(context);
         }
 
         public Boolean DbProductInsert(List<Product> objs) {
             if (objs == null) {
                 return false;
             }
-            MyDbHelper mDbHelper = new MyDbHelper(mContext);
-            // Gets the data repository in write mode
-            SQLiteDatabase db = mDbHelper.getWritableDatabase();
-            // Create a new map of values, where column names are the keys
+//            MyDbHelper mDbHelper = new MyDbHelper(mContext);
+//            // Gets the data repository in write mode
+//            SQLiteDatabase db = mDbHelper.getWritableDatabase();
+//            // Create a new map of values, where column names are the keys
 
             for (Product o : objs) {
                 ContentValues values = new ContentValues();
@@ -103,10 +125,7 @@ public class DbTask {
             if (objs == null) {
                 return false;
             }
-            MyDbHelper mDbHelper = new MyDbHelper(mContext);
-            // Gets the data repository in write mode
-            SQLiteDatabase db = mDbHelper.getWritableDatabase();
-            // Create a new map of values, where column names are the keys
+           
             int count = 0;
             for (Product o : objs) {
                 ContentValues values = new ContentValues();
@@ -120,20 +139,19 @@ public class DbTask {
                 values.put(DbContract.FeedProduct.COLUMN_NAME_P_TYPE, o.getP_type());
                 values.put(DbContract.FeedProduct.COLUMN_NAME_P_CREATEDAT, o.getP_createdAt());
                 // Insert the new row, returning the primary key value of the new row
-                long newRowId;
-                newRowId = db.update(DbContract.FeedProduct.TABLE_NAME, values, DbContract.FeedProduct.COLUMN_NAME_PID + "=?", new String[]{o.getPid() + ""});
-                count += newRowId;
+                count += (int)db.update(DbContract.FeedProduct.TABLE_NAME, values, DbContract.FeedProduct.COLUMN_NAME_PID + "=?", new String[]{o.getPid() + ""});
+               
             }
             if (count == objs.size()) {
                 return true;
+            }else{
+                return false;
             }
-            return false;
+            
         }
 
         public List<Product> DbProductQuery() {
-            MyDbHelper mDbHelper = new MyDbHelper(mContext);
-            // Gets the data repository in write mode
-            SQLiteDatabase db = mDbHelper.getReadableDatabase();
+           
             // Define a projection that specifies which columns from the database
             // you will actually use after this query.
             String[] projection = {
@@ -184,17 +202,14 @@ public class DbTask {
 
 
         public DbShoppingCart(Context mContext) {
-            this.mContext = mContext;
+            getDbTask(mContext);
         }
 
         public Boolean insert(List<ShoppingCart> objs) {
             if (objs == null) {
                 return false;
             }
-            MyDbHelper mDbHelper = new MyDbHelper(mContext);
-            // Gets the data repository in write mode
-            SQLiteDatabase db = mDbHelper.getWritableDatabase();
-            // Create a new map of values, where column names are the keys
+           
 
             for (ShoppingCart o : objs) {
                 ContentValues values = new ContentValues();
@@ -213,10 +228,7 @@ public class DbTask {
             if (o == null) {
                 return -1;
             }
-            MyDbHelper mDbHelper = new MyDbHelper(mContext);
-            // Gets the data repository in write mode
-            SQLiteDatabase db = mDbHelper.getWritableDatabase();
-            // Create a new map of values, where column names are the keys
+            
 
                 ContentValues values = new ContentValues();
                 values.put(DbContract.FeedShoppingCart.COLUMN_NAME_SID, o.getSid());
@@ -233,10 +245,7 @@ public class DbTask {
             if (objs == null) {
                 return false;
             }
-            MyDbHelper mDbHelper = new MyDbHelper(mContext);
-            // Gets the data repository in write mode
-            SQLiteDatabase db = mDbHelper.getWritableDatabase();
-            // Create a new map of values, where column names are the keys
+            
             int count = 0;
             for (ShoppingCart o : objs) {
                 ContentValues values = new ContentValues();
@@ -258,10 +267,7 @@ public class DbTask {
             if (o == null) {
                 return -1;
             }
-            MyDbHelper mDbHelper = new MyDbHelper(mContext);
-            // Gets the data repository in write mode
-            SQLiteDatabase db = mDbHelper.getWritableDatabase();
-            // Create a new map of values, where column names are the keys
+           
             int count = 0;
                 ContentValues values = new ContentValues();
                 values.put(DbContract.FeedShoppingCart.COLUMN_NAME_SID, o.getSid());
@@ -275,8 +281,7 @@ public class DbTask {
         }
 
         public List<ShoppingCart> query() {
-            MyDbHelper mDbHelper = new MyDbHelper(mContext);
-            SQLiteDatabase db = mDbHelper.getReadableDatabase();
+            
             String[] projection = {
                     DbContract.FeedShoppingCart.COLUMN_NAME_SID,
                     DbContract.FeedShoppingCart.COLUMN_NAME_UID,
@@ -313,8 +318,7 @@ public class DbTask {
         }
 
         public List<ShoppingCart> query(int uid) {
-            MyDbHelper mDbHelper = new MyDbHelper(mContext);
-            SQLiteDatabase db = mDbHelper.getReadableDatabase();
+           
             String[] projection = {
                     DbContract.FeedShoppingCart.COLUMN_NAME_SID,
                     DbContract.FeedShoppingCart.COLUMN_NAME_UID,
@@ -351,8 +355,7 @@ public class DbTask {
             return list;
         }
         public List<ShoppingCart> querySid(int sid) {
-            MyDbHelper mDbHelper = new MyDbHelper(mContext);
-            SQLiteDatabase db = mDbHelper.getReadableDatabase();
+           
             String[] projection = {
                     DbContract.FeedShoppingCart.COLUMN_NAME_SID,
                     DbContract.FeedShoppingCart.COLUMN_NAME_UID,
@@ -401,10 +404,7 @@ public class DbTask {
             if (objs == null) {
                 return false;
             }
-            MyDbHelper mDbHelper = new MyDbHelper(mContext);
-            // Gets the data repository in write mode
-            SQLiteDatabase db = mDbHelper.getWritableDatabase();
-            // Create a new map of values, where column names are the keys
+            
             for (ShoppingCartDetail o : objs) {
                 ContentValues values = new ContentValues();
                 values.put(DbContract.FeedShoppingCartDetail.COLUMN_NAME_SDID, o.getSdid());
@@ -428,10 +428,7 @@ public class DbTask {
             if (o == null) {
                 return -1;
             }
-            MyDbHelper mDbHelper = new MyDbHelper(mContext);
-            // Gets the data repository in write mode
-            SQLiteDatabase db = mDbHelper.getWritableDatabase();
-            // Create a new map of values, where column names are the keys
+           
             ContentValues values = new ContentValues();
             values.put(DbContract.FeedShoppingCartDetail.COLUMN_NAME_SDID, o.getSdid());
             values.put(DbContract.FeedShoppingCartDetail.COLUMN_NAME_SID, o.getSid());
@@ -452,10 +449,7 @@ public class DbTask {
             if (objs == null) {
                 return false;
             }
-            MyDbHelper mDbHelper = new MyDbHelper(mContext);
-            // Gets the data repository in write mode
-            SQLiteDatabase db = mDbHelper.getWritableDatabase();
-            // Create a new map of values, where column names are the keys
+           
             int count = 0;
             for (ShoppingCartDetail o : objs) {
                 ContentValues values = new ContentValues();
@@ -483,10 +477,7 @@ public class DbTask {
             if (o == null) {
                 return -1;
             }
-            MyDbHelper mDbHelper = new MyDbHelper(mContext);
-            // Gets the data repository in write mode
-            SQLiteDatabase db = mDbHelper.getWritableDatabase();
-            // Create a new map of values, where column names are the keys
+           
             int count = 0;
 
             ContentValues values = new ContentValues();
@@ -506,8 +497,7 @@ public class DbTask {
         }
 
         public List<ShoppingCartDetail> query() {
-            MyDbHelper mDbHelper = new MyDbHelper(mContext);
-            SQLiteDatabase db = mDbHelper.getReadableDatabase();
+          
             String[] projection = {
                     DbContract.FeedShoppingCartDetail.COLUMN_NAME_SDID,
                     DbContract.FeedShoppingCartDetail.COLUMN_NAME_SID,
@@ -554,8 +544,7 @@ public class DbTask {
         }
 
         public List<ShoppingCartDetail> query(int sdid) {
-            MyDbHelper mDbHelper = new MyDbHelper(mContext);
-            SQLiteDatabase db = mDbHelper.getReadableDatabase();
+            
             String[] projection = {
                     DbContract.FeedShoppingCartDetail.COLUMN_NAME_SDID,
                     DbContract.FeedShoppingCartDetail.COLUMN_NAME_SID,

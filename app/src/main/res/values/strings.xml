@@ -2,6 +2,7 @@
     <string name="app_name">Funing 芬宁</string>
     <string name="empty_listview">Oops, cannot connect to the server, please refresh later.</string>
     <string name="empty">Oops, there is nothing.</string>
+    <string name="empty_shopping_cart">Your Basket is empty.</string>
    
     <string name="email_hint">EMAIL</string>
     <string name="password_hint">PASSWORD</string>
@@ -14,8 +15,10 @@
     <string name="is_user">I am already a user</string>
     <string name="not_user">New customer</string>
     <string name="login_first">Please Login First</string>
+    <string name="num_input">Please input numbers.</string>
     
     <string name="processing">Processing ...</string>
+    <string name="fail">Request fail ...</string>
     
     <string name="coupon_f">My Coupons</string>
     <string name="valid_cp">Valid Coupon</string>
@@ -28,4 +31,5 @@
     
     <string name="sc_amount">Amount: HK$ </string>
     <string name="shopping_cart_f">Basket</string>
+    <string name="decrease_quantity">Please click the delete button to drop the product.</string>
 </resources>

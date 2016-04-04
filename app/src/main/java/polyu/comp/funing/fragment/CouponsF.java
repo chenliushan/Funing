@@ -1,7 +1,6 @@
 package polyu.comp.funing.fragment;
 
 import android.app.Fragment;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -19,7 +18,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import polyu.comp.funing.R;
-import polyu.comp.funing.activities.MainActivity;
 import polyu.comp.funing.adapter.CouponListAdapter;
 import polyu.comp.funing.constant.CommonConstant;
 import polyu.comp.funing.service.ApiService;
@@ -40,7 +38,7 @@ public class CouponsF extends Fragment implements SwipeRefreshLayout.OnRefreshLi
     private CouponListAdapter couponListAdapter;
     private TextView validCP;
     private TextView notValidCP;
-    
+
 
     @Nullable
     @Override
@@ -75,37 +73,32 @@ public class CouponsF extends Fragment implements SwipeRefreshLayout.OnRefreshLi
     private void getCoupons(final String if_valid) {
         Map<String, String> options = new HashMap<String, String>();
         options.put("uc_status", if_valid);
-        if (CommonConstant.apiKey == null) {
-            CommonUtils.show(getActivity(), getResources().getString(R.string.login_first));
-            Intent intent = new Intent();
-            intent.setClass(getActivity(), MainActivity.class);
-            intent.putExtra(CommonConstant.mainActivityF_key, CommonConstant.F_login);
-            startActivity(intent);
-        } else {
+        if(CommonUtils.ifLogin(getActivity())){
             Call<UserCouponR> call = ApiService.Creator.create().getCouponList(options, CommonConstant.apiKey);
             Callback<UserCouponR> callback = new Callback<UserCouponR>() {
                 @Override
                 public void onResponse(Call<UserCouponR> call, Response<UserCouponR> response) {
-                    if(response.body().isError()){
-                        CommonUtils.show(getActivity().getApplicationContext(),response.body().getMessage());
+                    if (response.body() == null || response.errorBody() != null) {
+                        CommonUtils.show(getActivity().getApplicationContext(), getString(R.string.fail));
                         return;
                     }
                     Log.i(TAG, "response: " + response.body().toString());
-                    if(if_valid.equals(CommonConstant.used)){
+                    if (if_valid.equals(CommonConstant.used)) {
                         couponListAdapter.updateMyList(response.body().getCouponList());
                         superListview.setAdapter(couponListAdapter);
                         superListview.hideProgress();
                         superListview.hideMoreProgress();
-                    }else {
+                    } else {
                         couponListAdapter.setMyList(response.body().getCouponList());
                         superListview.setAdapter(couponListAdapter);
                         superListview.hideProgress();
                         superListview.hideMoreProgress();
                     }
-                    if (couponListAdapter.getMyList().size()<=0) {
+                    if (couponListAdapter.getMyList().size() <= 0) {
                         CommonUtils.show(getActivity(), getResources().getString(R.string.empty));
                     }
                 }
+
                 @Override
                 public void onFailure(Call<UserCouponR> call, Throwable t) {
                     superListview.hideProgress();

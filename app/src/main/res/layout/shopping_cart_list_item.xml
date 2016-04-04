@@ -15,19 +15,45 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textColor="@color/colorPrimaryDark" />
 
-    <EditText
+    <TextView
+        android:id="@+id/sc_quantity_decrease"
+        android:layout_width="@dimen/shopping_cart_delete_height"
+        android:layout_height="@dimen/shopping_cart_delete_height"
+        android:background="@color/gray"
+        android:gravity="center"
+        android:text="-"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <TextView
         android:id="@+id/sc_quantity"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="2" />
+        android:text="--"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:layout_marginLeft="@dimen/margin_m"
+        android:layout_marginRight="@dimen/margin_m"
+        android:textColor="@color/gray_line" />
+
+    <TextView
+        android:id="@+id/sc_quantity_add"
+        android:layout_width="@dimen/shopping_cart_delete_height"
+        android:layout_height="@dimen/shopping_cart_delete_height"
+        android:background="@color/gray"
+        android:gravity="center"
+        android:text="+"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+
+        />
 
     <TextView
         android:id="@+id/sc_p_price"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="2"
+        android:layout_marginLeft="@dimen/margin_l"
+        android:layout_marginRight="@dimen/margin_l"
         android:text="$--.--"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@color/gray_line" />
 
     <TextView
         android:id="@+id/sc_delete_p"

@@ -15,6 +15,7 @@ import android.widget.LinearLayout;
 import com.quentindommerc.superlistview.OnMoreListener;
 import com.quentindommerc.superlistview.SuperListview;
 
+import java.io.IOException;
 import java.util.List;
 
 import polyu.comp.funing.DbTask.DbTask;
@@ -59,8 +60,8 @@ public class ProductListF extends Fragment implements SwipeRefreshLayout.OnRefre
         Callback<ProductListR> productListRCallback = new Callback<ProductListR>() {
             @Override
             public void onResponse(Call<ProductListR> call, Response<ProductListR> response) {
-                if(response.body().getError()!=CommonConstant.noError){
-                    CommonUtils.show(getActivity().getApplicationContext(),response.body().getMessage());
+                if (response.body() == null || response.errorBody() != null) {
+                    CommonUtils.show(getActivity().getApplicationContext(), getString(R.string.fail));
                     return;
                 }
                 Log.i(TAG, "response: " + response.body().toString());

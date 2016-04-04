@@ -53,7 +53,7 @@ public class ShoppingCartF extends Fragment implements OnMoreListener, AdapterVi
 
     private void initView() {
         getActivity().setTitle(getResources().getString(R.string.product_f));
-        listview = (SuperListview) getActivity().findViewById(R.id.product_list);
+        listview = (SuperListview) getActivity().findViewById(R.id.shopping_cart_list);
 //        recordList.getList().addHeaderView(headView);
         scDetailAdapter = new ScDetailAdapter(getActivity().getApplication());
         listview.setAdapter(scDetailAdapter);
@@ -80,46 +80,51 @@ public class ShoppingCartF extends Fragment implements OnMoreListener, AdapterVi
     }
 
     private void getUserShoppingCart() {
-        Map<String, String> options = new HashMap<String, String>();
-        options.put("s_status", CommonConstant.valid);
+        if (CommonUtils.ifLogin(getActivity())) {
+            Map<String, String> options = new HashMap<String, String>();
+            options.put("s_status", CommonConstant.valid);
 
-        Call<ShoppingCartR> call = ApiService.Creator.create().getShoppingCart(options, CommonConstant.apiKey);
-        call.enqueue(new Callback<ShoppingCartR>() {
-            @Override
-            public void onResponse(Call<ShoppingCartR> call, Response<ShoppingCartR> response) {
-                if(response.body().getError()!=CommonConstant.noError){
-                    CommonUtils.show(getActivity().getApplicationContext(),response.body().getMessage());
-                    return;
+            Call<ShoppingCartR> call = ApiService.Creator.create().getShoppingCart(options, CommonConstant.apiKey);
+            call.enqueue(new Callback<ShoppingCartR>() {
+                @Override
+                public void onResponse(Call<ShoppingCartR> call, Response<ShoppingCartR> response) {
+                    listview.hideProgress();
+                    listview.hideMoreProgress();
+                    if (response.body() == null || response.errorBody() != null) {
+                        CommonUtils.show(getActivity().getApplicationContext(), getString(R.string.fail));
+                        return;
+                    }
+                    List<ShoppingCart> shoppingCarts = response.body().getShoppingcarts();
+                    List<ShoppingCartDetail> shoppingCartDetails = shoppingCarts.get(0).getShoppingcartdetails();
+                    if (shoppingCarts == null || shoppingCarts.size() == 0) {
+                        createUserShoppingCart();
+                        CommonUtils.show(getActivity(), getResources().getString(R.string.empty_shopping_cart));
+                    } else {
+                        scDetailAdapter.setMyList(shoppingCartDetails);
+                        listview.setAdapter(scDetailAdapter);
+
+                        /**
+                         * update local database
+                         */
+                        ScDbProcess.NewScDbProcess(getActivity().getApplicationContext()).scDbStore(shoppingCarts);
+                    }
                 }
-                List<ShoppingCart> shoppingCarts = response.body().getShoppingcarts();
-                List<ShoppingCartDetail> shoppingCartDetails = shoppingCarts.get(0).getShoppingcartdetails();
-                if (shoppingCarts == null || shoppingCarts.size() == 0) {
-                    createUserShoppingCart();
-                } else {
-                    scDetailAdapter.setMyList(shoppingCartDetails);
-                    listview.setAdapter(scDetailAdapter);
+
+                @Override
+                public void onFailure(Call<ShoppingCartR> call, Throwable t) {
+                    Log.e(TAG, "failure:" + t.toString());
                     listview.hideProgress();
                     listview.hideMoreProgress();
                     /**
-                     * update local database
+                     * read data from local database.
                      */
-                    ScDbProcess.NewScDbProcess(getActivity().getApplicationContext()).scDbStore(shoppingCarts);
+                    List<ShoppingCartDetail> shoppingCartDetails = ScDbProcess.NewScDbProcess(getActivity().getApplicationContext()).scDbGetLocalScD();
+                    scDetailAdapter.setMyList(shoppingCartDetails);
+                    listview.setAdapter(scDetailAdapter);
                 }
-            }
-
-            @Override
-            public void onFailure(Call<ShoppingCartR> call, Throwable t) {
-                Log.e(TAG, "failure:" + t.toString());
-                listview.hideProgress();
-                listview.hideMoreProgress();
-                /**
-                 * read data from local database.
-                 */
-                List<ShoppingCartDetail> shoppingCartDetails = ScDbProcess.NewScDbProcess(getActivity().getApplicationContext()).scDbGetLocalScD();
-                scDetailAdapter.setMyList(shoppingCartDetails);
-                listview.setAdapter(scDetailAdapter);
-            }
-        });
+            });
+        }
+        
     }
 
     private void createUserShoppingCart() {
@@ -128,8 +133,8 @@ public class ShoppingCartF extends Fragment implements OnMoreListener, AdapterVi
         call.enqueue(new Callback<ShoppingCartR>() {
             @Override
             public void onResponse(Call<ShoppingCartR> call, Response<ShoppingCartR> response) {
-                if(response.body().getError()!=CommonConstant.noError){
-                    CommonUtils.show(getActivity().getApplicationContext(),response.body().getMessage());
+                if (response.body().getError() != CommonConstant.noError) {
+                    CommonUtils.show(getActivity().getApplicationContext(), response.body().getMessage());
                     return;
                 }
                 List<ShoppingCart> shoppingCarts = response.body().getShoppingcarts();
