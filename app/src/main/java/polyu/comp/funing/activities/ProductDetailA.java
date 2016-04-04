@@ -56,7 +56,11 @@ public class ProductDetailA extends AppCompatActivity implements View.OnClickLis
         price = (TextView) findViewById(R.id.pd_price);
         description = (TextView) findViewById(R.id.pd_description);
         quantity = (EditText) findViewById(R.id.quantity);
-        Picasso.with(this).load(product.getP_image_url()).into(img);
+        if(product.getP_image_url()!=null){
+            Picasso.with(this).load(product.getP_image_url()).into(img);
+        }else{
+            img.setVisibility(View.GONE);
+        }
         name.setText(product.getP_name());
         price.setText("$ " + product.getP_price());
         description.setText(product.getP_description());

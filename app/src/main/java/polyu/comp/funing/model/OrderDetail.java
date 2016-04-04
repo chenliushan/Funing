@@ -31,6 +31,20 @@ public class OrderDetail {
     private String od_created_at;
     private int oid;
 
+    public OrderDetail() {
+        
+    }
+
+    public OrderDetail(ShoppingCartDetail scd) {
+        this.pid = scd.getPid();
+        this.p_code = scd.getP_code();
+        this.p_name = scd.getP_name();
+        this.p_price = scd.getP_price();
+        this.p_description =scd.getP_description() ;
+        this.od_quantity = scd.getSd_quantity();
+        this.od_subamount = scd.getSd_subamount();
+    }
+
     public int getOdid() {
         return odid;
     }

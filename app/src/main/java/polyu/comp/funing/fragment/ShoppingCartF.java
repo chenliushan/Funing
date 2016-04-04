@@ -1,6 +1,7 @@
 package polyu.comp.funing.fragment;
 
 import android.app.Fragment;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -9,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.TextView;
 
 import com.quentindommerc.superlistview.OnMoreListener;
 import com.quentindommerc.superlistview.SuperListview;
@@ -18,8 +20,11 @@ import java.util.List;
 import java.util.Map;
 
 import polyu.comp.funing.R;
+import polyu.comp.funing.activities.CreateOrderA;
+import polyu.comp.funing.activities.ProductDetailA;
 import polyu.comp.funing.adapter.ScDetailAdapter;
 import polyu.comp.funing.constant.CommonConstant;
+import polyu.comp.funing.model.Product;
 import polyu.comp.funing.model.ScDbProcess;
 import polyu.comp.funing.model.ShoppingCart;
 import polyu.comp.funing.model.ShoppingCartDetail;
@@ -31,12 +36,16 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 
+
 /**
  * Created by liushanchen on 16/3/31.
  */
-public class ShoppingCartF extends Fragment implements OnMoreListener, AdapterView.OnItemClickListener, SwipeRefreshLayout.OnRefreshListener {
+public class ShoppingCartF extends Fragment implements  AdapterView.OnItemClickListener, View.OnClickListener {
     private SuperListview listview;
+    private TextView checkOut;
+    private TextView amount;
     private ScDetailAdapter scDetailAdapter;
+    private ShoppingCart shoppingCart;
     private static String TAG = ShoppingCartF.class.getSimpleName();
 
     @Nullable
@@ -54,7 +63,9 @@ public class ShoppingCartF extends Fragment implements OnMoreListener, AdapterVi
     private void initView() {
         getActivity().setTitle(getResources().getString(R.string.product_f));
         listview = (SuperListview) getActivity().findViewById(R.id.shopping_cart_list);
-//        recordList.getList().addHeaderView(headView);
+        checkOut = (TextView) getActivity().findViewById(R.id.checkout_img);
+        amount = (TextView) getActivity().findViewById(R.id.amount);
+        checkOut.setOnClickListener(this);
         scDetailAdapter = new ScDetailAdapter(getActivity());
         listview.setAdapter(scDetailAdapter);
         getUserShoppingCart();
@@ -62,20 +73,26 @@ public class ShoppingCartF extends Fragment implements OnMoreListener, AdapterVi
         listview.setOnItemClickListener(this);
     }
 
-    @Override
-    public void onMoreAsked(int numberOfItems, int numberBeforeMore, int currentItemPos) {
-
-    }
-
+    /**
+     * when user click the item, jump to the product detail activity and display the product information.
+     * @param parent
+     * @param view
+     * @param position
+     * @param id
+     */
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
+        ShoppingCartDetail record = (ShoppingCartDetail) parent.getItemAtPosition(position);
+        Product product=record.getProduct();
+        Intent intent = new Intent();
+        intent.setClass(getActivity().getApplication(), ProductDetailA.class);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(CommonConstant.product_key, product);
+        intent.putExtras(bundle);
+        startActivity(intent);
     }
 
-    @Override
-    public void onRefresh() {
-
-    }
+   
 
     private void getUserShoppingCart() {
         if (CommonUtils.ifLogin(getActivity())) {
@@ -93,13 +110,15 @@ public class ShoppingCartF extends Fragment implements OnMoreListener, AdapterVi
                         return;
                     }
                     List<ShoppingCart> shoppingCarts = response.body().getShoppingcarts();
-                    List<ShoppingCartDetail> shoppingCartDetails = shoppingCarts.get(0).getShoppingcartdetails();
                     if (shoppingCarts == null || shoppingCarts.size() == 0) {
                         createUserShoppingCart();
                         CommonUtils.show(getActivity(), getResources().getString(R.string.empty_shopping_cart));
                     } else {
+                        shoppingCart=shoppingCarts.get(0);
+                        List<ShoppingCartDetail> shoppingCartDetails = shoppingCart.getShoppingcartdetails();
                         scDetailAdapter.setMyList(shoppingCartDetails);
                         listview.setAdapter(scDetailAdapter);
+                        amount.setText(CommonUtils.calTotalPrice(shoppingCartDetails)+"");
 
                         /**
                          * update local database
@@ -133,11 +152,12 @@ public class ShoppingCartF extends Fragment implements OnMoreListener, AdapterVi
             public void onResponse(Call<ShoppingCartR> call, Response<ShoppingCartR> response) {
                 listview.hideProgress();
                 listview.hideMoreProgress();
-                if (response.body().getError() != CommonConstant.noError) {
-                    CommonUtils.show(getActivity().getApplicationContext(), response.body().getMessage());
+                if (response.body() == null || response.errorBody() != null) {
+                    CommonUtils.show(getActivity().getApplicationContext(), getString(R.string.fail));
                     return;
                 }
                 List<ShoppingCart> shoppingCarts = response.body().getShoppingcarts();
+                shoppingCart=shoppingCarts.get(0);
                 ScDbProcess.NewScDbProcess(getActivity().getApplicationContext()).scDbStore(shoppingCarts);
 
             }
@@ -147,5 +167,16 @@ public class ShoppingCartF extends Fragment implements OnMoreListener, AdapterVi
 
             }
         });
+    }
+   
+
+    @Override
+    public void onClick(View v) {
+        Intent intent = new Intent();
+        intent.setClass(getActivity().getApplication(), CreateOrderA.class);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(CommonConstant.shopping_cart_key, shoppingCart);
+        intent.putExtras(bundle);
+        startActivity(intent);
     }
 }

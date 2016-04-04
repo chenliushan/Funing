@@ -17,7 +17,7 @@ public class LoginR {
     private String email;
     private String apiKey;
     private String createdAt;
-    
+
 
     public int getError() {
         return error;

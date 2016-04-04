@@ -1,12 +1,13 @@
 package polyu.comp.funing.model;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
 /**
  * Created by liushanchen on 16/3/26.
  */
-public class ShoppingCartDetail {
+public class ShoppingCartDetail implements Serializable {
     /**
      * CREATE TABLE IF NOT EXISTS `shoppingcart_detail` (
      * `sdid` int(11) NOT NULL AUTO_INCREMENT,
@@ -23,7 +24,7 @@ public class ShoppingCartDetail {
      * UNIQUE KEY `scdid` (`sdid`)
      * ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
      */
-    private int sdid=-1;
+    private int sdid = -1;
     private int sid;
     private int pid;
     private String p_code;
@@ -125,6 +126,7 @@ public class ShoppingCartDetail {
         this.sd_created_at = sd_created_at;
     }
 
+
     @Override
     public String toString() {
         return "ShoppingCartDetail{" +
@@ -140,22 +142,37 @@ public class ShoppingCartDetail {
                 ", sd_created_at='" + sd_created_at + '\'' +
                 '}';
     }
-    
+
     public Map<String, String> toMap() {
         Map<String, String> map = new HashMap<String, String>();
         map.put("sdid", sdid + "");
-        map.put("sid", sid+"");
-        map.put("pid", pid+"");
+        map.put("sid", sid + "");
+        map.put("pid", pid + "");
         map.put("p_code", p_code);
-        map.put("p_name", p_name );
+        map.put("p_name", p_name);
         map.put("p_price", p_price + "");
         map.put("sd_subamount", sd_subamount + "");
         map.put("p_description", p_description + "");
         map.put("sd_quantity", sd_quantity + "");
         map.put("sd_created_at", sd_created_at + "");
-        
+
         return map;
 
     }
-   
+
+    public Product getProduct() {
+        Product product = new Product();
+        product.setP_code(p_code);
+        product.setP_name(p_name);
+        product.setP_description(p_description);
+        product.setP_price(p_price);
+        product.setPid(pid);
+        return product;
+
+    }
+    public OrderDetail  getOrderDetial(){
+        OrderDetail od=new OrderDetail(this);
+        return od;
+    }
+
 }

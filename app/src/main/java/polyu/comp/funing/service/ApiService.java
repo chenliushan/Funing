@@ -25,6 +25,7 @@ import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Path;
 import retrofit2.http.QueryMap;
 
@@ -53,7 +54,11 @@ public interface ApiService {
     @POST("shoppingcart_detail")
     Call<ScDetailR> createScDetail(@FieldMap Map<String, String> options,@Header("Authorization") String authorization);
 
-   
+    @FormUrlEncoded
+    @PUT("shoppingcart_detail")
+    Call<ScDetailR> updateScDetail(@FieldMap Map<String, String> options,@Header("Authorization") String authorization);
+
+
     @DELETE("shoppingcart_detail/{sdid}")
     Call<ScDetailR> deleteScDetail(@Path("sdid") int sdid,@Header("Authorization") String authorization);
 

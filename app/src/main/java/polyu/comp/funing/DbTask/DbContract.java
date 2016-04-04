@@ -163,7 +163,7 @@ public final class DbContract {
 
     public static abstract class FeedOrder implements BaseColumns {
 
-        public static final String TABLE_NAME = "order";
+        public static final String TABLE_NAME = "order_t";
         public static final String COLUMN_NAME_OID = "oid";
         public static final String COLUMN_NAME_O_AMOUNT = "o_amount";
         public static final String COLUMN_NAME_O_STATUS = "o_status";

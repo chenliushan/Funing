@@ -19,7 +19,8 @@ public class CommonConstant {
     public static int userId = -1;
     
     public static String applicationDir = "";
-    public static final String product_key = "record";
+    public static final String product_key = "product";
+    public static final String shopping_cart_key = "shopping_cart";
     public static final String mainActivityF_key = "fragment";
     public static final String F_login = "Login";
     public static final String F_coupon = "Coupons";
@@ -27,9 +28,10 @@ public class CommonConstant {
     public static final String F_sc = "My Basket";
     public static final String F_order = "Order History";
 
-    public static String valid="valid";
-    public static String invalid="invalid";
-    public static String used="used";
+    public static final String valid="valid";
+    public static final String invalid="invalid";
+    public static final String used="used";
+    public static final String couponTypeCash="cash";
     
     
 

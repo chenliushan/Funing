@@ -11,16 +11,20 @@ import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 import polyu.comp.funing.R;
 import polyu.comp.funing.activities.MainActivity;
 import polyu.comp.funing.constant.CommonConstant;
+import polyu.comp.funing.model.Coupon;
+import polyu.comp.funing.model.ShoppingCartDetail;
 import polyu.comp.funing.model.User;
 
 /**
  * Created by liushanchen on 16/3/25.
  */
 public class CommonUtils {
+
     public static void show(Context context, String info) {
         Toast.makeText(context, info, Toast.LENGTH_LONG).show();
     }
@@ -130,5 +134,27 @@ public class CommonUtils {
             return false;
         }
         return true;
+    }
+
+    public static double calTotalPrice(List<ShoppingCartDetail> ds) {
+        double amount = 0;
+        for (ShoppingCartDetail d : ds) {
+            amount += d.getP_price() * d.getSd_quantity();
+        }
+        return amount;
+    }
+
+    public static double calActualPrice(Coupon c, double total) {
+        double actual = 0;
+
+        if (c != null && c.getC_discount_detail() != -1) {
+            double d = c.getC_discount_detail();
+            if (c.getC_discount_type().equals(CommonConstant.couponTypeCash)) {
+                actual = total - d;
+            } else {
+                actual = total * (1 - d);
+            }
+        }
+        return actual;
     }
 }

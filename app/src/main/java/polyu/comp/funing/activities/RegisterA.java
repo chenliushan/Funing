@@ -106,8 +106,11 @@ public class RegisterA extends AppCompatActivity implements View.OnClickListener
                 User u = new User();
                 u.setEmail(email.getText().toString());
                 u.setPassword(psw.getText().toString());
+                u.setName(name.getText().toString());
+                u.setAddress(address.getText().toString());
+                u.setPhone(phone.getText().toString());
                 CommonUtils.setUser(getApplicationContext(), u);
-                CommonUtils.show(getApplicationContext(), "Success");
+                CommonUtils.show(getApplicationContext(), getString(R.string.success));
                 Intent intent = new Intent();
                 intent.setClass(getApplicationContext(), MainActivity.class);
                 startActivity(intent);

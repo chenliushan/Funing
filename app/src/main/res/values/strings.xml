@@ -20,6 +20,8 @@
     <string name="processing">Processing ...</string>
     <string name="fail">Request fail ...</string>
     <string name="success">Request success.</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Cansel</string>
     
     <string name="coupon_f">My Coupons</string>
     <string name="valid_cp">Valid Coupon</string>
@@ -33,4 +35,18 @@
     <string name="sc_amount">Amount: HK$ </string>
     <string name="shopping_cart_f">Basket</string>
     <string name="decrease_quantity">Please click the delete button to drop the product.</string>
+
+    <string name="order_shipping">Shipping Information</string>
+    <string name="shipping_name">The shipping name: </string>
+    <string name="shipping_phone">The shipping phone: </string>
+    <string name="shipping_email">The shipping email: </string>
+    <string name="shipping_address">The shipping address: </string>
+    <string name="order_coupon">Coupons Information</string>
+    <string name="coupon_select">Select a Coupon ... </string>
+    <string name="order_products">Products Information</string>
+    <string name="order_ready">Ready to Order</string>
+    <string name="order_total">Total Amount: </string>
+    <string name="order_actual">Actual Amount: </string>
+
+
 </resources>

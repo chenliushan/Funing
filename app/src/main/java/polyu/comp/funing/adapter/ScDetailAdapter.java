@@ -159,7 +159,7 @@ public class ScDetailAdapter extends BaseAdapter {
         shoppingCartDetail.setSd_subamount(quantity*shoppingCartDetail.getP_price());
         Map<String, String> options = shoppingCartDetail.toMap();
         
-        Call<ScDetailR> call = ApiService.Creator.create().createScDetail(options, CommonConstant.apiKey);
+        Call<ScDetailR> call = ApiService.Creator.create().updateScDetail(options, CommonConstant.apiKey);
         call.enqueue(new Callback<ScDetailR>() {
             @Override
             public void onResponse(Call<ScDetailR> call, Response<ScDetailR> response) {
@@ -177,4 +177,5 @@ public class ScDetailAdapter extends BaseAdapter {
             }
         });
     }
+  
 }

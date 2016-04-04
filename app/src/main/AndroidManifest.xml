@@ -26,6 +26,7 @@
         <activity android:name=".activities.MainActivity" android:launchMode="singleTask"></activity>
         <activity android:name=".activities.ProductDetailA"></activity>
         <activity android:name=".activities.RegisterA"></activity>
+        <activity android:name=".activities.CreateOrderA"></activity>
     </application>
 
 </manifest>

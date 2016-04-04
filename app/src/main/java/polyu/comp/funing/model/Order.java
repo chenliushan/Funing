@@ -1,5 +1,7 @@
 package polyu.comp.funing.model;
 
+import java.util.List;
+
 /**
  * Created by liushanchen on 16/4/4.
  */
@@ -28,8 +30,21 @@ public class Order {
     private String address;
     private String phone;
     private String email;
-    private int ucid;
+    private int ucid;//coupon
     private String o_created_at;
+    private List<OrderDetail> orderdetails;
+
+    public Order() {
+        
+    }
+
+    public Order(User u) {
+        this.uid = u.getUid();
+        this.name = u.getName();
+        this.address = u.getAddress();
+        this.phone = u.getPhone();
+        this.email = u.getEmail();
+    }
 
     public int getOid() {
         return oid;
@@ -111,6 +126,14 @@ public class Order {
         this.o_created_at = o_created_at;
     }
 
+    public List<OrderDetail> getOrderdetails() {
+        return orderdetails;
+    }
+
+    public void setOrderdetails(List<OrderDetail> orderdetails) {
+        this.orderdetails = orderdetails;
+    }
+
     @Override
     public String toString() {
         return "Order{" +
@@ -124,6 +147,7 @@ public class Order {
                 ", email='" + email + '\'' +
                 ", ucid=" + ucid +
                 ", o_created_at='" + o_created_at + '\'' +
+                ", orderdetails=" + orderdetails +
                 '}';
     }
 }

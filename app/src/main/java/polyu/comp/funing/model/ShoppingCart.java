@@ -1,11 +1,15 @@
 package polyu.comp.funing.model;
 
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
+
+import polyu.comp.funing.fragment.LoginF;
 
 /**
  * Created by liushanchen on 16/3/26.
  */
-public class ShoppingCart {
+public class ShoppingCart implements Serializable {
     /**
      * CREATE TABLE IF NOT EXISTS `shoppingcart` (
      `sid` int(11) NOT NULL AUTO_INCREMENT,
@@ -73,6 +77,17 @@ public class ShoppingCart {
         this.shoppingcartdetails = shoppingcartdetails;
     }
 
+    public List<OrderDetail> getOrderDetails() {
+        List<OrderDetail> orderDetails=new ArrayList<OrderDetail>();
+        if(shoppingcartdetails!=null){
+            for(ShoppingCartDetail d:shoppingcartdetails){
+                orderDetails.add(d.getOrderDetial());
+            }
+        }
+        return orderDetails;
+    }
+
+    
     @Override
     public String toString() {
         return "ShoppingCart{" +

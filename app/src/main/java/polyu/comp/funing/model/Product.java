@@ -16,7 +16,7 @@ public class Product implements Serializable {
     private String p_description;
     private int p_quantity;
     private double p_price;
-    private String p_image_url;
+    private String p_image_url=null;
     private String p_type;
     private String p_createdAt;
 

@@ -14,7 +14,7 @@ public class Coupon {
     private String uc_expired_at;
     private String c_created_at;
     private String c_discount_type;
-    private double c_discount_detail;
+    private double c_discount_detail=-1;
 
     public int getCid() {
         return cid;
