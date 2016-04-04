@@ -55,11 +55,9 @@ public class ShoppingCartF extends Fragment implements OnMoreListener, AdapterVi
         getActivity().setTitle(getResources().getString(R.string.product_f));
         listview = (SuperListview) getActivity().findViewById(R.id.shopping_cart_list);
 //        recordList.getList().addHeaderView(headView);
-        scDetailAdapter = new ScDetailAdapter(getActivity().getApplication());
+        scDetailAdapter = new ScDetailAdapter(getActivity());
         listview.setAdapter(scDetailAdapter);
         getUserShoppingCart();
-        listview.setRefreshListener(this);
-        listview.setupMoreListener(this, 0);
         listview.hideMoreProgress();
         listview.setOnItemClickListener(this);
     }
@@ -133,6 +131,8 @@ public class ShoppingCartF extends Fragment implements OnMoreListener, AdapterVi
         call.enqueue(new Callback<ShoppingCartR>() {
             @Override
             public void onResponse(Call<ShoppingCartR> call, Response<ShoppingCartR> response) {
+                listview.hideProgress();
+                listview.hideMoreProgress();
                 if (response.body().getError() != CommonConstant.noError) {
                     CommonUtils.show(getActivity().getApplicationContext(), response.body().getMessage());
                     return;

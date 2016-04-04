@@ -92,7 +92,7 @@ public class LoginF extends Fragment implements View.OnClickListener {
                     u.setApi_key(response.body().getApiKey());
                     u.setCreated_at(response.body().getCreatedAt());
                     CommonUtils.setUser(getActivity(), u);
-                    CommonUtils.show(getActivity(), "success");
+                    CommonUtils.show(getActivity(), getString(R.string.success));
                     CommonConstant.apiKey = response.body().getApiKey();
                     getUserShoppingCart();
                     //go to user_info fragment

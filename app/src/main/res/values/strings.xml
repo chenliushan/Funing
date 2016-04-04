@@ -19,6 +19,7 @@
     
     <string name="processing">Processing ...</string>
     <string name="fail">Request fail ...</string>
+    <string name="success">Request success.</string>
     
     <string name="coupon_f">My Coupons</string>
     <string name="valid_cp">Valid Coupon</string>

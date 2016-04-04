@@ -1,5 +1,8 @@
 package polyu.comp.funing.model;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Created by liushanchen on 16/3/26.
  */
@@ -137,4 +140,22 @@ public class ShoppingCartDetail {
                 ", sd_created_at='" + sd_created_at + '\'' +
                 '}';
     }
+    
+    public Map<String, String> toMap() {
+        Map<String, String> map = new HashMap<String, String>();
+        map.put("sdid", sdid + "");
+        map.put("sid", sid+"");
+        map.put("pid", pid+"");
+        map.put("p_code", p_code);
+        map.put("p_name", p_name );
+        map.put("p_price", p_price + "");
+        map.put("sd_subamount", sd_subamount + "");
+        map.put("p_description", p_description + "");
+        map.put("sd_quantity", sd_quantity + "");
+        map.put("sd_created_at", sd_created_at + "");
+        
+        return map;
+
+    }
+   
 }

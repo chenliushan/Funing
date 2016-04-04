@@ -102,7 +102,7 @@ public class ProductListF extends Fragment implements SwipeRefreshLayout.OnRefre
         getActivity().setTitle(getResources().getString(R.string.product_f));
         productList = (SuperListview) getActivity().findViewById(R.id.product_list);
 //        recordList.getList().addHeaderView(headView);
-        productListAdapter = new ProductListAdapter(getActivity().getApplication());
+        productListAdapter = new ProductListAdapter(getActivity());
         productList.setAdapter(productListAdapter);
         getProductList(myPage);
         productList.setRefreshListener(this);

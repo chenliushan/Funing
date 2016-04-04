@@ -20,21 +20,22 @@ import polyu.comp.funing.model.ShoppingCartDetail;
  */
 public class DbTask {
     private static String TAG = DbTask.class.getSimpleName();
-    private static SQLiteDatabase db =null;
-    private static DbTask dbTask=null;
+    private static SQLiteDatabase db = null;
+    private static DbTask dbTask = null;
 
     private DbTask(Context context) {
-        if(dbTask==null){
+        if (dbTask == null) {
             MyDbHelper mDbHelper = new MyDbHelper(context);
-            this.db=mDbHelper.getWritableDatabase();
+            this.db = mDbHelper.getWritableDatabase();
         }
-        this.dbTask=this;
+        this.dbTask = this;
     }
-    public static DbTask getDbTask(Context context){
-        if(dbTask!=null){
-            Log.i(TAG,"static db:"+dbTask.db.toString());
+
+    public static DbTask getDbTask(Context context) {
+        if (dbTask != null) {
+            Log.i(TAG, "static db:" + dbTask.db.toString());
             return dbTask;
-        }else{
+        } else {
             return new DbTask(context);
         }
     }
@@ -45,9 +46,9 @@ public class DbTask {
 
         public DbCoupon(Context context) {
             this.mContext = context;
-            if(db==null){
+            if (db == null) {
                 // Gets the data repository in write mode
-                
+
             }
         }
 
@@ -57,8 +58,8 @@ public class DbTask {
                 return false;
             }
             MyDbHelper mDbHelper = new MyDbHelper(mContext);
-           
-           
+
+
             // Create a new map of values, where column names are the keys
 
             for (Coupon c : coupons) {
@@ -88,10 +89,10 @@ public class DbTask {
     }
 
     public static class DbProduct {
-       
+
 
         public DbProduct(Context context) {
-           getDbTask(context);
+            getDbTask(context);
         }
 
         public Boolean DbProductInsert(List<Product> objs) {
@@ -125,7 +126,7 @@ public class DbTask {
             if (objs == null) {
                 return false;
             }
-           
+
             int count = 0;
             for (Product o : objs) {
                 ContentValues values = new ContentValues();
@@ -139,19 +140,19 @@ public class DbTask {
                 values.put(DbContract.FeedProduct.COLUMN_NAME_P_TYPE, o.getP_type());
                 values.put(DbContract.FeedProduct.COLUMN_NAME_P_CREATEDAT, o.getP_createdAt());
                 // Insert the new row, returning the primary key value of the new row
-                count += (int)db.update(DbContract.FeedProduct.TABLE_NAME, values, DbContract.FeedProduct.COLUMN_NAME_PID + "=?", new String[]{o.getPid() + ""});
-               
+                count += (int) db.update(DbContract.FeedProduct.TABLE_NAME, values, DbContract.FeedProduct.COLUMN_NAME_PID + "=?", new String[]{o.getPid() + ""});
+
             }
             if (count == objs.size()) {
                 return true;
-            }else{
+            } else {
                 return false;
             }
-            
+
         }
 
         public List<Product> DbProductQuery() {
-           
+
             // Define a projection that specifies which columns from the database
             // you will actually use after this query.
             String[] projection = {
@@ -209,7 +210,7 @@ public class DbTask {
             if (objs == null) {
                 return false;
             }
-           
+
 
             for (ShoppingCart o : objs) {
                 ContentValues values = new ContentValues();
@@ -224,20 +225,21 @@ public class DbTask {
             }
             return true;
         }
+
         public int insert(ShoppingCart o) {
             if (o == null) {
                 return -1;
             }
-            
 
-                ContentValues values = new ContentValues();
-                values.put(DbContract.FeedShoppingCart.COLUMN_NAME_SID, o.getSid());
-                values.put(DbContract.FeedShoppingCart.COLUMN_NAME_UID, o.getUid());
-                values.put(DbContract.FeedShoppingCart.COLUMN_NAME_S_AMOUNT, o.getS_amount());
-                values.put(DbContract.FeedShoppingCart.COLUMN_NAME_S_STATUS, o.getS_status());
-                values.put(DbContract.FeedShoppingCart.COLUMN_NAME_S_CREATED_AT, o.getS_created_at());
-                // Insert the new row, returning the primary key value of the new row
-              int  newRowId =(int) db.insert(DbContract.FeedShoppingCart.TABLE_NAME, null, values);
+
+            ContentValues values = new ContentValues();
+            values.put(DbContract.FeedShoppingCart.COLUMN_NAME_SID, o.getSid());
+            values.put(DbContract.FeedShoppingCart.COLUMN_NAME_UID, o.getUid());
+            values.put(DbContract.FeedShoppingCart.COLUMN_NAME_S_AMOUNT, o.getS_amount());
+            values.put(DbContract.FeedShoppingCart.COLUMN_NAME_S_STATUS, o.getS_status());
+            values.put(DbContract.FeedShoppingCart.COLUMN_NAME_S_CREATED_AT, o.getS_created_at());
+            // Insert the new row, returning the primary key value of the new row
+            int newRowId = (int) db.insert(DbContract.FeedShoppingCart.TABLE_NAME, null, values);
             return newRowId;
         }
 
@@ -245,7 +247,7 @@ public class DbTask {
             if (objs == null) {
                 return false;
             }
-            
+
             int count = 0;
             for (ShoppingCart o : objs) {
                 ContentValues values = new ContentValues();
@@ -263,25 +265,26 @@ public class DbTask {
             }
             return false;
         }
+
         public int update(ShoppingCart o) {
             if (o == null) {
                 return -1;
             }
-           
+
             int count = 0;
-                ContentValues values = new ContentValues();
-                values.put(DbContract.FeedShoppingCart.COLUMN_NAME_SID, o.getSid());
-                values.put(DbContract.FeedShoppingCart.COLUMN_NAME_UID, o.getUid());
-                values.put(DbContract.FeedShoppingCart.COLUMN_NAME_S_AMOUNT, o.getS_amount());
-                values.put(DbContract.FeedShoppingCart.COLUMN_NAME_S_STATUS, o.getS_status());
-                values.put(DbContract.FeedShoppingCart.COLUMN_NAME_S_CREATED_AT, o.getS_created_at());
-               int newRowId = db.update(DbContract.FeedShoppingCart.TABLE_NAME, values, DbContract.FeedShoppingCart.COLUMN_NAME_SID + "=?", new String[]{o.getSid() + ""});
+            ContentValues values = new ContentValues();
+            values.put(DbContract.FeedShoppingCart.COLUMN_NAME_SID, o.getSid());
+            values.put(DbContract.FeedShoppingCart.COLUMN_NAME_UID, o.getUid());
+            values.put(DbContract.FeedShoppingCart.COLUMN_NAME_S_AMOUNT, o.getS_amount());
+            values.put(DbContract.FeedShoppingCart.COLUMN_NAME_S_STATUS, o.getS_status());
+            values.put(DbContract.FeedShoppingCart.COLUMN_NAME_S_CREATED_AT, o.getS_created_at());
+            int newRowId = db.update(DbContract.FeedShoppingCart.TABLE_NAME, values, DbContract.FeedShoppingCart.COLUMN_NAME_SID + "=?", new String[]{o.getSid() + ""});
             Log.i(TAG, "update-ShoppingCart: " + newRowId);
             return newRowId;
         }
 
         public List<ShoppingCart> query() {
-            
+
             String[] projection = {
                     DbContract.FeedShoppingCart.COLUMN_NAME_SID,
                     DbContract.FeedShoppingCart.COLUMN_NAME_UID,
@@ -318,7 +321,7 @@ public class DbTask {
         }
 
         public List<ShoppingCart> query(int uid) {
-           
+
             String[] projection = {
                     DbContract.FeedShoppingCart.COLUMN_NAME_SID,
                     DbContract.FeedShoppingCart.COLUMN_NAME_UID,
@@ -354,8 +357,9 @@ public class DbTask {
             Log.i(TAG, "query-uid-ShoppingCart: " + list);
             return list;
         }
+
         public List<ShoppingCart> querySid(int sid) {
-           
+
             String[] projection = {
                     DbContract.FeedShoppingCart.COLUMN_NAME_SID,
                     DbContract.FeedShoppingCart.COLUMN_NAME_UID,
@@ -400,11 +404,21 @@ public class DbTask {
             this.mContext = mContext;
         }
 
+        public boolean delete(int sdid) {
+            if (sdid == -1) {
+                return false;
+            }
+            if (db.delete(DbContract.FeedShoppingCartDetail.TABLE_NAME, DbContract.FeedShoppingCartDetail.COLUMN_NAME_SDID + "=?", new String[]{sdid + ""}) > 0) {
+                return true;
+            }
+            return false;
+        }
+
         public Boolean insert(List<ShoppingCartDetail> objs) {
             if (objs == null) {
                 return false;
             }
-            
+
             for (ShoppingCartDetail o : objs) {
                 ContentValues values = new ContentValues();
                 values.put(DbContract.FeedShoppingCartDetail.COLUMN_NAME_SDID, o.getSdid());
@@ -428,7 +442,7 @@ public class DbTask {
             if (o == null) {
                 return -1;
             }
-           
+
             ContentValues values = new ContentValues();
             values.put(DbContract.FeedShoppingCartDetail.COLUMN_NAME_SDID, o.getSdid());
             values.put(DbContract.FeedShoppingCartDetail.COLUMN_NAME_SID, o.getSid());
@@ -441,15 +455,16 @@ public class DbTask {
             values.put(DbContract.FeedShoppingCartDetail.COLUMN_NAME_SD_SUBAMOUNT, o.getSd_subamount());
             values.put(DbContract.FeedShoppingCartDetail.COLUMN_NAME_SD_CREATED_AT, o.getSd_created_at());
             // Insert the new row, returning the primary key value of the new row
-            int newRowId = (int)db.insert(DbContract.FeedShoppingCartDetail.TABLE_NAME, null, values);
+            int newRowId = (int) db.insert(DbContract.FeedShoppingCartDetail.TABLE_NAME, null, values);
             return newRowId;
         }
+
 
         public Boolean update(List<ShoppingCartDetail> objs) {
             if (objs == null) {
                 return false;
             }
-           
+
             int count = 0;
             for (ShoppingCartDetail o : objs) {
                 ContentValues values = new ContentValues();
@@ -477,7 +492,7 @@ public class DbTask {
             if (o == null) {
                 return -1;
             }
-           
+
             int count = 0;
 
             ContentValues values = new ContentValues();
@@ -497,7 +512,7 @@ public class DbTask {
         }
 
         public List<ShoppingCartDetail> query() {
-          
+
             String[] projection = {
                     DbContract.FeedShoppingCartDetail.COLUMN_NAME_SDID,
                     DbContract.FeedShoppingCartDetail.COLUMN_NAME_SID,
@@ -544,7 +559,7 @@ public class DbTask {
         }
 
         public List<ShoppingCartDetail> query(int sdid) {
-            
+
             String[] projection = {
                     DbContract.FeedShoppingCartDetail.COLUMN_NAME_SDID,
                     DbContract.FeedShoppingCartDetail.COLUMN_NAME_SID,

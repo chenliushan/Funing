@@ -107,4 +107,7 @@ public class ScDbProcess {
 
         }
     }
+    public boolean deleteDetail(int sdid) {
+       return dbShoppingCartDetail.delete(sdid);
+    }
 }

@@ -19,6 +19,7 @@ import polyu.comp.funing.constant.CommonConstant;
 import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.http.DELETE;
 import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
@@ -51,6 +52,10 @@ public interface ApiService {
     @FormUrlEncoded
     @POST("shoppingcart_detail")
     Call<ScDetailR> createScDetail(@FieldMap Map<String, String> options,@Header("Authorization") String authorization);
+
+   
+    @DELETE("shoppingcart_detail/{sdid}")
+    Call<ScDetailR> deleteScDetail(@Path("sdid") int sdid,@Header("Authorization") String authorization);
 
     @GET("products")
     Call<ProductListR> getProductList();

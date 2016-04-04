@@ -11,12 +11,21 @@ import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import polyu.comp.funing.R;
+import polyu.comp.funing.constant.CommonConstant;
 import polyu.comp.funing.model.Product;
+import polyu.comp.funing.model.ScDbProcess;
 import polyu.comp.funing.model.ShoppingCartDetail;
+import polyu.comp.funing.service.ApiService;
+import polyu.comp.funing.service.ScDetailR;
 import polyu.comp.funing.utils.CommonUtils;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 
 /**
@@ -95,7 +104,7 @@ public class ScDetailAdapter extends BaseAdapter {
         deleteT.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                deleteProductFromSc();
+                deleteProductFromSc(item.getSdid());
                 myList.remove(position);
                 notifyDataSetChanged();
             }
@@ -123,11 +132,49 @@ public class ScDetailAdapter extends BaseAdapter {
         this.myList.addAll(myList);
     }
 
-    private void deleteProductFromSc() {
+    private void deleteProductFromSc(final int sdid) {
+        Call<ScDetailR> call = ApiService.Creator.create().deleteScDetail(sdid, CommonConstant.apiKey);
+        call.enqueue(new Callback<ScDetailR>() {
+            @Override
+            public void onResponse(Call<ScDetailR> call, Response<ScDetailR> response) {
+               
+                if (response.body() == null || response.errorBody() != null) {
+                    CommonUtils.show(context,context.getString(R.string.fail));
+                    return;
+                } else {
+                    ScDbProcess.NewScDbProcess(context).deleteDetail(sdid);
+                    CommonUtils.show(context,context.getString(R.string.success));
 
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ScDetailR> call, Throwable t) {
+                CommonUtils.show(context,context.getString(R.string.fail));
+            }
+        });
     }
-    private void updateScDetail(int quantity, ShoppingCartDetail shoppingCartDetail) {
+    private void updateScDetail(int quantity, final ShoppingCartDetail shoppingCartDetail) {
         shoppingCartDetail.setSd_quantity(quantity);
+        shoppingCartDetail.setSd_subamount(quantity*shoppingCartDetail.getP_price());
+        Map<String, String> options = shoppingCartDetail.toMap();
         
+        Call<ScDetailR> call = ApiService.Creator.create().createScDetail(options, CommonConstant.apiKey);
+        call.enqueue(new Callback<ScDetailR>() {
+            @Override
+            public void onResponse(Call<ScDetailR> call, Response<ScDetailR> response) {
+                if (response.body() == null || response.errorBody() != null) {
+                    CommonUtils.show(context,context.getString(R.string.fail));
+                    return;
+                } else {
+                    ScDbProcess.NewScDbProcess(context).updateScDetail(shoppingCartDetail);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ScDetailR> call, Throwable t) {
+                CommonUtils.show(context,context.getString(R.string.fail));
+            }
+        });
     }
 }
