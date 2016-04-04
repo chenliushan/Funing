@@ -173,14 +173,14 @@ public class DbTask {
                 products.add(o);
                 c.moveToNext();
             }
-            Log.i(TAG, "products: " + products);
+            Log.i(TAG, "DbProductQuery-products: " + products);
             return products;
         }
     }
 
     public static class DbShoppingCart {
         private Context mContext;
-        private String valid = "valid";
+        private String valid = "Valid";
 
 
         public DbShoppingCart(Context mContext) {
@@ -270,7 +270,7 @@ public class DbTask {
                 values.put(DbContract.FeedShoppingCart.COLUMN_NAME_S_STATUS, o.getS_status());
                 values.put(DbContract.FeedShoppingCart.COLUMN_NAME_S_CREATED_AT, o.getS_created_at());
                int newRowId = db.update(DbContract.FeedShoppingCart.TABLE_NAME, values, DbContract.FeedShoppingCart.COLUMN_NAME_SID + "=?", new String[]{o.getSid() + ""});
-            
+            Log.i(TAG, "update-ShoppingCart: " + newRowId);
             return newRowId;
         }
 
@@ -308,7 +308,7 @@ public class DbTask {
                 list.add(o);
                 c.moveToNext();
             }
-            Log.i(TAG, "products: " + list);
+            Log.i(TAG, "query-ShoppingCart: " + list);
             return list;
         }
 
@@ -347,7 +347,7 @@ public class DbTask {
                 list.add(o);
                 c.moveToNext();
             }
-            Log.i(TAG, "products: " + list);
+            Log.i(TAG, "query-uid-ShoppingCart: " + list);
             return list;
         }
         public List<ShoppingCart> querySid(int sid) {
@@ -385,7 +385,7 @@ public class DbTask {
                 list.add(o);
                 c.moveToNext();
             }
-            Log.i(TAG, "products: " + list);
+            Log.i(TAG, "querySid-ShoppingCart: " + list);
             return list;
         }
     }

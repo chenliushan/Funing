@@ -44,27 +44,14 @@ public class ScDbProcess {
             Log.e(TAG, "CommonConstant.userId==-1");
             return db;
         }
-//        if (dbShoppingCart.query(CommonConstant.userId).size() > 0) {
-//            db = dbShoppingCart.update(shoppingCarts);
-//            Log.e(TAG, "dbShoppingCart-update:" + db);
-//
-//        } else {
-//            db = dbShoppingCart.insert(shoppingCarts);
-//            Log.e(TAG, "dbShoppingCart-insert:" + db);
-//
-//        }
         int count = 0;
         for (ShoppingCart s : shoppingCarts) {
-            Log.i(TAG,"QUERY dbShoppingCart: "+dbShoppingCart.query());
-            Log.i(TAG,"QUERY dbShoppingCart: "+dbShoppingCart.querySid(s.getSid()));
-            Log.i(TAG,"SID: "+s.getSid());
             if (dbShoppingCart.querySid(s.getSid()).size() > 0) {
                 count += dbShoppingCart.update(s);
             } else {
                 count += dbShoppingCart.insert(s);
             }
         }
-
         if (count==shoppingCarts.size()) {
             for (ShoppingCart s : shoppingCarts) {
                 List<ShoppingCartDetail> details = s.getShoppingcartdetails();
@@ -112,11 +99,11 @@ public class ScDbProcess {
         }
         if (d.getSdid() > 0 && dbShoppingCartDetail.query(d.getSdid()).size() != 0) {
             dbShoppingCartDetail.update(d);
-            Log.e(TAG, "detail-update:");
+            Log.i(TAG, "detail-update:");
 
         } else {
             dbShoppingCartDetail.insert(d);
-            Log.e(TAG, "detail-insert:");
+            Log.i(TAG, "detail-insert:");
 
         }
     }
