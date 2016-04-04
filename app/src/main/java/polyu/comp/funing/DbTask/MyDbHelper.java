@@ -11,7 +11,7 @@ import android.util.Log;
 public class MyDbHelper extends SQLiteOpenHelper {
     // If you change the database schema, you must increment the database version.
     private static String TAG = MyDbHelper.class.getSimpleName();
-    public static final int DATABASE_VERSION = 4;
+    public static final int DATABASE_VERSION = 5;
     public static final String DATABASE_NAME = "funing";
 
     public MyDbHelper(Context context) {
@@ -25,6 +25,8 @@ public class MyDbHelper extends SQLiteOpenHelper {
         db.execSQL(DbContract.FeedDb.SQL_CREATE_TABLE_PRODUCT);
         db.execSQL(DbContract.FeedDb.SQL_CREATE_TABLE_SHOPPING_CART);
         db.execSQL(DbContract.FeedDb.SQL_CREATE_TABLE_SHOPPING_CART_DETAIL);
+        db.execSQL(DbContract.FeedDb.SQL_CREATE_TABLE_ORDER);
+        db.execSQL(DbContract.FeedDb.SQL_CREATE_TABLE_ORDER_DETAIL);
         Log.i(TAG,"DB onCreate");
     }
 
@@ -36,6 +38,8 @@ public class MyDbHelper extends SQLiteOpenHelper {
         db.execSQL(DbContract.FeedDb.SQL_DELETE_TABLE_PRODUCT);
         db.execSQL(DbContract.FeedDb.SQL_DELETE_TABLE_SHOPPING_CART);
         db.execSQL(DbContract.FeedDb.SQL_DELETE_TABLE_SHOPPING_CART_DETAIL);
+        db.execSQL(DbContract.FeedDb.SQL_DELETE_TABLE_ORDER);
+        db.execSQL(DbContract.FeedDb.SQL_DELETE_TABLE_ORDER_DETAIL);
         onCreate(db);
     } 
     
