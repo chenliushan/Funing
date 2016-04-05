@@ -13,6 +13,7 @@ import polyu.comp.funing.fragment.CouponsF;
 import polyu.comp.funing.fragment.LoginF;
 import polyu.comp.funing.fragment.ProductListF;
 import polyu.comp.funing.fragment.ShoppingCartF;
+import polyu.comp.funing.fragment.UserInfoF;
 import polyu.comp.funing.model.ShoppingCart;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
@@ -102,8 +103,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.account:
                 img.setImageResource(R.mipmap.my_account_black);
-                LoginF loginF = new LoginF();
-                getFragmentManager().beginTransaction().replace(R.id.main_f, loginF).commit();
+                if (CommonConstant.apiKey == null) {
+                    LoginF loginF = new LoginF();
+                    getFragmentManager().beginTransaction().replace(R.id.main_f, loginF).commit();
+                }else{
+                    UserInfoF userInfoF=new UserInfoF();
+                    getFragmentManager().beginTransaction().replace(R.id.main_f, userInfoF).commit();
+                }
                 break;
             case R.id.coupon:
                 img.setImageResource(R.mipmap.coupons_black);

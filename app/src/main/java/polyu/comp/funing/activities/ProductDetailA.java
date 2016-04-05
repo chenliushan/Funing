@@ -50,6 +50,8 @@ public class ProductDetailA extends AppCompatActivity implements View.OnClickLis
     }
 
     private void initView() {
+        setTitle(getResources().getString(R.string.product_a));
+
         img = (ImageView) findViewById(R.id.pd_img);
         addToCart = (ImageView) findViewById(R.id.add_to_cart);
         name = (TextView) findViewById(R.id.pd_name);

@@ -3,13 +3,17 @@
     <string name="empty_listview">Oops, cannot connect to the server, please refresh later.</string>
     <string name="empty">Oops, there is nothing.</string>
     <string name="empty_shopping_cart">Your Basket is empty.</string>
+    <string name="hk">Hong Kong</string>
    
+    <string name="id_hint">User Id</string>
     <string name="email_hint">EMAIL</string>
     <string name="password_hint">PASSWORD</string>
     <string name="verify_pw_hint">VERIFY PASSWORD</string>
     <string name="name_hint">NAME</string>
     <string name="address_hint">ADDRESS</string>
     <string name="phone_hint">PHONE</string>
+    <string name="phone_hint2">Phone number (mobile) :</string>
+    <string name="phone_hint_hk"> +852 </string>
     
     <string name="login_f">Login</string>
     <string name="is_user">I am already a user</string>
@@ -28,6 +32,7 @@
     <string name="not_valid_cp">Used/expired</string>
     <string name="expiry_date">Expiry Date: </string>
     
+    <string name="product_a">Product Detail</string>
     <string name="product_f">Product List</string>
     <string name="pd_detail">Details: </string>
     <string name="pd_quantity">Quantity: </string>
@@ -36,17 +41,19 @@
     <string name="shopping_cart_f">Basket</string>
     <string name="decrease_quantity">Please click the delete button to drop the product.</string>
 
+    <string name="order_activity">Order Confirmation</string>
     <string name="order_shipping">Shipping Information</string>
-    <string name="shipping_name">The shipping name: </string>
-    <string name="shipping_phone">The shipping phone: </string>
-    <string name="shipping_email">The shipping email: </string>
-    <string name="shipping_address">The shipping address: </string>
+    <string name="shipping_name">Contact person: </string>
+    <string name="shipping_phone">Contact No.: </string>
+    <string name="shipping_email">Contact email: </string>
+    <string name="shipping_address">Address: </string>
     <string name="order_coupon">Coupons Information</string>
     <string name="coupon_select">Select a Coupon ... </string>
     <string name="order_products">Products Information</string>
     <string name="order_ready">Ready to Order</string>
     <string name="order_total">Total Amount: </string>
     <string name="order_actual">Actual Amount: </string>
+    <string name="order_confirm">Confirm</string>
 
 
 </resources>

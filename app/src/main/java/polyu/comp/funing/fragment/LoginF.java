@@ -129,6 +129,8 @@ public class LoginF extends Fragment implements View.OnClickListener {
                     createUserShoppingCart();
                 }else{
                     ScDbProcess.NewScDbProcess(getActivity().getApplicationContext()).scDbStore(shoppingCarts);
+                    UserInfoF userInfoF=new UserInfoF();
+                    getFragmentManager().beginTransaction().replace(R.id.main_f, userInfoF).commit();
 
                 }
             }
@@ -151,6 +153,8 @@ public class LoginF extends Fragment implements View.OnClickListener {
                 }
                 List<ShoppingCart> shoppingCarts=response.body().getShoppingcarts();
                 ScDbProcess.NewScDbProcess(getActivity().getApplicationContext()).scDbStore(shoppingCarts);
+                UserInfoF userInfoF=new UserInfoF();
+                getFragmentManager().beginTransaction().replace(R.id.main_f, userInfoF).commit();
             }
 
             @Override

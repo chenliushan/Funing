@@ -98,6 +98,8 @@ public class CreateOrderA extends AppCompatActivity implements View.OnClickListe
     }
 
     private void initView() {
+        setTitle(getResources().getString(R.string.order_activity));
+
         listView = (ListView) findViewById(R.id.order_product_list);
 
         selectCoupon = (Button) findViewById(R.id.select_coupon);
