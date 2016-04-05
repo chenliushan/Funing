@@ -49,8 +49,12 @@ public class UserInfoF extends Fragment {
         email.setText(user.getEmail());
         String addr = user.getAddress();
         if (addr != null) {
-            address.setText(addr.substring(0, 15));
-            address2.setText(addr.substring(15));
+            if(addr.length()>10){
+                address.setText(addr.substring(0, 10));
+                address2.setText(addr.substring(10));
+            }else{
+                address.setText(addr);
+            }
         }
         phone.setText(user.getPhone());
         uid.setText(CommonConstant.userId+"");

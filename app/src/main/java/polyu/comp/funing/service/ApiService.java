@@ -16,6 +16,7 @@ import okhttp3.Request;
 import okhttp3.Response;
 import okhttp3.logging.HttpLoggingInterceptor;
 import polyu.comp.funing.constant.CommonConstant;
+import polyu.comp.funing.model.Order;
 import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -57,10 +58,25 @@ public interface ApiService {
     @FormUrlEncoded
     @PUT("shoppingcart_detail")
     Call<ScDetailR> updateScDetail(@FieldMap Map<String, String> options,@Header("Authorization") String authorization);
-
-
+    
     @DELETE("shoppingcart_detail/{sdid}")
     Call<ScDetailR> deleteScDetail(@Path("sdid") int sdid,@Header("Authorization") String authorization);
+
+    @FormUrlEncoded
+    @POST("orders")
+    Call<OrderR> createOder(@FieldMap Map<String, String> options, @Header("Authorization") String authorization);
+   
+    @FormUrlEncoded
+    @POST("orders_detail")
+    Call<OrderR> createOrderDetail(@FieldMap Map<String, String> options,@Header("Authorization") String authorization);
+
+    @FormUrlEncoded
+    @PUT("usercoupons/{ucid}")
+    Call<OrderR> updateCoupons(@Path("ucid") int sdid,@FieldMap Map<String, String> options,@Header("Authorization") String authorization);
+
+    @FormUrlEncoded
+    @PUT("shippingcart")
+    Call<OrderR> invalidSC(@FieldMap Map<String, String> options,@Header("Authorization") String authorization);
 
     @GET("products")
     Call<ProductListR> getProductList();

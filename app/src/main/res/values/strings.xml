@@ -4,6 +4,7 @@
     <string name="empty">Oops, there is nothing.</string>
     <string name="empty_shopping_cart">Your Basket is empty.</string>
     <string name="hk">Hong Kong</string>
+    <string name="illegal_input">Please fill the required information correctly.</string>
    
     <string name="id_hint">User Id</string>
     <string name="email_hint">EMAIL</string>

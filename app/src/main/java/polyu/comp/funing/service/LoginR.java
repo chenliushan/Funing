@@ -17,6 +17,8 @@ public class LoginR {
     private String email;
     private String apiKey;
     private String createdAt;
+    private String address;
+    private String phone;
 
 
     public int getError() {
@@ -67,15 +69,33 @@ public class LoginR {
         this.message = message;
     }
 
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
     @Override
     public String toString() {
         return "LoginR{" +
                 "error=" + error +
+                ", message='" + message + '\'' +
                 ", name='" + name + '\'' +
                 ", email='" + email + '\'' +
                 ", apiKey='" + apiKey + '\'' +
                 ", createdAt='" + createdAt + '\'' +
-                ", message='" + message + '\'' +
+                ", address='" + address + '\'' +
+                ", phone='" + phone + '\'' +
                 '}';
     }
 }

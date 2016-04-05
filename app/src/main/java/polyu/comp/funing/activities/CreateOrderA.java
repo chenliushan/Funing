@@ -22,9 +22,11 @@ import polyu.comp.funing.adapter.OrderDetailAdapter;
 import polyu.comp.funing.constant.CommonConstant;
 import polyu.comp.funing.model.Coupon;
 import polyu.comp.funing.model.Order;
+import polyu.comp.funing.model.OrderDetail;
 import polyu.comp.funing.model.ShoppingCart;
 import polyu.comp.funing.model.User;
 import polyu.comp.funing.service.ApiService;
+import polyu.comp.funing.service.OrderR;
 import polyu.comp.funing.service.UserCouponR;
 import polyu.comp.funing.utils.CommonUtils;
 import retrofit2.Call;
@@ -50,6 +52,7 @@ public class CreateOrderA extends AppCompatActivity implements View.OnClickListe
     private EditText shippingAddress;
     private ListView listView;
     private Button selectCoupon;
+    private Button confirmOrder;
     private TextView cpName;
     private TextView cpDescription;
     private TextView totalAmount;
@@ -58,6 +61,7 @@ public class CreateOrderA extends AppCompatActivity implements View.OnClickListe
     private OrderDetailAdapter orderDetailAdapter;
 
     private static double totalPrice;
+    private static double actualPrice;
 
     private AlertDialog.Builder builder;
 
@@ -103,6 +107,8 @@ public class CreateOrderA extends AppCompatActivity implements View.OnClickListe
         listView = (ListView) findViewById(R.id.order_product_list);
 
         selectCoupon = (Button) findViewById(R.id.select_coupon);
+        confirmOrder = (Button) findViewById(R.id.confirm_order);
+
         couponItem = findViewById(R.id.coupon_dis);
         ImageView cpImg = (ImageView) couponItem.findViewById(R.id.p_item_img);
         cpImg.setVisibility(View.GONE);
@@ -123,6 +129,7 @@ public class CreateOrderA extends AppCompatActivity implements View.OnClickListe
         CommonUtils.setListViewHeight(listView, 0);
 
         selectCoupon.setOnClickListener(this);
+        confirmOrder.setOnClickListener(this);
     }
 
     private void setViewValue() {
@@ -135,23 +142,28 @@ public class CreateOrderA extends AppCompatActivity implements View.OnClickListe
             couponItem.setVisibility(View.VISIBLE);
             cpName.setText(coupon.getC_name());
             cpDescription.setText(coupon.getC_description());
-            actualAmount.setText(CommonUtils.calActualPrice(coupon, totalPrice) + "");
+            actualPrice = CommonUtils.calActualPrice(coupon, totalPrice);
         } else {
             couponItem.setVisibility(View.GONE);
-            actualAmount.setText(totalPrice + "");
+            actualPrice = totalPrice;
         }
+        actualAmount.setText(actualPrice + "");
     }
 
 
     @Override
     public void onClick(View v) {
-        if (couponNames != null) {
-//            
-            showSingleChoiceDialog();
-
+        switch (v.getId()) {
+            case R.id.select_coupon:
+                if (couponNames != null) {
+                    showSingleChoiceDialog();
+                }
+                break;
+            case R.id.confirm_order:
+                orderSubmission();
+                break;
         }
-
-
+        
     }
 
     private void showSingleChoiceDialog() {
@@ -216,4 +228,108 @@ public class CreateOrderA extends AppCompatActivity implements View.OnClickListe
 
     }
 
+    private void orderSubmission() {
+        if (shippingName.getText().length() < 1 || shippingPhone.getText().length() < 1 || shippingEmail.getText().length() < 1 || shippingAddress.getText().length() < 1) {
+            CommonUtils.show(this, getString(R.string.illegal_input));
+            return;
+        }
+        order.setName(shippingName.getText().toString());
+        order.setPhone(shippingPhone.getText().toString());
+        order.setEmail(shippingEmail.getText().toString());
+        order.setAddress(shippingAddress.getText().toString());
+        order.setO_amount(actualPrice);
+        if (coupon != null) {
+            order.setUcid(coupon.getCid());
+        }
+        createOder();
+    }
+
+    private void createOder() {
+        Map<String, String> options = new HashMap<String, String>(order.toMap());
+        CommonUtils.printMap(options);
+
+        Call<OrderR> call = ApiService.Creator.create().createOder(options, CommonConstant.apiKey);
+        call.enqueue(new Callback<OrderR>() {
+            @Override
+            public void onResponse(Call<OrderR> call, Response<OrderR> response) {
+                if (response.body() == null || response.errorBody() != null) {
+                    CommonUtils.show(getApplicationContext(),"createOder"+"onResponse"+ getString(R.string.fail));
+                    return;
+                }
+                int oid = response.body().getOid();
+//                for (OrderDetail od : order.getOrderdetails()) {
+//                    od.setOid(oid);
+//                    createOderDetails(od);
+//                }
+//                updateCouponInfo(oid);
+//                invalidShoppingCart();
+            }
+
+            @Override
+            public void onFailure(Call<OrderR> call, Throwable t) {
+                CommonUtils.show(getApplicationContext(), "onFailure"+call.isExecuted()+getString(R.string.fail));
+            }
+        });
+    }
+
+    private void createOderDetails(OrderDetail od) {
+        Call<OrderR> call = ApiService.Creator.create().createOrderDetail(od.toMap(), CommonConstant.apiKey);
+        call.enqueue(new Callback<OrderR>() {
+            @Override
+            public void onResponse(Call<OrderR> call, Response<OrderR> response) {
+                if (response.body() == null || response.errorBody() != null) {
+                    CommonUtils.show(getApplicationContext(), "createOderDetails"+getString(R.string.fail));
+                    return;
+                }
+            }
+
+            @Override
+            public void onFailure(Call<OrderR> call, Throwable t) {
+                CommonUtils.show(getApplicationContext(), "createOderDetails"+getString(R.string.fail));
+            }
+        });
+    }
+
+    private void updateCouponInfo(int oid) {
+        Map<String, String> options = new HashMap<String, String>();
+        options.put(CommonConstant.couponUpdateUcstatus,CommonConstant.couponUpdateUsed);
+        options.put("oid",oid+"");
+        Call<OrderR> call = ApiService.Creator.create().updateCoupons(coupon.getCid(), options, CommonConstant.apiKey);
+        call.enqueue(new Callback<OrderR>() {
+            @Override
+            public void onResponse(Call<OrderR> call, Response<OrderR> response) {
+                if (response.body() == null || response.errorBody() != null) {
+                    CommonUtils.show(getApplicationContext(), "updateCouponInfo"+getString(R.string.fail));
+                    return;
+                }
+            }
+
+            @Override
+            public void onFailure(Call<OrderR> call, Throwable t) {
+                CommonUtils.show(getApplicationContext(), "updateCouponInfo"+getString(R.string.fail));
+            }
+        });
+
+    }
+
+    private void invalidShoppingCart() {
+        Map<String, String> options = new HashMap<String, String>();
+        options.put(CommonConstant.scUpdateUcstatus,CommonConstant.scInvalid);
+        options.put("sid",shoppingCart.getSid()+"");
+        Call<OrderR> call = ApiService.Creator.create().invalidSC( options, CommonConstant.apiKey);
+        call.enqueue(new Callback<OrderR>() {
+            @Override
+            public void onResponse(Call<OrderR> call, Response<OrderR> response) {
+                if (response.body() == null || response.errorBody() != null) {
+                    CommonUtils.show(getApplicationContext(), "invalidShoppingCart"+getString(R.string.fail));
+                    return;
+                }
+            }
+
+            @Override
+            public void onFailure(Call<OrderR> call, Throwable t) {
+                CommonUtils.show(getApplicationContext(), "invalidShoppingCart"+getString(R.string.fail));
+            }
+        });
+    }
 }

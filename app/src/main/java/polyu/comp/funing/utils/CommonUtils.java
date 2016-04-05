@@ -3,6 +3,7 @@ package polyu.comp.funing.utils;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListAdapter;
@@ -12,6 +13,7 @@ import android.widget.Toast;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import polyu.comp.funing.R;
 import polyu.comp.funing.activities.MainActivity;
@@ -156,5 +158,10 @@ public class CommonUtils {
             }
         }
         return actual;
+    }
+    public static void printMap(Map<String,String> map) {
+        for( Map.Entry<String,String> m:map.entrySet()) {
+            Log.i("", m.getKey() + ":" + m.getValue());
+        }
     }
 }

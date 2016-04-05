@@ -88,9 +88,12 @@ public class LoginF extends Fragment implements View.OnClickListener {
                 if (response.body().getError() == 0) {
                     User u = new User();
                     u.setEmail(email);
+                    u.setName(response.body().getName());
                     u.setPassword(password);
                     u.setApi_key(response.body().getApiKey());
                     u.setCreated_at(response.body().getCreatedAt());
+                    u.setAddress(response.body().getAddress());
+                    u.setPhone(response.body().getPhone());
                     CommonUtils.setUser(getActivity(), u);
                     CommonUtils.show(getActivity(), getString(R.string.success));
                     CommonConstant.apiKey = response.body().getApiKey();

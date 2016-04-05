@@ -32,10 +32,14 @@ public class CommonConstant {
     public static final String invalid="invalid";
     public static final String used="used";
     public static final String couponTypeCash="cash";
-    
-    
 
-    
+    public static final String couponUpdateUsed="Used";
+    public static final String couponUpdateUcstatus="uc_status";
+    public static final String scUpdateUcstatus="s_status";
+    public static final String scInvalid="Invalid";
+
+
+
     public static class UserConstant{
         public static String user = "user";
         public static String uid = "uid";

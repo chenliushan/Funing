@@ -1,6 +1,8 @@
 package polyu.comp.funing.model;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by liushanchen on 16/4/4.
@@ -22,20 +24,20 @@ public class Order {
      * UNIQUE KEY `oid` (`oid`)
      * ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
      */
-    private int oid;
-    private double o_amount;
+    private int oid=-1;
+    private double o_amount=-1;
     private String o_status;
-    private int uid;
+    private int uid=-1;
     private String name;
     private String address;
     private String phone;
     private String email;
-    private int ucid;//coupon
+    private int ucid=-1;//coupon
     private String o_created_at;
     private List<OrderDetail> orderdetails;
 
     public Order() {
-        
+
     }
 
     public Order(User u) {
@@ -150,4 +152,30 @@ public class Order {
                 ", orderdetails=" + orderdetails +
                 '}';
     }
+
+    public Map<String, String> toMap() {
+        Map<String, String> map = new HashMap<String, String>();
+        if(oid!=-1){
+            map.put("oid", oid + "");
+        }
+        if(o_amount!=-1){
+            map.put("o_amount", o_amount + "");
+        }
+        if(uid!=-1){
+            map.put("uid", uid + "");
+        }
+        if(ucid!=-1){
+            map.put("ucid", ucid + "");
+        }
+        map.put("o_status", o_status);
+        map.put("name", name);
+        map.put("address", address);
+        map.put("phone", phone + "");
+        map.put("email", email);
+        map.put("o_created_at", o_created_at);
+
+        return map;
+
+    }
+
 }
