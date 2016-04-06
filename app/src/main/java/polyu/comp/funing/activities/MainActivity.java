@@ -2,6 +2,9 @@ package polyu.comp.funing.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Environment;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.os.EnvironmentCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -15,6 +18,7 @@ import polyu.comp.funing.fragment.ProductListF;
 import polyu.comp.funing.fragment.ShoppingCartF;
 import polyu.comp.funing.fragment.UserInfoF;
 import polyu.comp.funing.model.ShoppingCart;
+import polyu.comp.funing.utils.CommonUtils;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -29,6 +33,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        CommonConstant.applicationCache= Environment.getDownloadCacheDirectory();
+        
         initView();
 
     }
@@ -38,6 +44,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onNewIntent(intent);
         if (intent != null) {
             String f = intent.getStringExtra(CommonConstant.mainActivityF_key);
+            if(f==null)return;
             Log.i(TAG,"f="+f);
             switch (f) {
                 case CommonConstant.F_login:
@@ -55,7 +62,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 case CommonConstant.F_order:
                     orderBtn.callOnClick();
                     break;
-
+                default:
+                    recordBtn.callOnClick();
+                    break;
             }
         }
     }

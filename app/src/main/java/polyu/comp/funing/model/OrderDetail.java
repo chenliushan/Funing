@@ -150,20 +150,29 @@ public class OrderDetail {
             map.put("oid", oid + "");
         }
         if(pid!=-1){
-            map.put("o_amount", pid + "");
+            map.put("pid", pid + "");
         }
         if(odid!=-1){
-            map.put("uid", odid + "");
+            map.put("odid", odid + "");
         }
         if(od_subamount!=-1){
-            map.put("ucid", od_subamount + "");
+            map.put("od_subamount", od_subamount + "");
         }
-        map.put("p_code", p_code);
-        map.put("p_name", p_name);
+        if(p_code!=null){
+            map.put("p_code", p_code);
+        }
+        if(p_name!=null){
+            map.put("p_name", p_name);
+        }
+        if(p_description!=null){
+            map.put("p_description", p_description);
+        }
+        if(od_created_at!=null){
+            map.put("od_created_at", od_created_at);
+        }
+      
         map.put("p_price", p_price+"");
         map.put("od_quantity", od_quantity + "");
-        map.put("p_description", p_description);
-        map.put("od_created_at", od_created_at);
 
         return map;
 

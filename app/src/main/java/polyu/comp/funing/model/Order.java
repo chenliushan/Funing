@@ -24,15 +24,15 @@ public class Order {
      * UNIQUE KEY `oid` (`oid`)
      * ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
      */
-    private int oid=-1;
-    private double o_amount=-1;
+    private int oid = -1;
+    private double o_amount = -1;
     private String o_status;
-    private int uid=-1;
+    private int uid = -1;
     private String name;
     private String address;
     private String phone;
     private String email;
-    private int ucid=-1;//coupon
+    private int ucid = 0;//coupon
     private String o_created_at;
     private List<OrderDetail> orderdetails;
 
@@ -155,24 +155,36 @@ public class Order {
 
     public Map<String, String> toMap() {
         Map<String, String> map = new HashMap<String, String>();
-        if(oid!=-1){
+        if (oid != -1) {
             map.put("oid", oid + "");
         }
-        if(o_amount!=-1){
+        if (o_amount != -1) {
             map.put("o_amount", o_amount + "");
         }
-        if(uid!=-1){
+        if (uid != -1) {
             map.put("uid", uid + "");
         }
-        if(ucid!=-1){
-            map.put("ucid", ucid + "");
+        map.put("ucid", ucid + "");
+
+        if (o_status != null) {
+            map.put("o_status", o_status);
         }
-        map.put("o_status", o_status);
-        map.put("name", name);
-        map.put("address", address);
-        map.put("phone", phone + "");
-        map.put("email", email);
-        map.put("o_created_at", o_created_at);
+        if (o_created_at != null) {
+            map.put("o_created_at", o_created_at);
+        }
+        if (name != null) {
+            map.put("name", name);
+        }
+        if (address != null) {
+            map.put("address", address);
+        }
+        if (email != null) {
+            map.put("email", email);
+        }
+
+        if (phone != null) {
+            map.put("phone", phone);
+        }
 
         return map;
 

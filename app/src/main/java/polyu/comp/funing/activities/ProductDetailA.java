@@ -103,6 +103,8 @@ public class ProductDetailA extends AppCompatActivity implements View.OnClickLis
                         CommonUtils.show(getApplicationContext(), getString(R.string.fail));
                         return;
                     } else {
+                        CommonUtils.show(getApplicationContext(), getString(R.string.success));
+
                         ShoppingCartDetail scd = new ShoppingCartDetail(product);
                         scd.setSdid(response.body().getSdid());
                         scd.setSid(sid);

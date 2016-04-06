@@ -4,25 +4,21 @@ import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import polyu.comp.funing.DbTask.DbTask;
 import polyu.comp.funing.R;
 import polyu.comp.funing.activities.RegisterA;
 import polyu.comp.funing.constant.CommonConstant;
 import polyu.comp.funing.model.ScDbProcess;
 import polyu.comp.funing.model.ShoppingCart;
-import polyu.comp.funing.model.ShoppingCartDetail;
 import polyu.comp.funing.model.User;
 import polyu.comp.funing.service.ApiService;
 import polyu.comp.funing.service.LoginR;
@@ -41,6 +37,7 @@ public class LoginF extends Fragment implements View.OnClickListener {
     EditText pwEdit;
     String e = "0607chris@gmail.com";
     String p = "chris";
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -65,7 +62,7 @@ public class LoginF extends Fragment implements View.OnClickListener {
 //        if (user != null && user.getEmail() != null && user.getPassword() != null) {
 //            userLogin(user.getEmail(), user.getPassword());
 //        }
-        if (user != null && user.getEmail() != null ) {
+        if (user != null && user.getEmail() != null) {
             emailEdit.setText(user.getEmail());
             pwEdit.setText(user.getPassword());
         }
@@ -81,8 +78,8 @@ public class LoginF extends Fragment implements View.OnClickListener {
         call.enqueue(new Callback<LoginR>() {
             @Override
             public void onResponse(Call<LoginR> call, Response<LoginR> response) {
-                if(response.body().getError()!=CommonConstant.noError){
-                    CommonUtils.show(getActivity().getApplicationContext(),response.body().getMessage());
+                if (response.body() == null || response.errorBody() != null) {
+                    CommonUtils.show(getActivity().getApplicationContext(), getString(R.string.fail));
                     return;
                 }
                 if (response.body().getError() == 0) {
@@ -117,8 +114,8 @@ public class LoginF extends Fragment implements View.OnClickListener {
     private void getUserShoppingCart() {
         Map<String, String> options = new HashMap<String, String>();
         options.put("s_status", CommonConstant.valid);
-        
-        Call<ShoppingCartR> call = ApiService.Creator.create().getShoppingCart(options,CommonConstant.apiKey);
+
+        Call<ShoppingCartR> call = ApiService.Creator.create().getShoppingCart(options, CommonConstant.apiKey);
         call.enqueue(new Callback<ShoppingCartR>() {
             @Override
             public void onResponse(Call<ShoppingCartR> call, Response<ShoppingCartR> response) {
@@ -126,13 +123,17 @@ public class LoginF extends Fragment implements View.OnClickListener {
                     CommonUtils.show(getActivity().getApplicationContext(), getString(R.string.fail));
                     return;
                 }
-                List<ShoppingCart> shoppingCarts=response.body().getShoppingcarts();
+                List<ShoppingCart> shoppingCarts = response.body().getShoppingcarts();
+
                 CommonConstant.userId = shoppingCarts.get(0).getUid();
-                if(shoppingCarts==null||shoppingCarts.size()==0){
+                User u = CommonUtils.getUser(getActivity());
+                u.setUid(CommonConstant.userId);
+                CommonUtils.setUser(getActivity(),u);
+                if (shoppingCarts == null || shoppingCarts.size() == 0) {
                     createUserShoppingCart();
-                }else{
+                } else {
                     ScDbProcess.NewScDbProcess(getActivity().getApplicationContext()).scDbStore(shoppingCarts);
-                    UserInfoF userInfoF=new UserInfoF();
+                    UserInfoF userInfoF = new UserInfoF();
                     getFragmentManager().beginTransaction().replace(R.id.main_f, userInfoF).commit();
 
                 }
@@ -144,9 +145,10 @@ public class LoginF extends Fragment implements View.OnClickListener {
             }
         });
     }
+
     private void createUserShoppingCart() {
         Map<String, String> options = new HashMap<String, String>();
-        Call<ShoppingCartR> call = ApiService.Creator.create().createShoppingCart(options,CommonConstant.apiKey);
+        Call<ShoppingCartR> call = ApiService.Creator.create().createShoppingCart(options, CommonConstant.apiKey);
         call.enqueue(new Callback<ShoppingCartR>() {
             @Override
             public void onResponse(Call<ShoppingCartR> call, Response<ShoppingCartR> response) {
@@ -154,9 +156,9 @@ public class LoginF extends Fragment implements View.OnClickListener {
                     CommonUtils.show(getActivity().getApplicationContext(), getString(R.string.fail));
                     return;
                 }
-                List<ShoppingCart> shoppingCarts=response.body().getShoppingcarts();
+                List<ShoppingCart> shoppingCarts = response.body().getShoppingcarts();
                 ScDbProcess.NewScDbProcess(getActivity().getApplicationContext()).scDbStore(shoppingCarts);
-                UserInfoF userInfoF=new UserInfoF();
+                UserInfoF userInfoF = new UserInfoF();
                 getFragmentManager().beginTransaction().replace(R.id.main_f, userInfoF).commit();
             }
 

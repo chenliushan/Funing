@@ -1,6 +1,10 @@
 package polyu.comp.funing.activities;
 
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -40,11 +44,11 @@ import retrofit2.Response;
 public class CreateOrderA extends AppCompatActivity implements View.OnClickListener {
     private static String TAG = CreateOrderA.class.getSimpleName();
 
-    private ShoppingCart shoppingCart;
-    private Order order;
-    private Coupon coupon;
-    private List<Coupon> couponList;
-    private String[] couponNames = null;
+    private static ShoppingCart shoppingCart;
+    private static Order order;
+    private static Coupon coupon;
+    private static List<Coupon> couponList;
+    private static String[] couponNames = null;
 
     private EditText shippingName;
     private EditText shippingPhone;
@@ -64,6 +68,9 @@ public class CreateOrderA extends AppCompatActivity implements View.OnClickListe
     private static double actualPrice;
 
     private AlertDialog.Builder builder;
+    private static ProgressDialog progress;
+    private GetCouponsTask getCouponsTask;
+    SubmitOrderTask submitOrderTask;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,7 +80,8 @@ public class CreateOrderA extends AppCompatActivity implements View.OnClickListe
         if (shoppingCart != null) {
             initOrder();
             initView();
-            getCoupons();
+            getCouponsTask = new GetCouponsTask();
+            getCouponsTask.execute("");
             setViewValue();
         } else {
             Log.e(TAG, "shoppingCart is null!!");
@@ -94,6 +102,9 @@ public class CreateOrderA extends AppCompatActivity implements View.OnClickListe
             order = new Order(u);
         } else {
             order = new Order();
+        }
+        if (order.getUid() == 0) {
+            order.setUid(CommonConstant.userId);
         }
         order.setOrderdetails(shoppingCart.getOrderDetails());
         totalPrice = CommonUtils.calTotalPrice(shoppingCart.getShoppingcartdetails());
@@ -161,9 +172,10 @@ public class CreateOrderA extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.confirm_order:
                 orderSubmission();
+                confirmOrder.setClickable(false);
                 break;
         }
-        
+
     }
 
     private void showSingleChoiceDialog() {
@@ -174,6 +186,7 @@ public class CreateOrderA extends AppCompatActivity implements View.OnClickListe
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 coupon = couponList.get(i);
+                order.setUcid(coupon.getUcid());
 //                CommonUtils.show(getApplication(),couponNames[i]+""+coupon.getC_name());
             }
         });
@@ -187,6 +200,7 @@ public class CreateOrderA extends AppCompatActivity implements View.OnClickListe
         builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
+                order.setUcid(0);
                 coupon = null;
                 setViewValue();
             }
@@ -196,37 +210,6 @@ public class CreateOrderA extends AppCompatActivity implements View.OnClickListe
         dialog.show();
     }
 
-    private void getCoupons() {
-        Map<String, String> options = new HashMap<String, String>();
-        options.put("uc_status", CommonConstant.valid);
-
-        Call<UserCouponR> call = ApiService.Creator.create().getCouponList(options, CommonConstant.apiKey);
-        Callback<UserCouponR> callback = new Callback<UserCouponR>() {
-            @Override
-            public void onResponse(Call<UserCouponR> call, Response<UserCouponR> response) {
-                if (response.body() == null || response.errorBody() != null) {
-                    CommonUtils.show(getApplicationContext(), getString(R.string.fail));
-                    return;
-                }
-                couponList = response.body().getCouponList();
-                if (couponList != null && couponList.size() > 0) {
-                    List<String> cNames = new ArrayList<String>();
-                    for (Coupon c : couponList) {
-                        cNames.add(c.getC_name());
-                    }
-                    couponNames = (String[]) cNames.toArray(new String[cNames.size()]);
-                }
-
-            }
-
-            @Override
-            public void onFailure(Call<UserCouponR> call, Throwable t) {
-                CommonUtils.show(getApplicationContext(), getString(R.string.fail));
-            }
-        };
-        call.enqueue(callback);
-
-    }
 
     private void orderSubmission() {
         if (shippingName.getText().length() < 1 || shippingPhone.getText().length() < 1 || shippingEmail.getText().length() < 1 || shippingAddress.getText().length() < 1) {
@@ -239,97 +222,170 @@ public class CreateOrderA extends AppCompatActivity implements View.OnClickListe
         order.setAddress(shippingAddress.getText().toString());
         order.setO_amount(actualPrice);
         if (coupon != null) {
-            order.setUcid(coupon.getCid());
+            order.setUcid(coupon.getUcid());
         }
-        createOder();
+
+        progress = ProgressDialog.show(this, getString(R.string.order_confirm),
+               getString(R.string.processing), true);
+
+        submitOrderTask = new SubmitOrderTask();
+        submitOrderTask.execute(this);
     }
 
-    private void createOder() {
-        Map<String, String> options = new HashMap<String, String>(order.toMap());
-        CommonUtils.printMap(options);
 
-        Call<OrderR> call = ApiService.Creator.create().createOder(options, CommonConstant.apiKey);
-        call.enqueue(new Callback<OrderR>() {
-            @Override
-            public void onResponse(Call<OrderR> call, Response<OrderR> response) {
-                if (response.body() == null || response.errorBody() != null) {
-                    CommonUtils.show(getApplicationContext(),"createOder"+"onResponse"+ getString(R.string.fail));
+    private static class GetCouponsTask extends AsyncTask<String, Integer, Integer> {
+        protected Integer doInBackground(String... strings) {
+            getCoupons();
+            return 0;
+        }
+
+        private void getCoupons() {
+            Map<String, String> options = new HashMap<String, String>();
+            options.put("uc_status", CommonConstant.valid);
+            Call<UserCouponR> call = ApiService.Creator.create().getCouponList(options, CommonConstant.apiKey);
+            Callback<UserCouponR> callback = new Callback<UserCouponR>() {
+                @Override
+                public void onResponse(Call<UserCouponR> call, Response<UserCouponR> response) {
+                    if (response.body() == null || response.errorBody() != null) {
+                        return;
+                    }
+                    couponList = response.body().getCouponList();
+                    if (couponList != null && couponList.size() > 0) {
+                        List<String> cNames = new ArrayList<String>();
+                        for (Coupon c : couponList) {
+                            cNames.add(c.getC_name());
+                        }
+                        couponNames = (String[]) cNames.toArray(new String[cNames.size()]);
+                    }
                     return;
                 }
-                int oid = response.body().getOid();
-//                for (OrderDetail od : order.getOrderdetails()) {
-//                    od.setOid(oid);
-//                    createOderDetails(od);
-//                }
-//                updateCouponInfo(oid);
-//                invalidShoppingCart();
-            }
 
-            @Override
-            public void onFailure(Call<OrderR> call, Throwable t) {
-                CommonUtils.show(getApplicationContext(), "onFailure"+call.isExecuted()+getString(R.string.fail));
-            }
-        });
-    }
-
-    private void createOderDetails(OrderDetail od) {
-        Call<OrderR> call = ApiService.Creator.create().createOrderDetail(od.toMap(), CommonConstant.apiKey);
-        call.enqueue(new Callback<OrderR>() {
-            @Override
-            public void onResponse(Call<OrderR> call, Response<OrderR> response) {
-                if (response.body() == null || response.errorBody() != null) {
-                    CommonUtils.show(getApplicationContext(), "createOderDetails"+getString(R.string.fail));
-                    return;
+                @Override
+                public void onFailure(Call<UserCouponR> call, Throwable t) {
                 }
-            }
+            };
+            call.enqueue(callback);
+        }
 
-            @Override
-            public void onFailure(Call<OrderR> call, Throwable t) {
-                CommonUtils.show(getApplicationContext(), "createOderDetails"+getString(R.string.fail));
-            }
-        });
     }
 
-    private void updateCouponInfo(int oid) {
-        Map<String, String> options = new HashMap<String, String>();
-        options.put(CommonConstant.couponUpdateUcstatus,CommonConstant.couponUpdateUsed);
-        options.put("oid",oid+"");
-        Call<OrderR> call = ApiService.Creator.create().updateCoupons(coupon.getCid(), options, CommonConstant.apiKey);
-        call.enqueue(new Callback<OrderR>() {
-            @Override
-            public void onResponse(Call<OrderR> call, Response<OrderR> response) {
-                if (response.body() == null || response.errorBody() != null) {
-                    CommonUtils.show(getApplicationContext(), "updateCouponInfo"+getString(R.string.fail));
-                    return;
+    private static class SubmitOrderTask extends AsyncTask<Context, Integer, Boolean> {
+        boolean result=false;
+
+        @Override
+        protected Boolean doInBackground(Context... params) {
+            createOder(params[0]);
+            return result;
+        }
+
+        protected void onPostExecute(Boolean result) {
+            progress.dismiss();
+            
+        }
+
+        private void createOder(final Context context) {
+            Map<String, String> options = new HashMap<String, String>(order.toMap());
+            if (options.containsValue(null)) {
+            }
+            CommonUtils.printMap(options);
+            Call<OrderR> call = ApiService.Creator.create().createOder(options, CommonConstant.apiKey);
+            Callback<OrderR> callback = new Callback<OrderR>() {
+                @Override
+                public void onResponse(Call<OrderR> call, Response<OrderR> response) {
+                    if (response.body().getError() > 0) {
+                        return;
+                    }
+                    int oid = response.body().getOid();
+                    if (oid == -1) {
+                        return;
+                    }
+                    for (OrderDetail od : order.getOrderdetails()) {
+                        od.setOid(oid);
+                        createOderDetails(od);
+                    }
+                    if (coupon != null) {
+                        updateCouponInfo(oid);
+                    }
+                    invalidShoppingCart(context);
                 }
-            }
-
-            @Override
-            public void onFailure(Call<OrderR> call, Throwable t) {
-                CommonUtils.show(getApplicationContext(), "updateCouponInfo"+getString(R.string.fail));
-            }
-        });
-
-    }
-
-    private void invalidShoppingCart() {
-        Map<String, String> options = new HashMap<String, String>();
-        options.put(CommonConstant.scUpdateUcstatus,CommonConstant.scInvalid);
-        options.put("sid",shoppingCart.getSid()+"");
-        Call<OrderR> call = ApiService.Creator.create().invalidSC( options, CommonConstant.apiKey);
-        call.enqueue(new Callback<OrderR>() {
-            @Override
-            public void onResponse(Call<OrderR> call, Response<OrderR> response) {
-                if (response.body() == null || response.errorBody() != null) {
-                    CommonUtils.show(getApplicationContext(), "invalidShoppingCart"+getString(R.string.fail));
-                    return;
+                @Override
+                public void onFailure(Call<OrderR> call, Throwable t) {
                 }
-            }
+            };
+            call.enqueue(callback);
+        }
 
-            @Override
-            public void onFailure(Call<OrderR> call, Throwable t) {
-                CommonUtils.show(getApplicationContext(), "invalidShoppingCart"+getString(R.string.fail));
+        private void createOderDetails(OrderDetail od) {
+            Map<String, String> options = new HashMap<String, String>(od.toMap());
+            if (options.containsValue(null)) {
             }
-        });
+            Call<OrderR> call = ApiService.Creator.create().createOrderDetail(options, CommonConstant.apiKey);
+            call.enqueue(new Callback<OrderR>() {
+                @Override
+                public void onResponse(Call<OrderR> call, Response<OrderR> response) {
+                    if (response.body() == null || response.errorBody() != null) {
+                        return;
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<OrderR> call, Throwable t) {
+                }
+            });
+        }
+
+        private void updateCouponInfo(int oid) {
+            Map<String, String> options = new HashMap<String, String>();
+            options.put(CommonConstant.couponUpdateUcstatus, CommonConstant.couponUpdateUsed);
+            options.put("oid", oid + "");
+            if (options.containsValue(null)) {
+            }
+            Call<OrderR> call = ApiService.Creator.create().updateCoupons(coupon.getCid(), options, CommonConstant.apiKey);
+            call.enqueue(new Callback<OrderR>() {
+                @Override
+                public void onResponse(Call<OrderR> call, Response<OrderR> response) {
+                    if (response.body() == null || response.errorBody() != null) {
+                        return;
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<OrderR> call, Throwable t) {
+                }
+            });
+
+        }
+
+        private void invalidShoppingCart(final Context context) {
+            Map<String, String> options = new HashMap<String, String>();
+            options.put(CommonConstant.scUpdateUcstatus, CommonConstant.scInvalid);
+            options.put("sid", shoppingCart.getSid() + "");
+            options.put("s_amount", order.getO_amount() + "");
+            if (options.containsValue(null)) {
+            }
+            Call<OrderR> call = ApiService.Creator.create().invalidSC(options, CommonConstant.apiKey);
+            call.enqueue(new Callback<OrderR>() {
+                @Override
+                public void onResponse(Call<OrderR> call, Response<OrderR> response) {
+                    if (response.body() == null || response.errorBody() != null) {
+                        return;
+                    }
+                    if(response.body().getError()==0){
+                        result=true;
+                        CommonUtils.show(context,context.getString(R.string.success));
+                        Intent intent = new Intent();
+                        intent.setClass(context, MainActivity.class);
+                        intent.putExtra(CommonConstant.mainActivityF_key, CommonConstant.F_order);
+                        context.startActivity(intent);
+                    }
+                    
+                }
+
+                @Override
+                public void onFailure(Call<OrderR> call, Throwable t) {
+                }
+            });
+        }
     }
+
 }

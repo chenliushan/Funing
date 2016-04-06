@@ -6,7 +6,7 @@ package polyu.comp.funing.service;
 public class OrderR {
     private int error;
     private String message;
-    private int oid;
+    private int oid=-1;
     private int odid;
 
     public int getError() {

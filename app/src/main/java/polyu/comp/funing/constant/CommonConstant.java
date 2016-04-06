@@ -19,6 +19,8 @@ public class CommonConstant {
     public static int userId = -1;
     
     public static String applicationDir = "";
+    public static File applicationCache = null;
+    
     public static final String product_key = "product";
     public static final String shopping_cart_key = "shopping_cart";
     public static final String mainActivityF_key = "fragment";

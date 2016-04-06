@@ -1,6 +1,8 @@
 package polyu.comp.funing.service;
 
+import android.os.Environment;
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -35,6 +37,7 @@ import retrofit2.http.QueryMap;
  * Created by liushanchen on 16/2/20.
  */
 public interface ApiService {
+     static String TAG = ApiService.class.getSimpleName();
 
     @FormUrlEncoded
     @POST("login")
@@ -75,7 +78,7 @@ public interface ApiService {
     Call<OrderR> updateCoupons(@Path("ucid") int sdid,@FieldMap Map<String, String> options,@Header("Authorization") String authorization);
 
     @FormUrlEncoded
-    @PUT("shippingcart")
+    @PUT("shoppingcart")
     Call<OrderR> invalidSC(@FieldMap Map<String, String> options,@Header("Authorization") String authorization);
 
     @GET("products")
@@ -97,9 +100,9 @@ public interface ApiService {
             interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
             OkHttpClient client = null;
             //setting the cache
-            if (!CommonConstant.applicationDir.equals("")) {
+            if (CommonConstant.applicationCache!=null) {
                 CachingInterceptor cachingInterceptor = new CachingInterceptor();
-                Cache cache = new Cache(new File(CommonConstant.applicationDir, "http"), 10 * 1024 * 1024);
+                Cache cache = new Cache(new File(CommonConstant.applicationCache.getPath(), CommonConstant.preferenceName), 10 * 1024 * 1024);
                 client = new OkHttpClient.Builder()
                         .addInterceptor(interceptor)
                         .addInterceptor(cachingInterceptor)

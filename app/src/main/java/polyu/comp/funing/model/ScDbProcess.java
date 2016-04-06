@@ -49,6 +49,7 @@ public class ScDbProcess {
             if (dbShoppingCart.querySid(s.getSid()).size() > 0) {
                 count += dbShoppingCart.update(s);
             } else {
+                
                 count += dbShoppingCart.insert(s);
             }
         }

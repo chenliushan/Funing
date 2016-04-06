@@ -26,6 +26,7 @@ import polyu.comp.funing.model.User;
  * Created by liushanchen on 16/3/25.
  */
 public class CommonUtils {
+    private static String TAG = CommonUtils.class.getSimpleName();
 
     public static void show(Context context, String info) {
         Toast.makeText(context, info, Toast.LENGTH_LONG).show();
@@ -161,7 +162,7 @@ public class CommonUtils {
     }
     public static void printMap(Map<String,String> map) {
         for( Map.Entry<String,String> m:map.entrySet()) {
-            Log.i("", m.getKey() + ":" + m.getValue());
+            Log.i(TAG, m.getKey() + ":" + m.getValue());
         }
     }
 }

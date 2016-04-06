@@ -12,6 +12,8 @@ public class Coupon {
     private String c_status;
     private String c_image_url;
     private String uc_expired_at;
+    private int ucid;
+    private int oid;
     private String c_created_at;
     private String c_discount_type;
     private double c_discount_detail=-1;
@@ -96,6 +98,22 @@ public class Coupon {
         this.c_discount_detail = c_discount_detail;
     }
 
+    public int getUcid() {
+        return ucid;
+    }
+
+    public void setUcid(int ucid) {
+        this.ucid = ucid;
+    }
+
+    public int getOid() {
+        return oid;
+    }
+
+    public void setOid(int oid) {
+        this.oid = oid;
+    }
+
     @Override
     public String toString() {
         return "Coupon{" +
@@ -106,6 +124,8 @@ public class Coupon {
                 ", c_status='" + c_status + '\'' +
                 ", c_image_url='" + c_image_url + '\'' +
                 ", uc_expired_at='" + uc_expired_at + '\'' +
+                ", ucid=" + ucid +
+                ", oid=" + oid +
                 ", c_created_at='" + c_created_at + '\'' +
                 ", c_discount_type='" + c_discount_type + '\'' +
                 ", c_discount_detail=" + c_discount_detail +

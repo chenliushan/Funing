@@ -90,7 +90,7 @@ public class ProductListF extends Fragment implements SwipeRefreshLayout.OnRefre
                 List<Product> products=dbProduct.DbProductQuery();
                 productListAdapter.setMyList(products);
                 productList.setAdapter(productListAdapter);
-                Log.e(TAG,"DbProductQuery: "+products.get(0).getP_name());
+//                Log.e(TAG,"DbProductQuery: "+products.get(0).getP_name());
             }
         };
         productListRCall.enqueue(productListRCallback);
