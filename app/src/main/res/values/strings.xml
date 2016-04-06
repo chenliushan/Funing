@@ -42,6 +42,7 @@
     <string name="shopping_cart_f">Basket</string>
     <string name="decrease_quantity">Please click the delete button to drop the product.</string>
 
+    <string name="order_history_f">Order List</string>
     <string name="order_activity">Order Confirmation</string>
     <string name="order_shipping">Shipping Information</string>
     <string name="shipping_name">Contact person: </string>

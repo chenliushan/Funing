@@ -82,8 +82,10 @@ public class LoginF extends Fragment implements View.OnClickListener {
                     CommonUtils.show(getActivity().getApplicationContext(), getString(R.string.fail));
                     return;
                 }
-                if (response.body().getError() == 0) {
+                if (response.body().getError() == 0){
+                    CommonConstant.userId = response.body().getUid();
                     User u = new User();
+                    u.setUid(response.body().getUid());
                     u.setEmail(email);
                     u.setName(response.body().getName());
                     u.setPassword(password);
@@ -125,10 +127,10 @@ public class LoginF extends Fragment implements View.OnClickListener {
                 }
                 List<ShoppingCart> shoppingCarts = response.body().getShoppingcarts();
 
-                CommonConstant.userId = shoppingCarts.get(0).getUid();
-                User u = CommonUtils.getUser(getActivity());
-                u.setUid(CommonConstant.userId);
-                CommonUtils.setUser(getActivity(),u);
+//                CommonConstant.userId = shoppingCarts.get(0).getUid();
+//                User u = CommonUtils.getUser(getActivity());
+//                u.setUid(CommonConstant.userId);
+//                CommonUtils.setUser(getActivity(),u);
                 if (shoppingCarts == null || shoppingCarts.size() == 0) {
                     createUserShoppingCart();
                 } else {
@@ -156,10 +158,8 @@ public class LoginF extends Fragment implements View.OnClickListener {
                     CommonUtils.show(getActivity().getApplicationContext(), getString(R.string.fail));
                     return;
                 }
-                List<ShoppingCart> shoppingCarts = response.body().getShoppingcarts();
-                ScDbProcess.NewScDbProcess(getActivity().getApplicationContext()).scDbStore(shoppingCarts);
-                UserInfoF userInfoF = new UserInfoF();
-                getFragmentManager().beginTransaction().replace(R.id.main_f, userInfoF).commit();
+                getUserShoppingCart();
+                
             }
 
             @Override

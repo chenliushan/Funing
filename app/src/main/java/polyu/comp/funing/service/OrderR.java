@@ -1,5 +1,9 @@
 package polyu.comp.funing.service;
 
+import java.util.List;
+
+import polyu.comp.funing.model.Order;
+
 /**
  * Created by liushanchen on 16/4/5.
  */
@@ -8,6 +12,15 @@ public class OrderR {
     private String message;
     private int oid=-1;
     private int odid;
+    private List<Order> orders;
+
+    public List<Order> getOrders() {
+        return orders;
+    }
+
+    public void setOrders(List<Order> orders) {
+        this.orders = orders;
+    }
 
     public int getError() {
         return error;

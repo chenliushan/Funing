@@ -14,6 +14,7 @@ import polyu.comp.funing.R;
 import polyu.comp.funing.constant.CommonConstant;
 import polyu.comp.funing.fragment.CouponsF;
 import polyu.comp.funing.fragment.LoginF;
+import polyu.comp.funing.fragment.OrderHistoryF;
 import polyu.comp.funing.fragment.ProductListF;
 import polyu.comp.funing.fragment.ShoppingCartF;
 import polyu.comp.funing.fragment.UserInfoF;
@@ -107,8 +108,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.order:
                 img.setImageResource(R.mipmap.orderhistory_black);
-//                LoginF loginF=new LoginF();
-//                getFragmentManager().beginTransaction().replace(R.id.main_f, loginF).commit();
+                OrderHistoryF orderHistoryF=new OrderHistoryF();
+                getFragmentManager().beginTransaction().replace(R.id.main_f, orderHistoryF).commit();
                 break;
             case R.id.account:
                 img.setImageResource(R.mipmap.my_account_black);

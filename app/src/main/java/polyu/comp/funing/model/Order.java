@@ -35,6 +35,7 @@ public class Order {
     private int ucid = 0;//coupon
     private String o_created_at;
     private List<OrderDetail> orderdetails;
+    private List<Coupon> usercoupondetails;
 
     public Order() {
 
@@ -134,6 +135,14 @@ public class Order {
 
     public void setOrderdetails(List<OrderDetail> orderdetails) {
         this.orderdetails = orderdetails;
+    }
+
+    public List<Coupon> getUsercoupondetails() {
+        return usercoupondetails;
+    }
+
+    public void setUsercoupondetails(List<Coupon> usercoupondetails) {
+        this.usercoupondetails = usercoupondetails;
     }
 
     @Override

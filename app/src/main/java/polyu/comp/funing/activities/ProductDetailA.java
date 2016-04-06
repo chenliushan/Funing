@@ -110,7 +110,7 @@ public class ProductDetailA extends AppCompatActivity implements View.OnClickLis
                         scd.setSid(sid);
                         scd.setSd_subamount(amount);
                         scd.setSd_quantity(quantity);
-                        ScDbProcess.NewScDbProcess(getApplicationContext()).updateScDetail(scd);
+//                        ScDbProcess.NewScDbProcess(getApplicationContext()).updateScDetail(scd);
                     }
                 }
 

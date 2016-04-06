@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import polyu.comp.funing.R;
@@ -19,7 +20,7 @@ import polyu.comp.funing.model.Coupon;
  * Created by liushanchen on 16/3/19.
  */
 public class CouponListAdapter extends BaseAdapter {
-    List<Coupon> myList=null;
+    List<Coupon> myList=new ArrayList<Coupon>();
     Context context;
     LayoutInflater layoutInflater;
 
@@ -73,6 +74,9 @@ public class CouponListAdapter extends BaseAdapter {
 
     public List<Coupon> getMyList() {
         return myList;
+    }
+    public void clearMyList() {
+         myList.clear();
     }
 
     public void setMyList(List<Coupon> myList) {

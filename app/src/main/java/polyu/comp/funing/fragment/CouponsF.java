@@ -83,17 +83,20 @@ public class CouponsF extends Fragment implements SwipeRefreshLayout.OnRefreshLi
                         return;
                     }
                     Log.i(TAG, "response: " + response.body().toString());
-                    if (if_valid.equals(CommonConstant.used)) {
-                        couponListAdapter.updateMyList(response.body().getCouponList());
-                        superListview.setAdapter(couponListAdapter);
-                        superListview.hideProgress();
-                        superListview.hideMoreProgress();
-                    } else {
-                        couponListAdapter.setMyList(response.body().getCouponList());
-                        superListview.setAdapter(couponListAdapter);
-                        superListview.hideProgress();
-                        superListview.hideMoreProgress();
+                    if(response.body().getCouponList()!=null){
+                        if (if_valid.equals(CommonConstant.used)) {
+                            couponListAdapter.updateMyList(response.body().getCouponList());
+                            superListview.setAdapter(couponListAdapter);
+                            superListview.hideProgress();
+                            superListview.hideMoreProgress();
+                        } else {
+                            couponListAdapter.updateMyList(response.body().getCouponList());
+                            superListview.setAdapter(couponListAdapter);
+                            superListview.hideProgress();
+                            superListview.hideMoreProgress();
+                        }
                     }
+                   
                     if (couponListAdapter.getMyList().size() <= 0) {
                         CommonUtils.show(getActivity(), getResources().getString(R.string.empty));
                     }
@@ -132,9 +135,11 @@ public class CouponsF extends Fragment implements SwipeRefreshLayout.OnRefreshLi
         textView.setBackgroundColor(getActivity().getResources().getColor(R.color.colorPrimary));
         switch (v.getId()) {
             case R.id.valid_cp:
+                couponListAdapter.clearMyList();
                 getCoupons(CommonConstant.valid);
                 break;
             case R.id.not_valid_cp:
+                couponListAdapter.clearMyList();
                 getCoupons(CommonConstant.invalid);
                 getCoupons(CommonConstant.used);
                 break;

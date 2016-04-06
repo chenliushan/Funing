@@ -51,7 +51,7 @@ public interface ApiService {
     @POST("shoppingcart")
     Call<ShoppingCartR> createShoppingCart(@FieldMap Map<String, String> options,@Header("Authorization") String authorization);
 
-    @GET("shoppingcart")
+    @GET("shoppingcartQuery")
     Call<ShoppingCartR> getShoppingCart(@QueryMap Map<String, String> parameters,@Header("Authorization") String authorization);
     
     @FormUrlEncoded
@@ -80,6 +80,9 @@ public interface ApiService {
     @FormUrlEncoded
     @PUT("shoppingcart")
     Call<OrderR> invalidSC(@FieldMap Map<String, String> options,@Header("Authorization") String authorization);
+    
+    @GET("orders")
+    Call<OrderR> getOder( @Header("Authorization") String authorization);
 
     @GET("products")
     Call<ProductListR> getProductList();

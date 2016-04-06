@@ -83,7 +83,7 @@ public class ScDbProcess {
         List<ShoppingCart> shoppingCarts = dbShoppingCart.query(CommonConstant.userId);
         Log.i(TAG, "QUERY:shoppingCarts:" + shoppingCarts);
         if (shoppingCarts.size() > 0) {
-            return shoppingCarts.get(0);
+            return shoppingCarts.get(shoppingCarts.size()-1);
         } else {
             return null;
         }
