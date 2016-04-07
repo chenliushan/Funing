@@ -1,5 +1,6 @@
 package polyu.comp.funing.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -76,6 +77,7 @@ public class ProductDetailA extends AppCompatActivity implements View.OnClickLis
             case R.id.add_to_cart:
                 int q = Integer.valueOf(quantity.getText().toString());
                 createScDetail(q);
+                addToCart.setClickable(false);
                 break;
         }
     }
@@ -110,6 +112,11 @@ public class ProductDetailA extends AppCompatActivity implements View.OnClickLis
                         scd.setSid(sid);
                         scd.setSd_subamount(amount);
                         scd.setSd_quantity(quantity);
+                        Intent intent = new Intent();
+                        intent.setClass(getApplicationContext(), MainActivity.class);
+                        intent.putExtra(CommonConstant.mainActivityF_key, CommonConstant.F_sc);
+                        startActivity(intent);
+                        finish();
 //                        ScDbProcess.NewScDbProcess(getApplicationContext()).updateScDetail(scd);
                     }
                 }

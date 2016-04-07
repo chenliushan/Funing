@@ -8,6 +8,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/gray"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
         android:orientation="vertical">
 
         <LinearLayout
@@ -33,6 +35,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@color/gray"
+                android:padding="@dimen/margin_s"
                 android:orientation="horizontal">
 
                 <TextView
@@ -55,6 +58,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@color/gray"
+                android:padding="@dimen/margin_s"
                 android:orientation="horizontal">
 
                 <TextView
@@ -120,6 +124,7 @@
 
             <ListView
                 android:id="@+id/order_product_list"
+                android:padding="@dimen/margin_s"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/rectangle_code"></ListView>
@@ -127,6 +132,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/coupon_dis_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_s"
@@ -153,6 +159,9 @@
 
             <Button
                 android:id="@+id/select_coupon"
+                android:layout_marginLeft="@dimen/margin_m"
+                android:layout_marginBottom="@dimen/margin_m"
+                
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/coupon_select" />
@@ -161,8 +170,9 @@
 
 
         <RelativeLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/margin_s"
             android:background="@color/colorPrimary">
 
             <LinearLayout

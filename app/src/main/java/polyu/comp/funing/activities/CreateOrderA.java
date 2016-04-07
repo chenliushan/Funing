@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.Map;
 
 import polyu.comp.funing.R;
+import polyu.comp.funing.adapter.OrderComfirmAdapter;
 import polyu.comp.funing.adapter.OrderDetailAdapter;
 import polyu.comp.funing.constant.CommonConstant;
 import polyu.comp.funing.model.Coupon;
@@ -62,7 +63,7 @@ public class CreateOrderA extends AppCompatActivity implements View.OnClickListe
     private TextView totalAmount;
     private TextView actualAmount;
     private View couponItem;
-    private OrderDetailAdapter orderDetailAdapter;
+    private OrderComfirmAdapter orderDetailAdapter;
 
     private static double totalPrice;
     private static double actualPrice;
@@ -116,7 +117,7 @@ public class CreateOrderA extends AppCompatActivity implements View.OnClickListe
         setTitle(getResources().getString(R.string.order_activity));
 
         listView = (ListView) findViewById(R.id.order_product_list);
-
+        
         selectCoupon = (Button) findViewById(R.id.select_coupon);
         confirmOrder = (Button) findViewById(R.id.confirm_order);
 
@@ -134,7 +135,7 @@ public class CreateOrderA extends AppCompatActivity implements View.OnClickListe
         totalAmount = (TextView) findViewById(R.id.total_amount);
         actualAmount = (TextView) findViewById(R.id.actual_amount);
 
-        orderDetailAdapter = new OrderDetailAdapter(this);
+        orderDetailAdapter = new OrderComfirmAdapter(this);
         orderDetailAdapter.setMyList(shoppingCart.getShoppingcartdetails());
         listView.setAdapter(orderDetailAdapter);
         CommonUtils.setListViewHeight(listView, 0);

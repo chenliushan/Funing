@@ -37,6 +37,7 @@ public class UserInfoF extends Fragment {
     }
 
     private void initView() {
+        getActivity().setTitle(getResources().getString(R.string.user_info_f));
         phone = (TextView) getActivity().findViewById(R.id.r_phone);
         uid = (TextView) getActivity().findViewById(R.id.r_id);
         name = (TextView) getActivity().findViewById(R.id.r_name);

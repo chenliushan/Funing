@@ -1,12 +1,13 @@
 package polyu.comp.funing.model;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
 /**
  * Created by liushanchen on 16/4/4.
  */
-public class OrderDetail {
+public class OrderDetail implements Serializable {
     /**
      * CREATE TABLE IF NOT EXISTS `orders_detail` (
      * `odid` int(11) NOT NULL AUTO_INCREMENT,
@@ -29,10 +30,12 @@ public class OrderDetail {
     private String p_name;
     private double p_price;
     private String p_description;
+    private String p_image_url;
     private int od_quantity;
     private double od_subamount=-1;
     private String od_created_at;
     private int oid=-1;
+    
 
     public OrderDetail() {
         
@@ -46,6 +49,14 @@ public class OrderDetail {
         this.p_description =scd.getP_description() ;
         this.od_quantity = scd.getSd_quantity();
         this.od_subamount = scd.getSd_subamount();
+    }
+
+    public String getP_image_url() {
+        return p_image_url;
+    }
+
+    public void setP_image_url(String p_image_url) {
+        this.p_image_url = p_image_url;
     }
 
     public int getOdid() {

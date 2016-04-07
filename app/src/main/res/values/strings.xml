@@ -17,6 +17,7 @@
     <string name="phone_hint_hk"> +852 </string>
     
     <string name="login_f">Login</string>
+    <string name="user_info_f">Login</string>
     <string name="is_user">I am already a user</string>
     <string name="not_user">New customer</string>
     <string name="login_first">Please Login First</string>

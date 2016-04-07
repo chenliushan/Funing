@@ -1,9 +1,11 @@
 package polyu.comp.funing.model;
 
+import java.io.Serializable;
+
 /**
  * Created by liushanchen on 16/3/19.
  */
-public class Coupon {
+public class Coupon implements Serializable {
   
     private int cid;
     private String c_code;

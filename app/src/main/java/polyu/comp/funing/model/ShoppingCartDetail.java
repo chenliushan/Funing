@@ -30,6 +30,7 @@ public class ShoppingCartDetail implements Serializable {
     private String p_code;
     private String p_name;
     private double p_price;
+    private String p_image_url;
     private double sd_subamount;
     private String p_description;
     private int sd_quantity;
@@ -44,6 +45,14 @@ public class ShoppingCartDetail implements Serializable {
         this.p_name = p.getP_name();
         this.p_price = p.getP_price();
         this.p_description = p.getP_description();
+    }
+
+    public String getP_image_url() {
+        return p_image_url;
+    }
+
+    public void setP_image_url(String p_image_url) {
+        this.p_image_url = p_image_url;
     }
 
     public int getSdid() {

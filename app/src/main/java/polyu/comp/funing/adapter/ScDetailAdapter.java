@@ -17,6 +17,7 @@ import java.util.Map;
 
 import polyu.comp.funing.R;
 import polyu.comp.funing.constant.CommonConstant;
+import polyu.comp.funing.fragment.ShoppingCartF;
 import polyu.comp.funing.model.Product;
 import polyu.comp.funing.model.ScDbProcess;
 import polyu.comp.funing.model.ShoppingCartDetail;
@@ -79,7 +80,7 @@ public class ScDetailAdapter extends BaseAdapter {
         double price=item.getP_price();
         final int quantity=item.getSd_quantity();
         pName.setText(item.getP_name());
-        pPrice.setText("HK$" +  (price*quantity)+ "");
+        pPrice.setText("$" +  (price*quantity)+ "");
         quantityET.setText( quantity+ "");
         quantityD.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -90,7 +91,7 @@ public class ScDetailAdapter extends BaseAdapter {
                 }
                 item.setSd_quantity(quantity-1);
                 updateScDetail(quantity-1,item);
-                notifyDataSetChanged();
+
             }
         });
         quantityA.setOnClickListener(new View.OnClickListener() {
@@ -98,7 +99,7 @@ public class ScDetailAdapter extends BaseAdapter {
             public void onClick(View v) {
                 item.setSd_quantity(quantity+1);
                 updateScDetail(quantity+1,item);
-                notifyDataSetChanged();
+
             }
         });
         deleteT.setOnClickListener(new View.OnClickListener() {
@@ -106,17 +107,9 @@ public class ScDetailAdapter extends BaseAdapter {
             public void onClick(View v) {
                 deleteProductFromSc(item.getSdid());
                 myList.remove(position);
-                notifyDataSetChanged();
+
             }
         });
-//        String discount=null;
-//        if(item.getC_discount_type().equals("cash")){
-//            discount="$"+item.getC_discount_detail();
-//        }else{
-//            discount=item.getC_discount_detail()+"off";
-//        }
-//        pPrice.setText(discount);
-
         return view;
     }
 
@@ -144,6 +137,7 @@ public class ScDetailAdapter extends BaseAdapter {
                 } else {
                     ScDbProcess.NewScDbProcess(context).deleteDetail(sdid);
                     CommonUtils.show(context,context.getString(R.string.success));
+                    ShoppingCartF.staicGetShoppingCart();
 
                 }
             }
@@ -167,7 +161,9 @@ public class ScDetailAdapter extends BaseAdapter {
                     CommonUtils.show(context,context.getString(R.string.fail));
                     return;
                 } else {
-                    ScDbProcess.NewScDbProcess(context).updateScDetail(shoppingCartDetail);
+//                    ScDbProcess.NewScDbProcess(context).updateScDetail(shoppingCartDetail);
+                    notifyDataSetChanged();
+                    ShoppingCartF.staicGetShoppingCart();
                 }
             }
 

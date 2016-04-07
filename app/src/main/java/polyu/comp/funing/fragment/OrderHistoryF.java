@@ -1,6 +1,7 @@
 package polyu.comp.funing.fragment;
 
 import android.app.Fragment;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -14,8 +15,10 @@ import com.quentindommerc.superlistview.OnMoreListener;
 import com.quentindommerc.superlistview.SuperListview;
 
 import polyu.comp.funing.R;
+import polyu.comp.funing.activities.OrderDetailA;
 import polyu.comp.funing.adapter.OrderHistoryListAdapter;
 import polyu.comp.funing.constant.CommonConstant;
+import polyu.comp.funing.model.Order;
 import polyu.comp.funing.service.ApiService;
 import polyu.comp.funing.service.OrderR;
 import polyu.comp.funing.utils.CommonUtils;
@@ -70,7 +73,13 @@ public class OrderHistoryF extends Fragment implements SwipeRefreshLayout.OnRefr
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        
+        Order order=(Order)parent.getItemAtPosition(position); 
+        Intent intent = new Intent();
+        intent.setClass(getActivity().getApplication(), OrderDetailA.class);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(CommonConstant.order_detail_key, order);
+        intent.putExtras(bundle);
+        startActivity(intent);
     }
     private void getOrderList() {
         listview.showMoreProgress();

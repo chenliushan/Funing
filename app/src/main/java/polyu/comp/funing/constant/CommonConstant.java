@@ -23,6 +23,7 @@ public class CommonConstant {
     
     public static final String product_key = "product";
     public static final String shopping_cart_key = "shopping_cart";
+    public static final String order_detail_key = "order_detail";
     public static final String mainActivityF_key = "fragment";
     public static final String F_login = "Login";
     public static final String F_coupon = "Coupons";

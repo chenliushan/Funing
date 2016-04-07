@@ -13,18 +13,18 @@ import com.squareup.picasso.Picasso;
 import java.util.List;
 
 import polyu.comp.funing.R;
-import polyu.comp.funing.model.Order;
+import polyu.comp.funing.model.OrderDetail;
 import polyu.comp.funing.model.Product;
 
 /**
  * Created by liushanchen on 16/3/19.
  */
-public class OrderHistoryListAdapter extends BaseAdapter {
-    List<Order> myList=null;
+public class OrderDetailAdapter3 extends BaseAdapter {
+    List<OrderDetail> myList=null;
     Context context;
     LayoutInflater layoutInflater;
 
-    public OrderHistoryListAdapter(Context context) {
+    public OrderDetailAdapter3(Context context) {
         this.context = context;
         this.layoutInflater = LayoutInflater.from(context);
     }
@@ -39,7 +39,7 @@ public class OrderHistoryListAdapter extends BaseAdapter {
     }
 
     @Override
-    public Order getItem(int position) {
+    public OrderDetail getItem(int position) {
         return myList.get(position);
     }
 
@@ -50,28 +50,26 @@ public class OrderHistoryListAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        Order item = getItem(position);
+        OrderDetail item = getItem(position);
         View view = convertView;
         if (view == null) {
-            view = layoutInflater.inflate(R.layout.order_history_list_item, parent, false);
+            view = layoutInflater.inflate(R.layout.product_list_item, parent, false);
         }
-        TextView oid=(TextView)view.findViewById(R.id.oid);
-        TextView o_status=(TextView)view.findViewById(R.id.o_status);
-        TextView o_amount=(TextView)view.findViewById(R.id.o_amount);
-        TextView o_date=(TextView)view.findViewById(R.id.o_date);
-        oid.setText("#"+Integer.toString(item.getOid() + 10000));
-        o_status.setText(item.getO_status()+"");
-        o_amount.setText(item.getO_amount()+"");
-        o_date.setText(item.getO_created_at()+"");
+        ImageView pItemImg=(ImageView)view.findViewById(R.id.p_item_img);
+        TextView pName=(TextView)view.findViewById(R.id.p_name);
+        TextView pPrice=(TextView)view.findViewById(R.id.p_price);
+        Picasso.with(context).load(item.getP_image_url()).resize(200, 200).centerCrop().into(pItemImg);
+        pName.setText(item.getP_name());
+        pPrice.setText(item.getP_price()+"");
         
         return view;
     }
 
-    public List<Order> getMyList() {
+    public List<OrderDetail> getMyList() {
         return myList;
     }
 
-    public void setMyList(List<Order> myList) {
+    public void setMyList(List<OrderDetail> myList) {
         this.myList = myList;
     }
     

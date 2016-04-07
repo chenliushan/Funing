@@ -1,5 +1,6 @@
 package polyu.comp.funing.model;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -7,7 +8,7 @@ import java.util.Map;
 /**
  * Created by liushanchen on 16/4/4.
  */
-public class Order {
+public class Order  implements Serializable {
     /**
      * CREATE TABLE IF NOT EXISTS `orders` (
      * `oid` int(11) NOT NULL AUTO_INCREMENT,

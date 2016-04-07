@@ -19,6 +19,8 @@ import polyu.comp.funing.R;
 import polyu.comp.funing.activities.MainActivity;
 import polyu.comp.funing.constant.CommonConstant;
 import polyu.comp.funing.model.Coupon;
+import polyu.comp.funing.model.Order;
+import polyu.comp.funing.model.OrderDetail;
 import polyu.comp.funing.model.ShoppingCartDetail;
 import polyu.comp.funing.model.User;
 
@@ -143,6 +145,13 @@ public class CommonUtils {
         double amount = 0;
         for (ShoppingCartDetail d : ds) {
             amount += d.getP_price() * d.getSd_quantity();
+        }
+        return amount;
+    }
+    public static double calTotalPrice2(List<OrderDetail> os) {
+        double amount = 0;
+        for (OrderDetail d : os) {
+            amount += d.getP_price() * d.getOd_quantity();
         }
         return amount;
     }

@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-
+    android:background="@color/white"
 
     android:orientation="vertical">
 
@@ -22,9 +22,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="LOGIN"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textSize="@dimen/margin_xxl" 
-            />
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textSize="@dimen/margin_xl" />
 
     </LinearLayout>
 
@@ -33,8 +32,8 @@
         android:id="@+id/login_form"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_centerInParent="true"
         android:layout_below="@+id/login_tab"
+        android:layout_centerInParent="true"
         android:layout_margin="@dimen/margin_l"
         android:gravity="center"
         android:orientation="vertical">

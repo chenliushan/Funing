@@ -4,7 +4,6 @@ import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,7 +11,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.TextView;
 
-import com.quentindommerc.superlistview.OnMoreListener;
 import com.quentindommerc.superlistview.SuperListview;
 
 import java.util.HashMap;
@@ -36,16 +34,15 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 
-
 /**
  * Created by liushanchen on 16/3/31.
  */
-public class ShoppingCartF extends Fragment implements  AdapterView.OnItemClickListener, View.OnClickListener {
-    private SuperListview listview;
+public class ShoppingCartF extends Fragment implements AdapterView.OnItemClickListener, View.OnClickListener {
+    private static SuperListview listview;
     private TextView checkOut;
-    private TextView amount;
-    private ScDetailAdapter scDetailAdapter;
-    private ShoppingCart shoppingCart;
+    private static TextView amount;
+    private static ScDetailAdapter scDetailAdapter;
+    private static ShoppingCart shoppingCart;
     private static String TAG = ShoppingCartF.class.getSimpleName();
 
     @Nullable
@@ -58,6 +55,10 @@ public class ShoppingCartF extends Fragment implements  AdapterView.OnItemClickL
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         initView();
+    }
+
+    public static void amountView(List<ShoppingCartDetail> shoppingCartDetails) {
+        amount.setText(CommonUtils.calTotalPrice(shoppingCartDetails) + "");
     }
 
     private void initView() {
@@ -75,6 +76,7 @@ public class ShoppingCartF extends Fragment implements  AdapterView.OnItemClickL
 
     /**
      * when user click the item, jump to the product detail activity and display the product information.
+     *
      * @param parent
      * @param view
      * @param position
@@ -83,7 +85,7 @@ public class ShoppingCartF extends Fragment implements  AdapterView.OnItemClickL
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         ShoppingCartDetail record = (ShoppingCartDetail) parent.getItemAtPosition(position);
-        Product product=record.getProduct();
+        Product product = record.getProduct();
         Intent intent = new Intent();
         intent.setClass(getActivity().getApplication(), ProductDetailA.class);
         Bundle bundle = new Bundle();
@@ -92,7 +94,6 @@ public class ShoppingCartF extends Fragment implements  AdapterView.OnItemClickL
         startActivity(intent);
     }
 
-   
 
     private void getUserShoppingCart() {
         if (CommonUtils.ifLogin(getActivity())) {
@@ -114,11 +115,11 @@ public class ShoppingCartF extends Fragment implements  AdapterView.OnItemClickL
                         createUserShoppingCart();
                         CommonUtils.show(getActivity(), getResources().getString(R.string.empty_shopping_cart));
                     } else {
-                        shoppingCart=shoppingCarts.get(0);
+                        shoppingCart = shoppingCarts.get(0);
                         List<ShoppingCartDetail> shoppingCartDetails = shoppingCart.getShoppingcartdetails();
                         scDetailAdapter.setMyList(shoppingCartDetails);
                         listview.setAdapter(scDetailAdapter);
-                        amount.setText(CommonUtils.calTotalPrice(shoppingCartDetails)+"");
+                        amount.setText(CommonUtils.calTotalPrice(shoppingCartDetails) + "");
 
                         /**
                          * update local database
@@ -141,7 +142,41 @@ public class ShoppingCartF extends Fragment implements  AdapterView.OnItemClickL
                 }
             });
         }
-        
+
+    }
+
+    public static void staicGetShoppingCart() {
+        Map<String, String> options = new HashMap<String, String>();
+        options.put("s_status", CommonConstant.valid);
+
+        Call<ShoppingCartR> call = ApiService.Creator.create().getShoppingCart(options, CommonConstant.apiKey);
+        call.enqueue(new Callback<ShoppingCartR>() {
+            @Override
+            public void onResponse(Call<ShoppingCartR> call, Response<ShoppingCartR> response) {
+                listview.hideProgress();
+                listview.hideMoreProgress();
+                if (response.body() == null || response.errorBody() != null) {
+                    return;
+                }
+                List<ShoppingCart> shoppingCarts = response.body().getShoppingcarts();
+                shoppingCart = shoppingCarts.get(0);
+                List<ShoppingCartDetail> shoppingCartDetails = shoppingCart.getShoppingcartdetails();
+                scDetailAdapter.setMyList(shoppingCartDetails);
+                listview.setAdapter(scDetailAdapter);
+                amount.setText(CommonUtils.calTotalPrice(shoppingCartDetails) + "");
+                
+                /**
+                 * update local database
+                 */
+            }
+
+            @Override
+            public void onFailure(Call<ShoppingCartR> call, Throwable t) {
+                Log.e(TAG, "failure:" + t.toString());
+
+            }
+        });
+
     }
 
     private void createUserShoppingCart() {
@@ -157,7 +192,7 @@ public class ShoppingCartF extends Fragment implements  AdapterView.OnItemClickL
                     return;
                 }
                 List<ShoppingCart> shoppingCarts = response.body().getShoppingcarts();
-                shoppingCart=shoppingCarts.get(0);
+                shoppingCart = shoppingCarts.get(0);
                 ScDbProcess.NewScDbProcess(getActivity().getApplicationContext()).scDbStore(shoppingCarts);
 
             }
@@ -168,15 +203,20 @@ public class ShoppingCartF extends Fragment implements  AdapterView.OnItemClickL
             }
         });
     }
-   
+
 
     @Override
     public void onClick(View v) {
-        Intent intent = new Intent();
-        intent.setClass(getActivity().getApplication(), CreateOrderA.class);
-        Bundle bundle = new Bundle();
-        bundle.putSerializable(CommonConstant.shopping_cart_key, shoppingCart);
-        intent.putExtras(bundle);
-        startActivity(intent);
+        if(shoppingCart!=null&&shoppingCart.getShoppingcartdetails().size()>0){
+            Intent intent = new Intent();
+            intent.setClass(getActivity().getApplication(), CreateOrderA.class);
+            Bundle bundle = new Bundle();
+            bundle.putSerializable(CommonConstant.shopping_cart_key, shoppingCart);
+            intent.putExtras(bundle);
+            startActivity(intent);
+        }else{
+            CommonUtils.show(getActivity(),getString(R.string.empty_shopping_cart));
+        }
+        
     }
 }
