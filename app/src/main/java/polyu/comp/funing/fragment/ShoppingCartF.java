@@ -164,7 +164,7 @@ public class ShoppingCartF extends Fragment implements AdapterView.OnItemClickLi
                 scDetailAdapter.setMyList(shoppingCartDetails);
                 listview.setAdapter(scDetailAdapter);
                 amount.setText(CommonUtils.calTotalPrice(shoppingCartDetails) + "");
-                
+
                 /**
                  * update local database
                  */
@@ -191,10 +191,10 @@ public class ShoppingCartF extends Fragment implements AdapterView.OnItemClickLi
                     CommonUtils.show(getActivity().getApplicationContext(), getString(R.string.fail));
                     return;
                 }
-                List<ShoppingCart> shoppingCarts = response.body().getShoppingcarts();
-                shoppingCart = shoppingCarts.get(0);
-                ScDbProcess.NewScDbProcess(getActivity().getApplicationContext()).scDbStore(shoppingCarts);
-
+//                List<ShoppingCart> shoppingCarts = response.body().getShoppingcarts();
+//                shoppingCart = shoppingCarts.get(0);
+//                ScDbProcess.NewScDbProcess(getActivity().getApplicationContext()).scDbStore(shoppingCarts);
+                getUserShoppingCart();
             }
 
             @Override
@@ -207,16 +207,16 @@ public class ShoppingCartF extends Fragment implements AdapterView.OnItemClickLi
 
     @Override
     public void onClick(View v) {
-        if(shoppingCart!=null&&shoppingCart.getShoppingcartdetails().size()>0){
+        if (shoppingCart != null && shoppingCart.getShoppingcartdetails().size() > 0) {
             Intent intent = new Intent();
             intent.setClass(getActivity().getApplication(), CreateOrderA.class);
             Bundle bundle = new Bundle();
             bundle.putSerializable(CommonConstant.shopping_cart_key, shoppingCart);
             intent.putExtras(bundle);
             startActivity(intent);
-        }else{
-            CommonUtils.show(getActivity(),getString(R.string.empty_shopping_cart));
+        } else {
+            CommonUtils.show(getActivity(), getString(R.string.empty_shopping_cart));
         }
-        
+
     }
 }

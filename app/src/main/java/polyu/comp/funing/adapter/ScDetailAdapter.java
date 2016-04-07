@@ -1,6 +1,8 @@
 package polyu.comp.funing.adapter;
 
 import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -16,6 +18,7 @@ import java.util.List;
 import java.util.Map;
 
 import polyu.comp.funing.R;
+import polyu.comp.funing.activities.ProductDetailA;
 import polyu.comp.funing.constant.CommonConstant;
 import polyu.comp.funing.fragment.ShoppingCartF;
 import polyu.comp.funing.model.Product;
@@ -92,6 +95,19 @@ public class ScDetailAdapter extends BaseAdapter {
                 item.setSd_quantity(quantity-1);
                 updateScDetail(quantity-1,item);
 
+            }
+        });
+        pName.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ShoppingCartDetail record = (ShoppingCartDetail) myList.get(position);
+                Product product = record.getProduct();
+                Intent intent = new Intent();
+                intent.setClass(context.getApplicationContext(), ProductDetailA.class);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable(CommonConstant.product_key, product);
+                intent.putExtras(bundle);
+                context.startActivity(intent);
             }
         });
         quantityA.setOnClickListener(new View.OnClickListener() {

@@ -126,11 +126,6 @@ public class LoginF extends Fragment implements View.OnClickListener {
                     return;
                 }
                 List<ShoppingCart> shoppingCarts = response.body().getShoppingcarts();
-
-//                CommonConstant.userId = shoppingCarts.get(0).getUid();
-//                User u = CommonUtils.getUser(getActivity());
-//                u.setUid(CommonConstant.userId);
-//                CommonUtils.setUser(getActivity(),u);
                 if (shoppingCarts == null || shoppingCarts.size() == 0) {
                     createUserShoppingCart();
                 } else {

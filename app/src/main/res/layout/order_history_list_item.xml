@@ -2,52 +2,49 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="horizontal"
     android:background="@color/white"
-    >
+    android:padding="@dimen/margin_s"
+    android:orientation="horizontal">
 
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="wrap_content"
-android:layout_alignParentLeft="true"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_alignParentLeft="true"
+        android:orientation="vertical">
 
         <TextView
             android:id="@+id/oid"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textColor="@color/colorPrimaryDark"
-            />
+            android:textColor="@color/colorPrimaryDark" />
 
         <TextView
             android:id="@+id/o_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/gray_line"
-            />
+            android:textColor="@color/gray_line" />
     </LinearLayout>
+
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="wrap_content"
+        android:layout_height="match_parent"
         android:layout_alignParentRight="true"
 
-        android:layout_height="match_parent">
+        android:orientation="vertical">
 
         <TextView
             android:id="@+id/o_amount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textColor="@color/colorPrimaryDark"
-            />
+            android:textColor="@color/colorPrimaryDark" />
 
         <TextView
             android:id="@+id/o_status"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/gray_line"
-            />
+            android:textColor="@color/gray_line" />
     </LinearLayout>
 
 </RelativeLayout>

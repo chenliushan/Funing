@@ -59,9 +59,9 @@ public class ProductDetailA extends AppCompatActivity implements View.OnClickLis
         price = (TextView) findViewById(R.id.pd_price);
         description = (TextView) findViewById(R.id.pd_description);
         quantity = (EditText) findViewById(R.id.quantity);
-        if(product.getP_image_url()!=null){
+        if (product.getP_image_url() != null) {
             Picasso.with(this).load(product.getP_image_url()).into(img);
-        }else{
+        } else {
             img.setVisibility(View.GONE);
         }
         name.setText(product.getP_name());
@@ -75,9 +75,16 @@ public class ProductDetailA extends AppCompatActivity implements View.OnClickLis
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.add_to_cart:
-                int q = Integer.valueOf(quantity.getText().toString());
-                createScDetail(q);
-                addToCart.setClickable(false);
+                String qs = quantity.getText().toString();
+                if (qs != null && qs.length() > 0) {
+                    int q = Integer.valueOf(qs);
+                    if (q > 0) {
+                        createScDetail(q);
+                        addToCart.setClickable(false);
+                        return;
+                    }
+                }
+                CommonUtils.show(this, getString(R.string.illegal_input));
                 break;
         }
     }
@@ -89,7 +96,7 @@ public class ProductDetailA extends AppCompatActivity implements View.OnClickLis
      * @param quantity
      */
     private void createScDetail(final int quantity) {
-        if(CommonUtils.ifLogin(this)){
+        if (CommonUtils.ifLogin(this)) {
             Map<String, String> options = new HashMap<String, String>(product.toMap());
             final double amount = product.getP_price() * quantity;
             final int sid = ScDbProcess.NewScDbProcess(getApplicationContext()).scDbGetSid();
@@ -126,7 +133,7 @@ public class ProductDetailA extends AppCompatActivity implements View.OnClickLis
 
                 }
             });
-        }else{
+        } else {
             this.finish();
         }
     }

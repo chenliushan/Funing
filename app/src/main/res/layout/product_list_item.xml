@@ -8,9 +8,9 @@
 
     <ImageView
         android:id="@+id/p_item_img"
-        android:layout_width="wrap_content"
+        android:layout_width="200px"
         android:layout_marginRight="@dimen/margin_m"
-        android:layout_height="wrap_content" />
+        android:layout_height="200px" />
 
     <LinearLayout
         android:orientation="vertical"
@@ -21,7 +21,7 @@
             android:id="@+id/p_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="@color/colorPrimaryDark"
             />
 

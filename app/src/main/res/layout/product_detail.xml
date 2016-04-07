@@ -39,6 +39,37 @@
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:textColor="@color/red" />
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:layout_marginBottom="@dimen/margin_l"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/pd_quantity"
+                    android:textAppearance="?android:attr/textAppearanceMedium" />
+
+                <EditText
+                    android:id="@+id/quantity"
+                    android:gravity="center"
+                    android:text="1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+
+                <ImageView
+                    android:id="@+id/add_to_cart"
+                    android:layout_gravity="center"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/margin_xl"
+                    android:layout_weight="1"
+                    android:src="@mipmap/add_to_cart" />
+
+            </LinearLayout>
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -54,36 +85,6 @@
                 android:layout_marginBottom="@dimen/margin_l"
                 />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal"
-                android:layout_marginBottom="@dimen/margin_l"
-                >
-        
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/pd_quantity"
-                    android:textAppearance="?android:attr/textAppearanceMedium" />
-        
-                <EditText
-                    android:id="@+id/quantity"
-                    android:gravity="center"
-                    android:text="1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1" />
-        
-                <ImageView
-                    android:id="@+id/add_to_cart"
-                    android:layout_gravity="center"
-                    android:layout_width="wrap_content"
-                    android:layout_height="@dimen/margin_xl"
-                    android:layout_weight="1"
-                    android:src="@mipmap/add_to_cart" />
-        
-            </LinearLayout>
+          
         </LinearLayout>
 </ScrollView>

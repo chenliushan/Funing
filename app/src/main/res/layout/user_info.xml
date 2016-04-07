@@ -4,6 +4,14 @@
     android:background="@color/white"
     android:layout_height="match_parent">
 
+    <Button
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/logout"
+        android:id="@+id/logout" />
+
     <LinearLayout
         android:id="@+id/login_tab"
         android:layout_width="match_parent"
@@ -244,4 +252,5 @@
 
     </LinearLayout>
 
+   
 </RelativeLayout>
