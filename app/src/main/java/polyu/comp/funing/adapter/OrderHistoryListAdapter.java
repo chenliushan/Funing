@@ -61,7 +61,7 @@ public class OrderHistoryListAdapter extends BaseAdapter {
         TextView o_date=(TextView)view.findViewById(R.id.o_date);
         oid.setText("#"+Integer.toString(item.getOid() + 10000));
         o_status.setText(item.getO_status()+"");
-        o_amount.setText(item.getO_amount()+"");
+        o_amount.setText("$"+item.getO_amount());
         o_date.setText(item.getO_created_at()+"");
         
         return view;

@@ -42,8 +42,9 @@
 
         <TextView
             android:id="@+id/o_status"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="right"
             android:textColor="@color/gray_line" />
     </LinearLayout>
 
