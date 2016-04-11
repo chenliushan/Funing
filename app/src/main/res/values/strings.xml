@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Funing 芬宁</string>
+    <string name="app_name">Funing 芬寧</string>
     <string name="empty_listview">Oops, cannot connect to the server, please refresh later.</string>
     <string name="empty">Oops, there is nothing.</string>
     <string name="empty_shopping_cart">Your Basket is empty.</string>

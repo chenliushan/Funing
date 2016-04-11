@@ -181,7 +181,7 @@ public class CreateOrderA extends AppCompatActivity implements View.OnClickListe
 
     private void showSingleChoiceDialog() {
         builder = new AlertDialog.Builder(this);
-        builder.setIcon(R.mipmap.funninng_logo);
+        builder.setIcon(R.mipmap.ic_launcher);
         builder.setTitle(R.string.coupon_select);
         builder.setSingleChoiceItems(couponNames, -1, new DialogInterface.OnClickListener() {
             @Override

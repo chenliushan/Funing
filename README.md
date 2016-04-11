@@ -5,8 +5,8 @@ This is an online shopping Android demo.
 ### Functions
 - User register, login
 - Product display
-- Shopping-cart
-- Order and order history
+- Shopping-cart (add product, update quantity, delete product)
+- Order and order history (create order, list of created order)
 - Coupons
 
 ### Related tech

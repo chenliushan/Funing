@@ -124,7 +124,11 @@ public class ShoppingCartF extends Fragment implements AdapterView.OnItemClickLi
                         /**
                          * update local database
                          */
-                        ScDbProcess.NewScDbProcess(getActivity().getApplicationContext()).scDbStore(shoppingCarts);
+                    if(getActivity()==null){
+                        return;
+                    }
+                    
+                        ScDbProcess.NewScDbProcess(getActivity()).scDbStore(shoppingCarts);
                     }
                 }
 
@@ -136,7 +140,10 @@ public class ShoppingCartF extends Fragment implements AdapterView.OnItemClickLi
                     /**
                      * read data from local database.
                      */
-                    List<ShoppingCartDetail> shoppingCartDetails = ScDbProcess.NewScDbProcess(getActivity().getApplicationContext()).scDbGetLocalScD();
+                    if(getActivity()==null){
+                        return;
+                    }
+                    List<ShoppingCartDetail> shoppingCartDetails = ScDbProcess.NewScDbProcess(getActivity()).scDbGetLocalScD();
                     scDetailAdapter.setMyList(shoppingCartDetails);
                     listview.setAdapter(scDetailAdapter);
                 }

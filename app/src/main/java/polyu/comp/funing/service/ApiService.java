@@ -105,7 +105,7 @@ public interface ApiService {
             //setting the cache
             if (CommonConstant.applicationCache!=null) {
                 CachingInterceptor cachingInterceptor = new CachingInterceptor();
-                Cache cache = new Cache(new File(CommonConstant.applicationCache.getPath(), CommonConstant.preferenceName), 10 * 1024 * 1024);
+                Cache cache = new Cache(new File(CommonConstant.applicationCache.getPath(), CommonConstant.preferenceName), 1 * 1024 * 1024);
                 client = new OkHttpClient.Builder()
                         .addInterceptor(interceptor)
                         .addInterceptor(cachingInterceptor)
