@@ -14,5 +14,6 @@
     <dimen name="shopping_cart_checkout_height">30dp</dimen>
     <dimen name="shopping_cart_checkout_width">220dp</dimen>
     <dimen name="shopping_cart_delete_height">25dp</dimen>
-    <dimen name="create_order_edittext_width">100dp</dimen>
+    <dimen name="create_order_edittext_width">80dp</dimen>
+    <dimen name="list_item_img">80dp</dimen>
 </resources>

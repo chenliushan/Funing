@@ -96,10 +96,6 @@ public class CouponsF extends Fragment implements SwipeRefreshLayout.OnRefreshLi
                             superListview.hideMoreProgress();
                         }
                     }
-                   
-                    if (couponListAdapter.getMyList().size() <= 0) {
-                        CommonUtils.show(getActivity(), getResources().getString(R.string.empty));
-                    }
                 }
 
                 @Override

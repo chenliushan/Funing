@@ -18,6 +18,21 @@ public final class DbContract {
         private static final String DOUBLE_TYPE = " REAL";
         private static final String COMMA_SEP = ",";
 
+        protected static final String SQL_CREATE_TABLE_PRODUCT =
+                "CREATE TABLE " + FeedProduct.TABLE_NAME + " (" +
+                        FeedProduct.COLUMN_NAME_PID + INT_TYPE + " INTEGER PRIMARY KEY," +
+                        FeedProduct.COLUMN_NAME_P_CODE + TEXT_TYPE + COMMA_SEP +
+                        FeedProduct.COLUMN_NAME_P_NAME + TEXT_TYPE + COMMA_SEP +
+                        FeedProduct.COLUMN_NAME_P_DESCRIPTION + TEXT_TYPE + COMMA_SEP +
+                        FeedProduct.COLUMN_NAME_P_QUANTITY + INT_TYPE + COMMA_SEP +
+                        FeedProduct.COLUMN_NAME_P_PRICE + DOUBLE_TYPE + COMMA_SEP +
+                        FeedProduct.COLUMN_NAME_P_IMAGE_URL + TEXT_TYPE + COMMA_SEP +
+                        FeedProduct.COLUMN_NAME_P_TYPE + TEXT_TYPE + COMMA_SEP +
+                        FeedProduct.COLUMN_NAME_P_CREATEDAT + TEXT_TYPE +
+                        " )";
+        protected static final String SQL_DELETE_TABLE_PRODUCT =
+                "DROP TABLE IF EXISTS " + FeedProduct.TABLE_NAME;
+        
         protected static final String SQL_CREATE_TABLE_COUPONS =
                 "CREATE TABLE " + FeedCoupons.TABLE_NAME + " (" +
                         FeedCoupons.COLUMN_NAME_CID + INT_TYPE + " INTEGER PRIMARY KEY," +
@@ -33,20 +48,7 @@ public final class DbContract {
         protected static final String SQL_DELETE_TABLE_COUPONS =
                 "DROP TABLE IF EXISTS " + FeedCoupons.TABLE_NAME;
 
-        protected static final String SQL_CREATE_TABLE_PRODUCT =
-                "CREATE TABLE " + FeedProduct.TABLE_NAME + " (" +
-                        FeedProduct.COLUMN_NAME_PID + INT_TYPE + " INTEGER PRIMARY KEY," +
-                        FeedProduct.COLUMN_NAME_P_CODE + TEXT_TYPE + COMMA_SEP +
-                        FeedProduct.COLUMN_NAME_P_NAME + TEXT_TYPE + COMMA_SEP +
-                        FeedProduct.COLUMN_NAME_P_DESCRIPTION + TEXT_TYPE + COMMA_SEP +
-                        FeedProduct.COLUMN_NAME_P_QUANTITY + INT_TYPE + COMMA_SEP +
-                        FeedProduct.COLUMN_NAME_P_PRICE + DOUBLE_TYPE + COMMA_SEP +
-                        FeedProduct.COLUMN_NAME_P_IMAGE_URL + TEXT_TYPE + COMMA_SEP +
-                        FeedProduct.COLUMN_NAME_P_TYPE + TEXT_TYPE + COMMA_SEP +
-                        FeedProduct.COLUMN_NAME_P_CREATEDAT + TEXT_TYPE +
-                        " )";
-        protected static final String SQL_DELETE_TABLE_PRODUCT =
-                "DROP TABLE IF EXISTS " + FeedProduct.TABLE_NAME;
+      
 
         protected static final String SQL_CREATE_TABLE_SHOPPING_CART =
                 "CREATE TABLE " + FeedShoppingCart.TABLE_NAME + " (" +

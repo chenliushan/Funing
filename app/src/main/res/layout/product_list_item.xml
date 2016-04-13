@@ -3,34 +3,33 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    android:orientation="horizontal"
-    >
+    android:orientation="horizontal">
 
     <ImageView
         android:id="@+id/p_item_img"
-        android:layout_width="200px"
-        android:layout_marginRight="@dimen/margin_m"
-        android:layout_height="200px" />
+        android:layout_width="@dimen/list_item_img"
+        android:layout_height="@dimen/list_item_img"
+        android:layout_marginRight="@dimen/margin_m" />
 
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
         <TextView
             android:id="@+id/p_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="@color/colorPrimaryDark"
-            />
+            android:textColor="@color/colorPrimaryDark" />
 
         <TextView
             android:id="@+id/p_price"
+            android:layout_marginTop="@dimen/margin_s"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/red"
-            />
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="@color/red" />
     </LinearLayout>
 
 </LinearLayout>

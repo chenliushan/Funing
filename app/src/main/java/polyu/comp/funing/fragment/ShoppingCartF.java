@@ -71,7 +71,7 @@ public class ShoppingCartF extends Fragment implements AdapterView.OnItemClickLi
         listview.setAdapter(scDetailAdapter);
         getUserShoppingCart();
         listview.hideMoreProgress();
-        listview.setOnItemClickListener(this);
+//        listview.setOnItemClickListener(this);
     }
 
     /**
@@ -146,6 +146,7 @@ public class ShoppingCartF extends Fragment implements AdapterView.OnItemClickLi
                     List<ShoppingCartDetail> shoppingCartDetails = ScDbProcess.NewScDbProcess(getActivity()).scDbGetLocalScD();
                     scDetailAdapter.setMyList(shoppingCartDetails);
                     listview.setAdapter(scDetailAdapter);
+                    scDetailAdapter.notifyDataSetChanged();
                 }
             });
         }
@@ -171,7 +172,7 @@ public class ShoppingCartF extends Fragment implements AdapterView.OnItemClickLi
                 scDetailAdapter.setMyList(shoppingCartDetails);
                 listview.setAdapter(scDetailAdapter);
                 amount.setText(CommonUtils.calTotalPrice(shoppingCartDetails) + "");
-
+                scDetailAdapter.notifyDataSetChanged();
                 /**
                  * update local database
                  */

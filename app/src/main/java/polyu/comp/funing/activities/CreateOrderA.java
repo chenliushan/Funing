@@ -149,7 +149,7 @@ public class CreateOrderA extends AppCompatActivity implements View.OnClickListe
         shippingPhone.setText(order.getPhone());
         shippingEmail.setText(order.getEmail());
         shippingAddress.setText(order.getAddress());
-        totalAmount.setText(totalPrice + "");
+        totalAmount.setText("$ "+totalPrice + "");
         if (coupon != null) {
             couponItem.setVisibility(View.VISIBLE);
             cpName.setText(coupon.getC_name());
@@ -159,7 +159,7 @@ public class CreateOrderA extends AppCompatActivity implements View.OnClickListe
             couponItem.setVisibility(View.GONE);
             actualPrice = totalPrice;
         }
-        actualAmount.setText(actualPrice + "");
+        actualAmount.setText("$ "+actualPrice + "");
     }
 
 

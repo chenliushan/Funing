@@ -9,7 +9,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@+id/checkout_img"
-        superlistview:superlv__empty="@layout/emptyview"
         superlistview:superlv__listClipToPadding="false"
         superlistview:superlv__listDivider="@android:color/transparent"
         superlistview:superlv__listDividerHeight="2dp"

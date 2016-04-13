@@ -61,7 +61,7 @@ public class UserInfoF extends Fragment {
             }
         }
         phone.setText(user.getPhone());
-        uid.setText(CommonConstant.userId+"");
+        uid.setText("#"+(1000+CommonConstant.userId)+"00");
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

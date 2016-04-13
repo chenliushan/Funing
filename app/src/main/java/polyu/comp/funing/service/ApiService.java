@@ -1,8 +1,6 @@
 package polyu.comp.funing.service;
 
-import android.os.Environment;
 import android.text.TextUtils;
-import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -18,7 +16,6 @@ import okhttp3.Request;
 import okhttp3.Response;
 import okhttp3.logging.HttpLoggingInterceptor;
 import polyu.comp.funing.constant.CommonConstant;
-import polyu.comp.funing.model.Order;
 import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -37,7 +34,7 @@ import retrofit2.http.QueryMap;
  * Created by liushanchen on 16/2/20.
  */
 public interface ApiService {
-     static String TAG = ApiService.class.getSimpleName();
+    static String TAG = ApiService.class.getSimpleName();
 
     @FormUrlEncoded
     @POST("login")
@@ -49,40 +46,40 @@ public interface ApiService {
 
     @FormUrlEncoded
     @POST("shoppingcart")
-    Call<ShoppingCartR> createShoppingCart(@FieldMap Map<String, String> options,@Header("Authorization") String authorization);
+    Call<ShoppingCartR> createShoppingCart(@FieldMap Map<String, String> options, @Header("Authorization") String authorization);
 
     @GET("shoppingcartQuery")
-    Call<ShoppingCartR> getShoppingCart(@QueryMap Map<String, String> parameters,@Header("Authorization") String authorization);
-    
+    Call<ShoppingCartR> getShoppingCart(@QueryMap Map<String, String> parameters, @Header("Authorization") String authorization);
+
     @FormUrlEncoded
     @POST("shoppingcart_detail")
-    Call<ScDetailR> createScDetail(@FieldMap Map<String, String> options,@Header("Authorization") String authorization);
+    Call<ScDetailR> createScDetail(@FieldMap Map<String, String> options, @Header("Authorization") String authorization);
 
     @FormUrlEncoded
     @PUT("shoppingcart_detail")
-    Call<ScDetailR> updateScDetail(@FieldMap Map<String, String> options,@Header("Authorization") String authorization);
-    
+    Call<ScDetailR> updateScDetail(@FieldMap Map<String, String> options, @Header("Authorization") String authorization);
+
     @DELETE("shoppingcart_detail/{sdid}")
-    Call<ScDetailR> deleteScDetail(@Path("sdid") int sdid,@Header("Authorization") String authorization);
+    Call<ScDetailR> deleteScDetail(@Path("sdid") int sdid, @Header("Authorization") String authorization);
 
     @FormUrlEncoded
     @POST("orders")
     Call<OrderR> createOder(@FieldMap Map<String, String> options, @Header("Authorization") String authorization);
-   
+
     @FormUrlEncoded
     @POST("orders_detail")
-    Call<OrderR> createOrderDetail(@FieldMap Map<String, String> options,@Header("Authorization") String authorization);
+    Call<OrderR> createOrderDetail(@FieldMap Map<String, String> options, @Header("Authorization") String authorization);
 
     @FormUrlEncoded
     @PUT("usercoupons/{ucid}")
-    Call<OrderR> updateCoupons(@Path("ucid") int sdid,@FieldMap Map<String, String> options,@Header("Authorization") String authorization);
+    Call<OrderR> updateCoupons(@Path("ucid") int sdid, @FieldMap Map<String, String> options, @Header("Authorization") String authorization);
 
     @FormUrlEncoded
     @PUT("shoppingcart")
-    Call<OrderR> invalidSC(@FieldMap Map<String, String> options,@Header("Authorization") String authorization);
-    
+    Call<OrderR> invalidSC(@FieldMap Map<String, String> options, @Header("Authorization") String authorization);
+
     @GET("orders")
-    Call<OrderR> getOder( @Header("Authorization") String authorization);
+    Call<OrderR> getOder(@Header("Authorization") String authorization);
 
     @GET("products")
     Call<ProductListR> getProductList();
@@ -103,7 +100,7 @@ public interface ApiService {
             interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
             OkHttpClient client = null;
             //setting the cache
-            if (CommonConstant.applicationCache!=null) {
+            if (CommonConstant.applicationCache != null) {
                 CachingInterceptor cachingInterceptor = new CachingInterceptor();
                 Cache cache = new Cache(new File(CommonConstant.applicationCache.getPath(), CommonConstant.preferenceName), 1 * 1024 * 1024);
                 client = new OkHttpClient.Builder()

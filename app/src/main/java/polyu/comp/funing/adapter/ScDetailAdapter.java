@@ -154,6 +154,7 @@ public class ScDetailAdapter extends BaseAdapter {
                     ScDbProcess.NewScDbProcess(context).deleteDetail(sdid);
                     CommonUtils.show(context,context.getString(R.string.success));
                     ShoppingCartF.staicGetShoppingCart();
+                    notifyDataSetChanged();
 
                 }
             }

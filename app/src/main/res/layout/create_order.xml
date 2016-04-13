@@ -196,6 +196,7 @@
                     <TextView
                         android:id="@+id/total_amount"
                         android:layout_width="match_parent"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
                         android:layout_height="wrap_content"
                         android:gravity="right"
                         android:text="$--" />
@@ -210,11 +211,13 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/order_actual"
-                        android:textAppearance="?android:attr/textAppearanceMedium" />
+                        android:textAppearance="?android:attr/textAppearanceMedium" 
+                        />
 
                     <TextView
                         android:id="@+id/actual_amount"
                         android:layout_width="match_parent"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
                         android:layout_height="wrap_content"
                         android:gravity="right"
                         android:text="$--"

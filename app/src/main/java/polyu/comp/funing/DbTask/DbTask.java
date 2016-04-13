@@ -91,21 +91,14 @@ public class DbTask {
     }
 
     public static class DbProduct {
-
-
         public DbProduct(Context context) {
             getDbTask(context);
         }
-
         public Boolean DbProductInsert(List<Product> objs) {
             if (objs == null) {
                 return false;
             }
-//            MyDbHelper mDbHelper = new MyDbHelper(mContext);
-//            // Gets the data repository in write mode
-//            SQLiteDatabase db = mDbHelper.getWritableDatabase();
 //            // Create a new map of values, where column names are the keys
-
             for (Product o : objs) {
                 ContentValues values = new ContentValues();
                 values.put(DbContract.FeedProduct.COLUMN_NAME_PID, o.getPid());
@@ -123,12 +116,10 @@ public class DbTask {
             }
             return true;
         }
-
         public Boolean DbProductUpdate(List<Product> objs) {
             if (objs == null) {
                 return false;
             }
-
             int count = 0;
             for (Product o : objs) {
                 ContentValues values = new ContentValues();

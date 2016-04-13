@@ -13,6 +13,7 @@ import com.squareup.picasso.Picasso;
 import java.util.List;
 
 import polyu.comp.funing.R;
+import polyu.comp.funing.constant.CommonConstant;
 import polyu.comp.funing.model.OrderDetail;
 import polyu.comp.funing.model.ShoppingCartDetail;
 
@@ -58,9 +59,9 @@ public class OrderComfirmAdapter extends BaseAdapter {
         ImageView pItemImg=(ImageView)view.findViewById(R.id.p_item_img);
         TextView pName=(TextView)view.findViewById(R.id.p_name);
         TextView pPrice=(TextView)view.findViewById(R.id.p_price);
-        Picasso.with(context).load(item.getP_image_url()).resize(200, 200).centerCrop().into(pItemImg);
+        Picasso.with(context).load(item.getP_image_url()).resize(CommonConstant.ListItemImg,CommonConstant.ListItemImg).centerInside().into(pItemImg);
         pName.setText(item.getP_name());
-        pPrice.setText(item.getP_price()+"");
+        pPrice.setText("$ "+item.getP_price()+"  X "+item.getSd_quantity());
         
         return view;
     }

@@ -20,8 +20,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="REGISTER"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textSize="@dimen/margin_xxl"
+            android:textAppearance="?android:attr/textAppearanceLarge"
             />
 
     </LinearLayout>

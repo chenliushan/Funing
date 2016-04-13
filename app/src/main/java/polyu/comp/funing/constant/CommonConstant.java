@@ -40,6 +40,8 @@ public class CommonConstant {
     public static final String couponUpdateUcstatus="uc_status";
     public static final String scUpdateUcstatus="s_status";
     public static final String scInvalid="Invalid";
+    
+    public static final int ListItemImg=150;
 
 
 
