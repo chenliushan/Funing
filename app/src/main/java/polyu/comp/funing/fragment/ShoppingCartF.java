@@ -116,6 +116,7 @@ public class ShoppingCartF extends Fragment implements AdapterView.OnItemClickLi
                         CommonUtils.show(getActivity(), getResources().getString(R.string.empty_shopping_cart));
                     } else {
                         shoppingCart = shoppingCarts.get(0);
+                        CommonConstant.ShoppingCartID=shoppingCart.getSid();
                         List<ShoppingCartDetail> shoppingCartDetails = shoppingCart.getShoppingcartdetails();
                         scDetailAdapter.setMyList(shoppingCartDetails);
                         listview.setAdapter(scDetailAdapter);
@@ -168,6 +169,8 @@ public class ShoppingCartF extends Fragment implements AdapterView.OnItemClickLi
                 }
                 List<ShoppingCart> shoppingCarts = response.body().getShoppingcarts();
                 shoppingCart = shoppingCarts.get(0);
+                CommonConstant.ShoppingCartID=shoppingCart.getSid();
+
                 List<ShoppingCartDetail> shoppingCartDetails = shoppingCart.getShoppingcartdetails();
                 scDetailAdapter.setMyList(shoppingCartDetails);
                 listview.setAdapter(scDetailAdapter);

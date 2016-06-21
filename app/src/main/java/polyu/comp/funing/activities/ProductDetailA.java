@@ -99,7 +99,11 @@ public class ProductDetailA extends AppCompatActivity implements View.OnClickLis
         if (CommonUtils.ifLogin(this)) {
             Map<String, String> options = new HashMap<String, String>(product.toMap());
             final double amount = product.getP_price() * quantity;
-            final int sid = ScDbProcess.NewScDbProcess(getApplicationContext()).scDbGetSid();
+            if(CommonConstant.ShoppingCartID==-1){
+                CommonUtils.show(this,"Fail, there are some problems in this account.");
+            }
+//            final int sid = ScDbProcess.NewScDbProcess(getApplicationContext()).scDbGetSid();
+            final int sid = CommonConstant.ShoppingCartID;
             options.put("sid", sid + "");
             options.put("sd_quantity", quantity + "");
             options.put("sd_subamount", amount + "");

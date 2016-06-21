@@ -130,6 +130,7 @@ public class LoginF extends Fragment implements View.OnClickListener {
                     createUserShoppingCart();
                 } else {
                     ScDbProcess.NewScDbProcess(getActivity().getApplicationContext()).scDbStore(shoppingCarts);
+                    CommonConstant.ShoppingCartID=shoppingCarts.get(0).getSid();
                     UserInfoF userInfoF = new UserInfoF();
                     getFragmentManager().beginTransaction().replace(R.id.main_f, userInfoF).commit();
 

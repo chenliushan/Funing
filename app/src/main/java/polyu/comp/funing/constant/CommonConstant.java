@@ -9,7 +9,8 @@ import polyu.comp.funing.R;
  */
 public class CommonConstant {
 //    public static String apiEndpoint = "http://52.76.239.196/task_manager/v1/";
-    public static String apiEndpoint = "http://52.76.239.196/funing/v1/";
+//    public static String apiEndpoint = "http://52.76.239.196/funing/v1/";
+    public static String apiEndpoint = "http://fenning.duapp.com/v1/";
     
     public static String preferenceName = "Funing";
     public static String applicationContext = "applicationContext";
@@ -17,6 +18,7 @@ public class CommonConstant {
     
     public static String apiKey = null;
     public static int userId = -1;
+    public static int ShoppingCartID = -1;
     
     public static String applicationDir = "";
     public static File applicationCache = null;
